@@ -1,0 +1,97 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <UseWPF>true</UseWPF>
+	  <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Temp1\**" />
+    <EmbeddedResource Remove="Temp1\**" />
+    <None Remove="Temp1\**" />
+    <Page Remove="Temp1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Icon\Add properties_30px.png" />
+    <None Remove="Icon\add.png" />
+    <None Remove="Icon\autoRUN.png" />
+    <None Remove="Icon\camera_Searchx.png" />
+    <None Remove="Icon\capture.png" />
+    <None Remove="Icon\Close_90px.png" />
+    <None Remove="Icon\delete.png" />
+    <None Remove="Icon\open.png" />
+    <None Remove="Icon\open_image.png" />
+    <None Remove="Icon\pause.png" />
+    <None Remove="Icon\project_setup.png" />
+    <None Remove="Icon\rectang.png" />
+    <None Remove="Icon\refresh.png" />
+    <None Remove="Icon\RUN.png" />
+    <None Remove="Icon\save.png" />
+    <None Remove="Icon\stream.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icon\Add properties_30px.png" />
+    <Resource Include="Icon\autoRUN.png" />
+    <Resource Include="Icon\camera_Searchx.png" />
+    <Resource Include="Icon\Close_90px.png" />
+    <Resource Include="Icon\delete.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Emgu.CV" Version="4.5.5.4823" />
+    <PackageReference Include="Emgu.CV.Bitmap" Version="4.5.5.4823" />
+    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.5.5.4823" />
+    <PackageReference Include="Emgu.CV.UI" Version="4.5.5.4823" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="NLog" Version="5.1.3" />
+    <PackageReference Include="NLog.Config" Version="4.7.15" />
+    <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+    <PackageReference Include="ZXing.Net" Version="0.16.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AForge.Video">
+      <HintPath>..\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow">
+      <HintPath>..\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="MvCameraControl.Net">
+      <HintPath>..\Dll\MvCameraControl.Net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icon\add.png" />
+    <Resource Include="Icon\capture.png" />
+    <Resource Include="Icon\open.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icon\open_image.png" />
+    <Resource Include="Icon\pause.png" />
+    <Resource Include="Icon\project_setup.png" />
+    <Resource Include="Icon\rectang.png" />
+    <Resource Include="Icon\refresh.png" />
+    <Resource Include="Icon\RUN.png" />
+    <Resource Include="Icon\save.png" />
+    <Resource Include="Icon\stream.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Params\FOVParams.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Params\MachineParams.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

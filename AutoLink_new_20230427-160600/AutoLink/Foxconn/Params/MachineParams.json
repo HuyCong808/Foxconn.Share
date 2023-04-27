@@ -1,0 +1,56 @@
+﻿{
+  "Camera1": {
+    "IsEnabled": true,
+    "Name": "Camera1",
+    "Type": 3,
+    "Index": 0
+  },
+  "Camera2": {
+    "IsEnabled": true,
+    "Name": "Camera2",
+    "Index": 1
+  },
+  "Camera3": {
+    "IsEnabled": true,
+    "Name": "Camera3",
+    "Index": 2
+  },
+  "Light1": {
+    "IsEnabled": false,
+    "PortName": ""
+  },
+  "Light2": {
+    "IsEnabled": false,
+    "PortName": ""
+  },
+  "PLC1": {
+    "IsEnabled": true,
+    "Host": "",
+    "Port": 0
+  },
+  "PLC2": {
+    "IsEnabled": false,
+    "Host": "",
+    "Port": 0
+  },
+  "PLC3": {
+    "IsEnabled": true,
+    "Host": "",
+    "Port": 0
+  },
+  "Terminal": {
+    "PortName": "COM2",
+    "Undo": "UNDO",
+    "H125": "",
+    "Format": "SN1                      SN2                      LINKEND"
+  },
+  "Robot1": {
+    "IP": "192.168.0.91",
+    "Port": 9001,
+     "side": 0
+  },
+  "Robot2": {
+    "IP": "192.168.0.91",
+    "Port": 9002
+  }
+}
