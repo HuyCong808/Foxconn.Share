@@ -1,0 +1,5 @@
+﻿MachineParams => doc file config
+DeviceManager => open , ping , close => device
+
+Loadconfig -> xong
+thuat toan barcode -> 

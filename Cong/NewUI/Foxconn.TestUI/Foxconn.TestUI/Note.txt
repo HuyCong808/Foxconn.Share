@@ -1,2 +1,0 @@
-﻿MachineParams => doc file config
-DeviceManager => open , ping , close => device
