@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\TestUI\Foxconn.UI\Foxconn.UI.csproj" />
+    <ProjectReference Include="..\..\Foxconn.UI\Foxconn.UI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -47,7 +47,7 @@ namespace Foxconn.TestUI
                 Board = new Board();
                 Board.Name = "TEST_PROGRAM";
             }
-            MachineParams.Reload();
+           // MachineParams.Reload();
             DeviceManager.Current.Open();
 
         }
@@ -156,7 +156,7 @@ namespace Foxconn.TestUI
             {
                 DataContext = Board.FOVs[index].SMDs[index2];
                 cmbSMDType.ItemsSource = Enum.GetValues(typeof(SMDType)).Cast<SMDType>();
-                cmbAlgorithm.ItemsSource = Enum.GetValues(typeof(Algorithm)).Cast<Algorithm>();
+               // cmbAlgorithm.ItemsSource = Enum.GetValues(typeof(Algorithm)).Cast<Algorithm>();
                 LoadROI();
 
             }
