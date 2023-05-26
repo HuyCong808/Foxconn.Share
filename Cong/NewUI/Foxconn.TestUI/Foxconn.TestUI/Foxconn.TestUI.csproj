@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Cong Auto\.nuget\packages\nlog.config\4.7.15\contentFiles\any\any\NLog.config" />
+    <None Remove="Icons\addFOV.png" />
+    <None Remove="Icons\addSMD.png" />
+    <None Remove="Icons\camera_100px.png" />
+    <None Remove="Icons\delete.png" />
+    <None Remove="Icons\OpenImage.png" />
+    <None Remove="Icons\rectangle.png" />
+    <None Remove="Icons\refresh.png" />
+    <None Remove="Icons\save.png" />
+    <None Remove="Icons\saveconfig.png" />
+    <None Remove="Icons\Stream_90px.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Emgu.CV" Version="4.5.5.4823" />
+    <PackageReference Include="Emgu.CV.Bitmap" Version="4.5.5.4823" />
+    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.5.5.4823" />
+    <PackageReference Include="Emgu.CV.UI" Version="4.5.5.4823" />
+    <PackageReference Include="HalconDotNet" Version="18.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.0.5" />
+    <PackageReference Include="NLog.Config" Version="4.7.15" />
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+    <PackageReference Include="ZXing.Net" Version="0.16.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Foxconn.Editor\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\TestUI\Foxconn.UI\Foxconn.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MvCameraControl.Net">
+      <HintPath>..\..\MvCameraControl.Net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\addFOV.png" />
+    <Resource Include="Icons\addSMD.png" />
+    <Resource Include="Icons\camera_100px.png" />
+    <Resource Include="Icons\delete.png" />
+    <Resource Include="Icons\OpenImage.png" />
+    <Resource Include="Icons\rectangle.png" />
+    <Resource Include="Icons\refresh.png" />
+    <Resource Include="Icons\save.png" />
+    <Resource Include="Icons\saveconfig.png" />
+    <Resource Include="Icons\Stream_90px.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Nlog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
