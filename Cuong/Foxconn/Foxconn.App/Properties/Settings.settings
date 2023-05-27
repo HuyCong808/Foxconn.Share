@@ -1,0 +1,66 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Foxconn.App.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Black" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Red" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">255, 59, 48</Value>
+    </Setting>
+    <Setting Name="Orange" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">255, 149, 0</Value>
+    </Setting>
+    <Setting Name="Yellow" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">255, 204, 0</Value>
+    </Setting>
+    <Setting Name="Green" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">40, 205, 65</Value>
+    </Setting>
+    <Setting Name="Mint" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">0, 199, 190</Value>
+    </Setting>
+    <Setting Name="Teal" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">89, 173, 196</Value>
+    </Setting>
+    <Setting Name="Cyan" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">85, 190, 240</Value>
+    </Setting>
+    <Setting Name="Blue" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">0, 122, 255</Value>
+    </Setting>
+    <Setting Name="Indigo" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">88, 86, 214</Value>
+    </Setting>
+    <Setting Name="Purple" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">175, 82, 222</Value>
+    </Setting>
+    <Setting Name="Pink" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">255, 45, 85</Value>
+    </Setting>
+    <Setting Name="Brown" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">162, 132, 94</Value>
+    </Setting>
+    <Setting Name="Gray" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">142, 142, 147</Value>
+    </Setting>
+    <Setting Name="Gray2" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">174, 174, 178</Value>
+    </Setting>
+    <Setting Name="Gray3" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">199, 199, 204</Value>
+    </Setting>
+    <Setting Name="Gray4" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">209, 209, 214</Value>
+    </Setting>
+    <Setting Name="Gray5" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">229, 229, 234</Value>
+    </Setting>
+    <Setting Name="Gray6" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">242, 242, 247</Value>
+    </Setting>
+    <Setting Name="White" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

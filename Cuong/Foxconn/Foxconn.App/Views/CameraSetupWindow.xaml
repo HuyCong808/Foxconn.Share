@@ -1,0 +1,294 @@
+﻿<Window x:Class="Foxconn.App.Views.CameraSetupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Foxconn.App.Views" 
+        xmlns:Forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" 
+        xmlns:UI="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.Platform.NetCore"
+        mc:Ignorable="d"
+        Title="Camera Setup"
+        Height="710" Width="1150"
+        WindowStartupLocation="CenterOwner"
+        Initialized="Window_Initialized"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        Closed="Window_Closed"
+        KeyDown="Window_KeyDown">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="35"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="23"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <ToolBar>
+                <Label Content="Camera Scan" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                <ComboBox x:Name="tbcmbCameraScan" SelectionChanged="tbcmbCameraScan_SelectionChanged" ToolTip="Select Camera" Width="150" Height="25" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                <Separator/>
+                <Button x:Name="tbbtnConnect" Click="tbbtnConnect_Click" ToolTip="Connect" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="48.5" Height="30" Margin="0,0,5,0">
+                    <Image x:Name="imgConnect" Source="/Assets/Camera/Disconnected.png"/>
+                </Button>
+                <Button x:Name="tbbtnSettings" Click="tbbtnSettings_Click" ToolTip="Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="48.5" Height="30" Margin="0,0,5,0">
+                    <Image x:Name="imgSettings" Source="/Assets/Settings.png"/>
+                </Button>
+                <Button x:Name="tbbtnCapture" Click="tbbtnCapture_Click" ToolTip="Capture" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="48.5" Height="30" Margin="0,0,5,0">
+                    <Image x:Name="imgCapture" Source="/Assets/Camera/Capture.png"/>
+                </Button>
+                <Button x:Name="tbbtnStreaming" Click="tbbtnStreaming_Click" ToolTip="Streaming" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="48.5" Height="30" Margin="0,0,5,0">
+                    <Image x:Name="imgStreaming" Source="/Assets/Camera/StopStreaming.png"/>
+                </Button>
+                <Button x:Name="tbbtnDrawing" Click="tbbtnDrawing_Click" ToolTip="Drawing" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="48.5" Height="30" Margin="0,0,5,0">
+                    <Image x:Name="imgDrawing" Source="/Assets/PencilDrawing.png"/>
+                </Button>
+                <Button x:Name="tbbtnSave" Click="tbbtnSave_Click" ToolTip="Save ROI" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="48.5" Height="30" Margin="0,0,5,0">
+                    <Image x:Name="imgSave" Source="/Assets/Target.png"/>
+                </Button>
+            </ToolBar>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <WindowsFormsHost>
+                        <UI:ImageBox x:Name="imbSetup" Paint="imbSetup_Paint" MouseDown="imbSetup_MouseDown" MouseMove="imbSetup_MouseMove" MouseUp="imbSetup_MouseUp" MouseWheel="imbSetup_MouseWheel" SizeMode="Zoom" FunctionalMode="RightClickMenu" Dock="Fill"/>
+                    </WindowsFormsHost>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <TabControl>
+                        <TabItem Header="Step1">
+                            <Grid>
+                                <ScrollViewer MaxHeight="1000" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <StackPanel Height="1000" Orientation="Vertical" Margin="0,0,0,0">
+                                        <GroupBox Header="Set Object" FontWeight="SemiBold" Height="224" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <Label Content="Camera Name" FontWeight="Normal" Canvas.Left="10" Canvas.Top="10"/>
+                                                <Label Content="Camera Type" FontWeight="Normal" Canvas.Left="10" Canvas.Top="41"/>
+                                                <Label Content="Status" FontWeight="Normal" Canvas.Left="10" Canvas.Top="71"/>
+                                                <Label Content="Exposure Time" FontWeight="Normal" Canvas.Left="10" Canvas.Top="103"/>
+                                                <Label Content="Gain" FontWeight="Normal" Canvas.Left="10" Canvas.Top="134"/>
+                                                <Label Content="Rotate" FontWeight="Normal" Canvas.Left="10" Canvas.Top="165"/>
+                                                <ComboBox x:Name="cmbCameraName" SelectionChanged="cmbCameraName_SelectionChanged" FontWeight="Normal" Width="120" Canvas.Left="114" Canvas.Top="14"/>
+                                                <ComboBox x:Name="cmbCameraType" SelectionChanged="cmbCameraType_SelectionChanged" FontWeight="Normal" Width="120" Canvas.Left="114" Canvas.Top="43"/>
+                                                <CheckBox x:Name="chkCameraStatus" Checked="chkCameraStatus_Checked" Unchecked="chkCameraStatus_Unchecked" IsChecked="True" Content="Enable" FontWeight="Normal" Canvas.Left="114" Canvas.Top="76"/>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="104">
+                                                    <Forms:NumericUpDown x:Name="nudExposureTime" ValueChanged="nudExposureTime_ValueChanged" DecimalPlaces="2" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="135">
+                                                    <Forms:NumericUpDown x:Name="nudGain" ValueChanged="nudGain_ValueChanged" DecimalPlaces="2" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="166">
+                                                    <Forms:NumericUpDown x:Name="nudRotate" ValueChanged="nudRotate_ValueChanged" DecimalPlaces="2" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                            </Canvas>
+                                        </GroupBox>
+                                        <GroupBox x:Name="grpSteps" Header="Steps" FontWeight="SemiBold" Height="131" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <Label Content="Index" FontWeight="Normal" Canvas.Left="10" Canvas.Top="10"/>
+                                                <Label Content="Command" FontWeight="Normal" Canvas.Left="10" Canvas.Top="41"/>
+                                                <Label Content="Status" FontWeight="Normal" Canvas.Left="10" Canvas.Top="72"/>
+                                                <ComboBox x:Name="cmbSteps" SelectionChanged="cmbSteps_SelectionChanged" FontWeight="Normal" Canvas.Left="114" Canvas.Top="12" Width="80"/>
+                                                <Button x:Name="btnAddStep" Click="btnAddStep_Click" Background="Transparent" BorderThickness="0" Canvas.Left="114" Canvas.Top="42">
+                                                    <Image x:Name="imgAddStep" Width="22" Height="22" Source="/Assets/Plus.png"/>
+                                                </Button>
+                                                <Button x:Name="btnRemoveStep" Click="btnRemoveStep_Click" Background="Transparent" BorderThickness="0" Canvas.Left="153" Canvas.Top="42">
+                                                    <Image x:Name="imgRemoveStep" Height="22" Width="22" Source="/Assets/Subtract.png"/>
+                                                </Button>
+                                                <CheckBox x:Name="chkStepStatus" Checked="chkStepStatus_Checked" Unchecked="chkStepStatus_Unchecked" IsChecked="True" Content="Enable" FontWeight="Normal" Canvas.Left="114" Canvas.Top="78"/>
+                                            </Canvas>
+                                        </GroupBox>
+                                        <GroupBox x:Name="grpComponents" Header="Components" FontWeight="SemiBold" Height="192" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <Label Content="Index" FontWeight="Normal" Canvas.Left="10" Canvas.Top="10"/>
+                                                <Label Content="Command" FontWeight="Normal" Canvas.Left="10" Canvas.Top="41"/>
+                                                <Label Content="Status" FontWeight="Normal" Canvas.Left="10" Canvas.Top="72"/>
+                                                <Label Content="X" FontWeight="Normal" Canvas.Left="10" Canvas.Top="103"/>
+                                                <Label Content="Y" FontWeight="Normal" Canvas.Left="72" Canvas.Top="103"/>
+                                                <Label Content="Width" FontWeight="Normal" Canvas.Left="134" Canvas.Top="103"/>
+                                                <Label Content="Height" FontWeight="Normal" Canvas.Left="196" Canvas.Top="103"/>
+                                                <ComboBox x:Name="cmbComponents" SelectionChanged="cmbComponents_SelectionChanged" FontWeight="Normal" Canvas.Left="114" Canvas.Top="12" Width="80"/>
+                                                <Button x:Name="btnAddComponent" Click="btnAddComponent_Click" Background="Transparent" BorderThickness="0" Canvas.Left="114" Canvas.Top="42">
+                                                    <Image x:Name="imgAddComponent" Width="22" Height="22" Source="/Assets/Plus.png"/>
+                                                </Button>
+                                                <Button x:Name="btnRemoveComponent" Click="btnRemoveComponent_Click" Background="Transparent" BorderThickness="0" Canvas.Left="153" Canvas.Top="42">
+                                                    <Image x:Name="imgRemoveComponent" Height="22" Width="22" Source="/Assets/Subtract.png"/>
+                                                </Button>
+                                                <CheckBox x:Name="chkComponentStatus" Checked="chkComponentStatus_Checked" Unchecked="chkComponentStatus_Unchecked" IsChecked="True" Content="Enable" FontWeight="Normal" Canvas.Left="114" Canvas.Top="78"/>
+                                                <WindowsFormsHost FontWeight="Normal" Width="50" Height="23" Canvas.Left="10" Canvas.Top="134">
+                                                    <Forms:NumericUpDown x:Name="nudRegionX" ValueChanged="nudRegionX_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="50" Height="23" Canvas.Left="72" Canvas.Top="134">
+                                                    <Forms:NumericUpDown x:Name="nudRegionY" ValueChanged="nudRegionY_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="50" Height="23" Canvas.Left="134" Canvas.Top="134">
+                                                    <Forms:NumericUpDown x:Name="nudRegionW" ValueChanged="nudRegionW_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="50" Height="23" Canvas.Left="196" Canvas.Top="134">
+                                                    <Forms:NumericUpDown x:Name="nudRegionH" ValueChanged="nudRegionH_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                            </Canvas>
+                                        </GroupBox>
+                                        <GroupBox Header="Action" FontWeight="SemiBold" Height="100" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <Label Content="Algorithm" FontWeight="Normal" Canvas.Left="10" Canvas.Top="10"/>
+                                                <Label Content="Function" FontWeight="Normal" Canvas.Left="10" Canvas.Top="41"/>
+                                                <ComboBox x:Name="cmbAlgorithm" SelectionChanged="cmbAlgorithm_SelectionChanged" FontWeight="Normal" Canvas.Left="114" Canvas.Top="12" Width="120"/>
+                                                <ComboBox x:Name="cmbFunction" SelectionChanged="cmbFunction_SelectionChanged" FontWeight="Normal" Canvas.Left="114" Canvas.Top="43" Width="120"/>
+                                            </Canvas>
+                                        </GroupBox>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Step2">
+                            <Grid>
+                                <ScrollViewer MaxHeight="1000" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <StackPanel Height="1000" Orientation="Vertical">
+                                        <GroupBox Header="Preprocessing" FontWeight="SemiBold" Height="61" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <CheckBox x:Name="chkPreprocessing" Checked="chkPreprocessing_Checked" Unchecked="chkPreprocessing_Unchecked" Content="Disable" FontWeight="Normal" IsChecked="False" Canvas.Left="10" Canvas.Top="10"/>
+                                            </Canvas>
+                                        </GroupBox>
+                                        <GroupBox Header="Simple Thresholding" FontWeight="SemiBold" Height="182" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <Label Content="Type" FontWeight="Normal" Canvas.Left="10" Canvas.Top="30"/>
+                                                <Label Content="Inverted" FontWeight="Normal" Canvas.Left="10" Canvas.Top="61"/>
+                                                <Label x:Name="lblThresholdValue1" Content="Value1" FontWeight="Normal" Canvas.Left="10" Canvas.Top="92"/>
+                                                <Label x:Name="lblThresholdValue2" Content="Value2" FontWeight="Normal" Canvas.Left="10" Canvas.Top="123"/>
+                                                <CheckBox x:Name="chkThreshold" Checked="chkThreshold_Checked" Unchecked="chkThreshold_Unchecked" IsChecked="False" Content="Disable" FontWeight="Normal" Canvas.Left="10" Canvas.Top="10"/>
+                                                <ComboBox x:Name="cmbThresholdType" SelectionChanged="cmbThresholdType_SelectionChanged" FontWeight="Normal" Canvas.Left="114" Canvas.Top="32" Width="120"/>
+                                                <CheckBox x:Name="chkInvertedThreshold" Checked="chkInvertedThreshold_Checked" Unchecked="chkInvertedThreshold_Unchecked" IsChecked="False" Content="Disable" FontWeight="Normal" Canvas.Left="114" Canvas.Top="66"/>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="93">
+                                                    <Forms:NumericUpDown x:Name="nudThresholdValue1" ValueChanged="nudThresholdValue1_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="124">
+                                                    <Forms:NumericUpDown x:Name="nudThresholdValue2" ValueChanged="nudThresholdValue2_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                            </Canvas>
+                                        </GroupBox>
+                                        <GroupBox Header="Morphology" FontWeight="SemiBold" Height="224" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <Label Content="Gaussian Blur" FontWeight="Normal" Canvas.Left="10" Canvas.Top="10"/>
+                                                <Label Content="" FontWeight="Normal" Canvas.Left="10" Canvas.Top="41"/>
+                                                <Label Content="Blob Remove" FontWeight="Normal" Canvas.Left="10" Canvas.Top="72"/>
+                                                <Label Content="Dilate Iteration" FontWeight="Normal" Canvas.Left="10" Canvas.Top="134"/>
+                                                <Label Content="Erode Iteration" FontWeight="Normal" Canvas.Left="10" Canvas.Top="165"/>
+                                                <CheckBox x:Name="chkGaussianBlur" Checked="chkGaussianBlur_Checked" Unchecked="chkGaussianBlur_Unchecked" IsChecked="False" Content="Enable" FontWeight="Normal" Canvas.Left="115" Canvas.Top="16"/>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="42">
+                                                    <Forms:NumericUpDown x:Name="nudGaussianBlurValue" ValueChanged="nudGaussianBlurValue_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <CheckBox x:Name="chkBlobRemove" Checked="chkBlobRemove_Checked" Unchecked="chkBlobRemove_Unchecked" IsChecked="False" Content="Enable" FontWeight="Normal" Canvas.Left="115" Canvas.Top="77"/>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="104">
+                                                    <Forms:NumericUpDown x:Name="nudBlobRemoveValue" ValueChanged="nudBlobRemoveValue_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="135">
+                                                    <Forms:NumericUpDown x:Name="nudDilateIteration" ValueChanged="nudDilateIteration_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="166">
+                                                    <Forms:NumericUpDown x:Name="nudErodeIteration" ValueChanged="nudErodeIteration_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                            </Canvas>
+                                        </GroupBox>
+                                        <GroupBox Header="Show" FontWeight="SemiBold" Height="58" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <RadioButton x:Name="rdoNormal" Checked="rdoNormal_Checked" Unchecked="rdoNormal_Unchecked" Content="Normal" FontWeight="Normal" Canvas.Left="10" Canvas.Top="10"/>
+                                                <RadioButton x:Name="rdoContours" Checked="rdoContours_Checked" Unchecked="rdoContours_Unchecked" Content="Contours" FontWeight="Normal" Canvas.Left="114" Canvas.Top="10"/>
+                                            </Canvas>
+                                        </GroupBox>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Step3">
+                            <Grid>
+                                <ScrollViewer MaxHeight="1000" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <StackPanel Height="1000" Orientation="Vertical">
+                                        <GroupBox x:Name="grpBarcodeDecode" Header="Barcode" FontWeight="SemiBold" Height="161" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <Label Content="Mode" FontWeight="Normal" Canvas.Left="10" Canvas.Top="10"/>
+                                                <Label Content="Type" FontWeight="Normal" Canvas.Left="10" Canvas.Top="41"/>
+                                                <Label Content="Length" FontWeight="Normal" Canvas.Left="10" Canvas.Top="72"/>
+                                                <ComboBox x:Name="cmbBarcodeMode" SelectionChanged="cmbBarcodeMode_SelectionChanged" FontWeight="Normal" Canvas.Left="114" Canvas.Top="12" Width="120"/>
+                                                <ComboBox x:Name="cmbBarcodeType" SelectionChanged="cmbBarcodeType_SelectionChanged" FontWeight="Normal" Canvas.Left="114" Canvas.Top="43" Width="120"/>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="73">
+                                                    <Forms:NumericUpDown x:Name="nudBarcodeLength" ValueChanged="nudBarcodeLength_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <Button x:Name="btnSaveBarcode" Click="btnSaveBarcode_Click" Content="Save" FontWeight="Normal" Width="120" Height="25" Canvas.Left="114" Canvas.Top="103"/>
+                                            </Canvas>
+                                        </GroupBox>
+                                        <GroupBox x:Name="grpTemplateMatching" Header="Template Matching" FontWeight="SemiBold" Height="275" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <Label Content="Inverted" FontWeight="Normal" Canvas.Left="10" Canvas.Top="159"/>
+                                                <Label Content="Score (1=100%)" FontWeight="Normal" Canvas.Left="10" Canvas.Top="190"/>
+                                                <WindowsFormsHost Width="245" Height="139" Canvas.Left="10" Canvas.Top="10">
+                                                    <UI:ImageBox x:Name="imbTemplateMatching" SizeMode="Zoom" FunctionalMode="Minimum" Dock="Fill"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="191">
+                                                    <Forms:NumericUpDown x:Name="nudTemplateMatchingScore" ValueChanged="nudTemplateMatchingScore_ValueChanged" DecimalPlaces="2" Increment="0.01" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <CheckBox x:Name="chkInvertedTemplateMatching" Checked="chkInvertedTemplateMatching_Checked" Unchecked="chkInvertedTemplateMatching_Unchecked" IsChecked="False" Content="Disable" FontWeight="Normal" Canvas.Left="114" Canvas.Top="165"/>
+                                                <Button x:Name="btnSaveTemplateMatching" Click="btnSaveTemplateMatching_Click" Content="Save" FontWeight="Normal" Width="120" Height="25" Canvas.Left="114" Canvas.Top="217"/>
+                                            </Canvas>
+                                        </GroupBox>
+                                        <GroupBox x:Name="grpFeatureMatching" Header="Feature Matching" FontWeight="SemiBold" Height="275" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <Label Content="Inverted" FontWeight="Normal" Canvas.Left="10" Canvas.Top="159"/>
+                                                <Label Content="Score (1=100%)" FontWeight="Normal" Canvas.Left="10" Canvas.Top="190"/>
+                                                <WindowsFormsHost Width="245" Height="139" Canvas.Left="10" Canvas.Top="10">
+                                                    <UI:ImageBox x:Name="imbFeatureMatching" SizeMode="Zoom" FunctionalMode="Minimum" Dock="Fill"/>
+                                                </WindowsFormsHost>
+                                                <CheckBox x:Name="chkInvertedFeatureMatching" Checked="chkInvertedFeatureMatching_Checked" Unchecked="chkInvertedFeatureMatching_Unchecked" IsChecked="False" Content="Disable" FontWeight="Normal" Canvas.Left="114" Canvas.Top="165"/>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="191">
+                                                    <Forms:NumericUpDown x:Name="nudFeatureMatchingScore" ValueChanged="nudFeatureMatchingScore_ValueChanged" DecimalPlaces="2" Increment="0.01" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <Button x:Name="btnSaveFeatureMatching" Click="btnSaveFeatureMatching_Click" Content="Save" FontWeight="Normal" Width="120" Height="25" Canvas.Left="114" Canvas.Top="217"/>
+                                            </Canvas>
+                                        </GroupBox>
+                                        <GroupBox x:Name="grpContours" Header="Contours" FontWeight="SemiBold" Height="192" Canvas.Left="10" Canvas.Top="10">
+                                            <Canvas>
+                                                <Label Content="Min Width" FontWeight="Normal" Canvas.Left="10" Canvas.Top="10"/>
+                                                <Label Content="Max Width" FontWeight="Normal" Canvas.Left="10" Canvas.Top="41"/>
+                                                <Label Content="Min Height" FontWeight="Normal" Canvas.Left="10" Canvas.Top="72"/>
+                                                <Label Content="Max Height" FontWeight="Normal" Canvas.Left="10" Canvas.Top="103"/>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="11">
+                                                    <Forms:NumericUpDown x:Name="nudContoursMinWidth" ValueChanged="nudContoursMinWidth_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="42">
+                                                    <Forms:NumericUpDown x:Name="nudContoursMaxWidth" ValueChanged="nudContoursMaxWidth_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="114" Canvas.Top="73">
+                                                    <Forms:NumericUpDown x:Name="nudContoursMinHeight" ValueChanged="nudContoursMinHeight_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost FontWeight="Normal" Width="80" Height="23" Canvas.Left="113" Canvas.Top="104">
+                                                    <Forms:NumericUpDown x:Name="nudContoursMaxHeight" ValueChanged="nudContoursMaxHeight_ValueChanged" DecimalPlaces="0" Increment="1" Minimum="0" Maximum="1000000"/>
+                                                </WindowsFormsHost>
+                                                <Button x:Name="btnSaveContours" Click="btnSaveContours_Click" Content="Save" FontWeight="Normal" Width="120" Height="25" Canvas.Left="114" Canvas.Top="134"/>
+                                            </Canvas>
+                                        </GroupBox>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Step4">
+                            <Grid>
+                                <ScrollViewer MaxHeight="1000" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <Canvas Height="1000">
+                                        <Button x:Name="btnTest" Click="btnTest_Click" Content="TEST" FontWeight="Normal" Width="80" Height="30" Canvas.Left="10" Canvas.Top="10"/>
+                                    </Canvas>
+                                </ScrollViewer>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <StatusBar>
+                <Label x:Name="sslblCoordinate" Content="x = 0, y = 0" Padding="2,0,2,0" Width="150"/>
+            </StatusBar>
+        </Grid>
+    </Grid>
+</Window>

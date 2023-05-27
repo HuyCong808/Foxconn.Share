@@ -1,0 +1,168 @@
+﻿<Window x:Class="Foxconn.App.Views.PlcWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Foxconn.App.Views"
+        mc:Ignorable="d"
+        Title="PLC"
+        Height="710" Width="1150"
+        WindowStartupLocation="CenterOwner"
+        Initialized="Window_Initialized"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        Closed="Window_Closed"
+        KeyDown="Window_KeyDown">
+    <Grid>
+        <Canvas>
+            <GroupBox Header="Signal" FontWeight="SemiBold" Height="660" Width="654" Canvas.Left="5" Canvas.Top="5">
+                <Canvas>
+                    <Label Content="Home" FontWeight="Normal" Canvas.Left="10" Canvas.Top="10"/>
+                    <Label Content="PLC State" FontWeight="Normal" Canvas.Left="10" Canvas.Top="41"/>
+                    <Label Content="Software State" FontWeight="Normal" Canvas.Left="10" Canvas.Top="72"/>
+                    <Label Content="Allow Jogging" FontWeight="Normal" Canvas.Left="10" Canvas.Top="103"/>
+                    <Label Content="X Increase" FontWeight="Normal" Canvas.Left="10" Canvas.Top="134"/>
+                    <Label Content="X Decrease" FontWeight="Normal" Canvas.Left="10" Canvas.Top="165"/>
+                    <Label Content="Y Increase" FontWeight="Normal" Canvas.Left="10" Canvas.Top="196"/>
+                    <Label Content="Y Decrease" FontWeight="Normal" Canvas.Left="10" Canvas.Top="227"/>
+                    <Label Content="Z Increase" FontWeight="Normal" Canvas.Left="10" Canvas.Top="258"/>
+                    <Label Content="Z Decrease" FontWeight="Normal" Canvas.Left="10" Canvas.Top="289"/>
+                    <Label Content="R Clockwise" FontWeight="Normal" Canvas.Left="10" Canvas.Top="320"/>
+                    <Label Content="R Counter C..." FontWeight="Normal" Canvas.Left="10" Canvas.Top="351"/>
+                    <Label Content="Speed Axis-X" FontWeight="Normal" Canvas.Left="10" Canvas.Top="384"/>
+                    <Label Content="Speed Axis-Y" FontWeight="Normal" Canvas.Left="10" Canvas.Top="415"/>
+                    <Label Content="Speed Axis-Z" FontWeight="Normal" Canvas.Left="10" Canvas.Top="446"/>
+                    <Label Content="Speed Axis-R" FontWeight="Normal" Canvas.Left="10" Canvas.Top="477"/>
+                    <Label Content="Speed Jog Axis-X" FontWeight="Normal" Canvas.Left="10" Canvas.Top="508"/>
+                    <Label Content="Speed Jog Axis-Y" FontWeight="Normal" Canvas.Left="10" Canvas.Top="539"/>
+                    <Label Content="Speed Jog Axis-Z" FontWeight="Normal" Canvas.Left="10" Canvas.Top="570"/>
+                    <Label Content="Speed Jog Axis-R" FontWeight="Normal" Canvas.Left="10" Canvas.Top="601"/>
+                    <Label Content="Speed Basic" FontWeight="Normal" Canvas.Left="225" Canvas.Top="10"/>
+                    <Label Content="Speed Angle" FontWeight="Normal" Canvas.Left="225" Canvas.Top="41"/>
+                    <Label Content="Coor X0" FontWeight="Normal" Canvas.Left="225" Canvas.Top="72"/>
+                    <Label Content="Coor X1" FontWeight="Normal" Canvas.Left="225" Canvas.Top="103"/>
+                    <Label Content="Coor Y0" FontWeight="Normal" Canvas.Left="225" Canvas.Top="134"/>
+                    <Label Content="Coor Y1" FontWeight="Normal" Canvas.Left="225" Canvas.Top="165"/>
+                    <Label Content="Coor Z0" FontWeight="Normal" Canvas.Left="225" Canvas.Top="196"/>
+                    <Label Content="Coor Z1" FontWeight="Normal" Canvas.Left="225" Canvas.Top="227"/>
+                    <Label Content="Coor R0" FontWeight="Normal" Canvas.Left="225" Canvas.Top="258"/>
+                    <Label Content="Coor R1" FontWeight="Normal" Canvas.Left="225" Canvas.Top="289"/>
+                    <Label Content="Cylinder0 (S)" FontWeight="Normal" Canvas.Left="225" Canvas.Top="320"/>
+                    <Label Content="Cylinder0 (R)" FontWeight="Normal" Canvas.Left="225" Canvas.Top="351"/>
+                    <Label Content="Cylinder1 (S)" FontWeight="Normal" Canvas.Left="225" Canvas.Top="384"/>
+                    <Label Content="Cylinder1 (R)" FontWeight="Normal" Canvas.Left="225" Canvas.Top="415"/>
+                    <Label Content="Vacuum Pads0 (S)" FontWeight="Normal" Canvas.Left="225" Canvas.Top="446"/>
+                    <Label Content="Vacuum Pads0 (R)" FontWeight="Normal" Canvas.Left="225" Canvas.Top="477"/>
+                    <Label Content="Vacuum Pads1 (S)" FontWeight="Normal" Canvas.Left="225" Canvas.Top="508"/>
+                    <Label Content="Vacuum Pads1 (R)" FontWeight="Normal" Canvas.Left="225" Canvas.Top="539"/>
+                    <Label Content="Vacuum Pads2 (S)" FontWeight="Normal" Canvas.Left="225" Canvas.Top="570"/>
+                    <Label Content="Vacuum Pads2 (R)" FontWeight="Normal" Canvas.Left="225" Canvas.Top="601"/>
+                    <Label Content="Vacuum Pads3 (S)" FontWeight="Normal" Canvas.Left="444" Canvas.Top="10"/>
+                    <Label Content="Vacuum Pads3 (R)" FontWeight="Normal" Canvas.Left="444" Canvas.Top="41"/>
+                    <Label Content="Light" FontWeight="Normal" Canvas.Left="444" Canvas.Top="72"/>
+                    <Label Content="Door" FontWeight="Normal" Canvas.Left="444" Canvas.Top="103"/>
+                    <Label Content="Safety" FontWeight="Normal" Canvas.Left="444" Canvas.Top="134"/>
+                    <Label Content="..." FontWeight="Normal" Canvas.Left="444" Canvas.Top="165"/>
+                    <Label Content="..." FontWeight="Normal" Canvas.Left="444" Canvas.Top="196"/>
+                    <Label Content="..." FontWeight="Normal" Canvas.Left="444" Canvas.Top="227"/>
+                    <Label Content="Start" FontWeight="Normal" Canvas.Left="444" Canvas.Top="258"/>
+                    <Label Content="Pause" FontWeight="Normal" Canvas.Left="444" Canvas.Top="289"/>
+                    <Label Content="Reset" FontWeight="Normal" Canvas.Left="444" Canvas.Top="320"/>
+                    <Label Content="Reset OK" FontWeight="Normal" Canvas.Left="444" Canvas.Top="351"/>
+                    <Label Content="Stop" FontWeight="Normal" Canvas.Left="444" Canvas.Top="384"/>
+                    <Label Content="Settings" FontWeight="Normal" Canvas.Left="444" Canvas.Top="415"/>
+                    <Label Content="Has Started" FontWeight="Normal" Canvas.Left="444" Canvas.Top="446"/>
+                    <Label Content="Has Paused" FontWeight="Normal" Canvas.Left="444" Canvas.Top="477"/>
+                    <Label Content="Has Reset" FontWeight="Normal" Canvas.Left="444" Canvas.Top="508"/>
+                    <Label Content="Has Reset OK" FontWeight="Normal" Canvas.Left="444" Canvas.Top="539"/>
+                    <Label Content="Has Stopped" FontWeight="Normal" Canvas.Left="444" Canvas.Top="570"/>
+                    <Label Content="Has Set" FontWeight="Normal" Canvas.Left="444" Canvas.Top="601"/>
+                    <TextBox x:Name="txtHome" TextChanged="txtHome_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="14"/>
+                    <TextBox x:Name="txtPlcState" TextChanged="txtPlcState_TextChanged"  TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="45"/>
+                    <TextBox x:Name="txtSoftwareState" TextChanged="txtSoftwareState_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="76"/>
+                    <TextBox x:Name="txtAllowJogging" TextChanged="txtAllowJogging_TextChanged"  TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="107"/>
+                    <TextBox x:Name="txtIncreaseAxisX" TextChanged="txtIncreaseAxisX_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="138"/>
+                    <TextBox x:Name="txtDecreaseAxisX" TextChanged="txtDecreaseAxisX_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="169"/>
+                    <TextBox x:Name="txtIncreaseAxisY" TextChanged="txtIncreaseAxisY_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="200"/>
+                    <TextBox x:Name="txtDecreaseAxisY" TextChanged="txtDecreaseAxisY_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="231"/>
+                    <TextBox x:Name="txtIncreaseAxisZ" TextChanged="txtIncreaseAxisZ_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="262"/>
+                    <TextBox x:Name="txtDecreaseAxisZ" TextChanged="txtDecreaseAxisZ_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="293"/>
+                    <TextBox x:Name="txtClockwiseAxisR" TextChanged="txtClockwiseAxisR_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="324"/>
+                    <TextBox x:Name="txtCounterClockwiseAxisR" TextChanged="txtCounterClockwiseAxisR_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="355"/>
+                    <TextBox x:Name="txtSpeedAxisX" TextChanged="txtSpeedAxisX_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="388"/>
+                    <TextBox x:Name="txtSpeedAxisY" TextChanged="txtSpeedAxisY_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="419"/>
+                    <TextBox x:Name="txtSpeedAxisZ" TextChanged="txtSpeedAxisZ_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="450"/>
+                    <TextBox x:Name="txtSpeedAxisR" TextChanged="txtSpeedAxisR_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="481"/>
+                    <TextBox x:Name="txtSpeedJogAxisX" TextChanged="txtSpeedJogAxisX_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="512"/>
+                    <TextBox x:Name="txtSpeedJogAxisY" TextChanged="txtSpeedJogAxisY_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="543"/>
+                    <TextBox x:Name="txtSpeedJogAxisZ" TextChanged="txtSpeedJogAxisZ_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="574"/>
+                    <TextBox x:Name="txtSpeedJogAxisR" TextChanged="txtSpeedJogAxisR_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="115" Canvas.Top="605"/>
+                    <TextBox x:Name="txtSpeedBasic" TextChanged="txtSpeedBasic_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="14"/>
+                    <TextBox x:Name="txtSpeedAngle" TextChanged="txtSpeedAngle_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="45"/>
+                    <TextBox x:Name="txtCoorX0" TextChanged="txtCoorX0_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="76"/>
+                    <TextBox x:Name="txtCoorX1" TextChanged="txtCoorX1_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="107"/>
+                    <TextBox x:Name="txtCoorY0" TextChanged="txtCoorY0_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="138"/>
+                    <TextBox x:Name="txtCoorY1" TextChanged="txtCoorY1_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="169"/>
+                    <TextBox x:Name="txtCoorZ0" TextChanged="txtCoorZ0_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="200"/>
+                    <TextBox x:Name="txtCoorZ1" TextChanged="txtCoorZ1_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="231"/>
+                    <TextBox x:Name="txtCoorR0" TextChanged="txtCoorR0_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="262"/>
+                    <TextBox x:Name="txtCoorR1" TextChanged="txtCoorR1_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="293"/>
+                    <TextBox x:Name="txtSuckAirCylinder0" TextChanged="txtSuckAirCylinder0_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="324"/>
+                    <TextBox x:Name="txtReleaseAirCylinder0" TextChanged="txtReleaseAirCylinder0_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="355"/>
+                    <TextBox x:Name="txtSuckAirCylinder1" TextChanged="txtSuckAirCylinder1_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="388"/>
+                    <TextBox x:Name="txtReleaseAirCylinder1" TextChanged="txtReleaseAirCylinder1_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="419"/>
+                    <TextBox x:Name="txtSuckAirVacuumPads0" TextChanged="txtSuckAirVacuumPads0_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="450"/>
+                    <TextBox x:Name="txtReleaseAirVacuumPads0" TextChanged="txtReleaseAirVacuumPads0_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="481"/>
+                    <TextBox x:Name="txtSuckAirVacuumPads1" TextChanged="txtSuckAirVacuumPads1_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="512"/>
+                    <TextBox x:Name="txtReleaseAirVacuumPads1" TextChanged="txtReleaseAirVacuumPads1_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="543"/>
+                    <TextBox x:Name="txtSuckAirVacuumPads2" TextChanged="txtSuckAirVacuumPads2_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="574"/>
+                    <TextBox x:Name="txtReleaseAirVacuumPads2" TextChanged="txtReleaseAirVacuumPads2_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="334" Canvas.Top="605"/>
+                    <TextBox x:Name="txtSuckAirVacuumPads3" TextChanged="txtSuckAirVacuumPads3_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="14"/>
+                    <TextBox x:Name="txtReleaseAirVacuumPads3" TextChanged="txtReleaseAirVacuumPads3_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="45"/>
+                    <TextBox x:Name="txtLight" TextChanged="txtLight_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="76"/>
+                    <TextBox x:Name="txtDoor" TextChanged="txtDoor_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="107"/>
+                    <TextBox x:Name="txtSafety" TextChanged="txtSafety_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="138"/>
+                    <TextBox TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="169"/>
+                    <TextBox TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="200"/>
+                    <TextBox TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="231"/>
+                    <TextBox x:Name="txtStart" TextChanged="txtStart_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="262"/>
+                    <TextBox x:Name="txtPause" TextChanged="txtPause_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="293"/>
+                    <TextBox x:Name="txtReset" TextChanged="txtReset_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="324"/>
+                    <TextBox x:Name="txtResetOK" TextChanged="txtResetOK_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="355"/>
+                    <TextBox x:Name="txtStop" TextChanged="txtStop_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="388"/>
+                    <TextBox x:Name="txtSettings" TextChanged="txtSettings_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="419"/>
+                    <TextBox x:Name="txtHasStarted" TextChanged="txtHasStarted_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="450"/>
+                    <TextBox x:Name="txtHasPaused" TextChanged="txtHasPaused_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="481"/>
+                    <TextBox x:Name="txtHasReset" TextChanged="txtHasReset_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="512"/>
+                    <TextBox x:Name="txtHasResetOK" TextChanged="txtHasResetOK_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="543"/>
+                    <TextBox x:Name="txtHasStopped" TextChanged="txtHasStopped_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="574"/>
+                    <TextBox x:Name="txtHasSet" TextChanged="txtHasSet_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="80" Canvas.Left="552" Canvas.Top="605"/>
+                </Canvas>
+            </GroupBox>
+            <GroupBox Header="Device" FontWeight="SemiBold" Height="246" Width="404" Canvas.Left="664" Canvas.Top="5">
+                <Canvas>
+                    <Label Content="Name" FontWeight="Normal" Canvas.Left="10" Canvas.Top="10"/>
+                    <Label Content="Status" FontWeight="Normal" Canvas.Left="10" Canvas.Top="41"/>
+                    <Label Content="Index" FontWeight="Normal" Canvas.Left="10" Canvas.Top="72"/>
+                    <Label Content="Alias" FontWeight="Normal" Canvas.Left="10" Canvas.Top="103"/>
+                    <Label Content="Host" FontWeight="Normal" Canvas.Left="10" Canvas.Top="134"/>
+                    <Label Content="Port" FontWeight="Normal" Canvas.Left="10" Canvas.Top="165"/>
+                    <Label Content="Device" FontWeight="Normal" Canvas.Left="197" Canvas.Top="134"/>
+                    <Label Content="Value" FontWeight="Normal" Canvas.Left="197" Canvas.Top="165"/>
+                    <ComboBox x:Name="cmbDevices" SelectionChanged="cmbDevices_SelectionChanged" FontWeight="Normal" Width="120" Canvas.Left="57" Canvas.Top="12"/>
+                    <CheckBox x:Name="chkStatus" Checked="chkStatus_Checked" Unchecked="chkStatus_Unchecked" Content="Disable" FontWeight="Normal" Canvas.Left="57" Canvas.Top="46"/>
+                    <TextBox x:Name="txtIndex" TextChanged="txtIndex_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="120" Canvas.Left="57" Canvas.Top="76"/>
+                    <TextBox x:Name="txtAlias" TextChanged="txtAlias_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="120" Canvas.Left="57" Canvas.Top="107"/>
+                    <TextBox x:Name="txtHost" TextChanged="txtHost_TextChanged" TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="120" Canvas.Left="57" Canvas.Top="138"/>
+                    <TextBox x:Name="txtPort" TextChanged="txtPort_TextChanged"  TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="120" Canvas.Left="57" Canvas.Top="169"/>
+                    <TextBox x:Name="txtDevice" TextChanged="txtDevice_TextChanged"  TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="120" Canvas.Left="247" Canvas.Top="138"/>
+                    <TextBox x:Name="txtValue" TextChanged="txtValue_TextChanged"  TextWrapping="NoWrap" Text="" FontWeight="Normal" Width="120" Canvas.Left="247" Canvas.Top="169"/>
+                    <Button x:Name="btnPing" Click="btnPing_Click" Content="Ping" FontWeight="Normal" Width="50" Canvas.Left="57" Canvas.Top="193"/>
+                    <Button x:Name="btnConnect" Click="btnConnect_Click" IsEnabled="False" Content="Connect" FontWeight="Normal" Width="50" Canvas.Left="127" Canvas.Top="192"/>
+                    <Button x:Name="btnGetDevice" Click="btnGetDevice_Click" Content="Get" FontWeight="Normal" Width="50" Canvas.Left="247" Canvas.Top="192"/>
+                    <Button x:Name="btnSetDevice" Click="btnSetDevice_Click" Content="Set" FontWeight="Normal" Width="50" Canvas.Left="317" Canvas.Top="192"/>
+                </Canvas>
+            </GroupBox>
+        </Canvas>
+    </Grid>
+</Window>
