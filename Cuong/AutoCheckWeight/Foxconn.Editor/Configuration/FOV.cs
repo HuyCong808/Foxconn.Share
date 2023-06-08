@@ -1,6 +1,6 @@
 ﻿using System;
+using Foxconn.Editor.Enums;
 using System.Collections.Generic;
-using static Foxconn.Editor.Enums;
 
 namespace Foxconn.Editor.Configuration
 {

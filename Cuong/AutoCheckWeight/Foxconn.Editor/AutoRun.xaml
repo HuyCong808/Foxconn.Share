@@ -5,27 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Foxconn.Editor"
         xmlns:CV="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.Platform.NetCore"
+        xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="AutoRun"         
+        Title="AutoRun"
         WindowStartupLocation="CenterScreen"
         Width="1280"
         Height="720"
         MinWidth="800"
         MinHeight="450"
         WindowState="Maximized"
-        Background="{DynamicResource BackgroundBrush}" 
-        Closed="Window_Closed"  
-        Loaded="Window_Loaded" >
-    <Grid >
+        Background="{DynamicResource BackgroundBrush}"
+        Closed="Window_Closed"
+        Loaded="Window_Loaded">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition Height="645*" ></RowDefinition>
-            <RowDefinition Height="25" ></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <Menu>
+            <Menu >
                 <MenuItem Header="File">
-                    <MenuItem Header="Export"/>
+                    <MenuItem Header="Export" />
                     <MenuItem Header="PLC Input/Output Status" />
                     <Separator />
                     <MenuItem Header="Login..." />
@@ -35,111 +36,227 @@
                 </MenuItem>
 
                 <MenuItem Header="View">
-                    <MenuItem Header="Open File Location" />
-                    <MenuItem Header="Console App"></MenuItem>
-                    <MenuItem x:Name="mnuiZoom" Header="Zoom" Click="MenuItem_Click" />
+                    <MenuItem Header="Open File Location" x:Name="mnuiOpenFileLocation" Click="mnuiOpenFileLocation_Click"  />
+                    <MenuItem Header="Console App"/>
                 </MenuItem>
 
-                <MenuItem Header="Program"></MenuItem>
+                <MenuItem Header="Program">
+                    <MenuItem Header="Test"
+                              x:Name="mnuiTest"
+                              Click="mnuiTest_Click"></MenuItem>
+                    <MenuItem Header="Setup"
+                              x:Name="mnuiSetSpeed"
+                              Click="mnuiSetSpeed_Click"></MenuItem>
+                </MenuItem>
 
                 <MenuItem Header="Help">
-                    <MenuItem Header="About"/>
+                    <MenuItem Header="About" />
                 </MenuItem>
             </Menu>
         </Grid>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="957*"></ColumnDefinition>
-                <ColumnDefinition Width="350"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="300"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Label Content="Image" Margin="5 0 0 0"></Label>
-                </Grid>
-                <Grid Grid.Row="1" >
-                    <Border 
-                        BorderBrush="Gray"
-                        BorderThickness="1.5"
-                        AllowDrop="true"
-                        Margin="2 0 2 2"
-                        CornerRadius="3">
-                        <WindowsFormsHost>
-                            <CV:ImageBox x:Name="imbCamera"
-                                         SizeMode="Zoom"
-                                         FunctionalMode="Minimum">
-                            </CV:ImageBox>
-                        </WindowsFormsHost>
-
-                    </Border>
-                </Grid>
-                
-            </Grid>
-            <Grid Grid.Column="1" Margin="0 0 0 2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20"></RowDefinition>
-                    <RowDefinition Height="200"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <Label Content="AutoRun" Margin="5 0 0 0"></Label>
+                    <Label Content="Image"
+                           Margin="5 0 0 0"></Label>
                 </Grid>
-
-                <Border Grid.Row="1" 
-                      Background="{DynamicResource PaletteBrush}"
-                      CornerRadius="3" Margin="0 0 0 2">
-                    <GroupBox Header="Result"
-                              BorderBrush="White" 
-                              Margin="5 0 5 5">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="auto"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Border Grid.Row="0">
-                                <Label x:Name="lblResult"></Label>
-                            </Border>
-                            <Border Grid.Row="1">
-                                <DockPanel HorizontalAlignment="Left">
-                                    <Label Content="CycleTime: "/>
-                                    <TextBlock x:Name="txbCycleTime"
-                                               MinWidth="20" 
-                                               Text="{Binding CycleTime, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
-                                </DockPanel>
-                               
-                                
-                            </Border>
-
-                        </Grid>
-
-
-
-                    </GroupBox>
-                </Border>
-
-                <Border Grid.Row="2" Background="{DynamicResource PaletteBrush}"
-                        CornerRadius="3">
-                    <GroupBox Header="Logs" 
-                              BorderBrush="White" 
-                              Margin="5 0 5 5">
-                        <TextBox x:Name="txtLogsAutoRun"></TextBox>
-                    </GroupBox>
-                </Border>
-
-
+                <Grid Grid.Row="1">
+                    <Border BorderBrush="Gray"
+                            BorderThickness="1"
+                            Margin="3 0 3 2"
+                            CornerRadius="3">
+                        <WindowsFormsHost>
+                            <CV:ImageBox x:Name="imbCamera"
+                                         SizeMode="Zoom"
+                                         FunctionalMode="Minimum"
+                                         MouseWheel="imbCamera_MouseWheel"
+                                         MouseDown="imbCamera_MouseDown">
+                            </CV:ImageBox>
+                        </WindowsFormsHost>
+                    </Border>
+                </Grid>
             </Grid>
 
+            <Border Grid.Column="1"
+                    Margin="0 0 3 2"
+                    CornerRadius="3"
+                    Background="{DynamicResource PaletteBrush}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="200"></RowDefinition>
+                        <RowDefinition Height="200"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Label Content="AutoRun"
+                               Margin="5 0 0 0"></Label>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <GroupBox Header="Information"
+                                  BorderBrush="White"
+                                  Margin="3 0 3 3">
+                            <StackPanel Orientation="Vertical" >
+                                <DockPanel Margin="3 5 5 0">
+                                    <DockPanel HorizontalAlignment="Left">
+                                        <Label Content="Board Name:" 
+                                               Width="80"  >
+                                        </Label>
+                                        <TextBlock MinWidth="2" Text="{Binding BoardName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DockPanel>
+                                </DockPanel>
 
-        </Grid>
-        <Grid Grid.Row="3" >
-            <Border Background="{DynamicResource PaletteBrush}"
-                    CornerRadius="4">
+                                <DockPanel Margin="3 5 5 0">
+                                    <DockPanel HorizontalAlignment="Left"  >
+                                        <TextBlock Text="PASS :" 
+                                                   Foreground="LimeGreen" 
+                                                   FontWeight="DemiBold" 
+                                                   Width="80"></TextBlock>
+                                        <TextBlock x:Name="txbPassRate" 
+                                                   Foreground="LimeGreen" 
+                                                   FontWeight="DemiBold" 
+                                                   Text="{Binding PassRate, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" ></TextBlock>
+                                    </DockPanel>
+                                </DockPanel>
+
+                                <DockPanel Margin="3 5 5 0">
+                                    <DockPanel HorizontalAlignment="Left">
+                                        <TextBlock Text="FAIL :"
+                                                    FontWeight="DemiBold"
+                                                   Width="80"
+                                                   Foreground="#FFF91616"></TextBlock>
+                                        <TextBlock x:Name="txbFailRate" 
+                                                   Foreground="#FFF91616" 
+                                                   FontWeight="DemiBold" 
+                                                   Text="{Binding FailRate, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" ></TextBlock>
+                                    
+                                    </DockPanel>
+                                </DockPanel>
+
+                                <DockPanel Margin="3 5 5 0">
+                                    <DockPanel HorizontalAlignment="Left">
+                                        <TextBlock Text="Yield Rate :" 
+                                                   Foreground="Yellow" 
+                                                   FontWeight="DemiBold" 
+                                                   Width="80"></TextBlock>
+                                        <TextBlock x:Name="txbYieldRate" 
+                                                   Foreground="Yellow" 
+                                                   FontWeight="DemiBold" 
+                                                   Text="{Binding YeildRate, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" ></TextBlock>
+                                        <TextBlock Text="%" 
+                                                   Foreground="Yellow" 
+                                                   FontWeight="DemiBold" ></TextBlock>
+                                    </DockPanel>
+                                </DockPanel>
+                                
+                            </StackPanel>
+
+
+                        </GroupBox>
+
+
+                    </Grid>
+
+
+
+                    <Border Grid.Row="2"
+                            CornerRadius="3">
+
+                        <GroupBox Header="Result"
+                                  BorderBrush="White"
+                                  Margin="3 0 3 3">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="0"
+                                        x:Name="borderResult">
+                                    <Label x:Name="lblResult"
+                                           MinHeight="50"
+                                           MinWidth="100"
+                                           Height="auto"
+                                           FontSize="50"
+                                           HorizontalAlignment="Center"></Label>
+                                </Border>
+                                <Border Grid.Row="1">
+                                    <DockPanel HorizontalAlignment="Left">
+                                        <Label Content="CycleTime: " />
+                                        <TextBlock x:Name="txbCycleTime"
+                                                   MinWidth="20"
+                                                   Text="{Binding CycleTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        </TextBlock>
+                                    </DockPanel>
+                                </Border>
+                            </Grid>
+                        </GroupBox>
+                    </Border>
+
+                    <Border Grid.Row="3"
+                            CornerRadius="3">
+                        <GroupBox Header="Logs"
+                                  BorderBrush="White"
+                                  Margin="3 0 3 3">
+                            <TextBox x:Name="txtLogsAutoRun"
+                                     VerticalAlignment="Top"
+                                     IsReadOnly="True"
+                                     Margin="0 5 0 0" 
+                                     VerticalScrollBarVisibility="Auto"
+                                     HorizontalScrollBarVisibility="Auto"/>
+                        </GroupBox>
+                    </Border>
+
+                    <Border Grid.Row="4"
+                            CornerRadius="3"
+                            BorderBrush="{DynamicResource PaletteBrush}">
+                        <Expander Header="Setup"
+                                  x:Name="epdSetup"
+                                  IsExpanded="False">
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Right"
+                                        Margin="0 0 0 5">
+                                <Label Content="Speed Robot"
+                                       Margin="0 0 5 0"></Label>
+                                <TextBox x:Name="txtSetSpeedRobot"
+                                         Width="120"
+                                         Margin="0 0 5 0"></TextBox>
+                                <Button x:Name="btnSetSpeedRobot"
+                                        Content="Set"
+                                        Margin="0 0 5 0"
+                                        IsDefault="True"
+                                        Click="btnSetSpeedRobot_Click">
+                                </Button>
+                            </StackPanel>
+                        </Expander>
+
+
+                    </Border>
+
+                </Grid>
             </Border>
+        </Grid>
+
+        <Grid Grid.Row="3"
+                Margin="0 0 0 0"
+                Background="{DynamicResource PaletteBrush}">
+            <StatusBar Margin="0 0 0 0" x:Name="ssStatusBar">
+                <Label x:Name="ssStatus"
+                       Content="Status: "
+                       Width="auto" Margin="3 0 0 0"
+                       />
+                <TextBlock x:Name="txbStatusBar"></TextBlock>
+            </StatusBar>
         </Grid>
 
     </Grid>

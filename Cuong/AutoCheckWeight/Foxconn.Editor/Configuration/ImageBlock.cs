@@ -61,7 +61,7 @@ namespace Foxconn.Editor.Configuration
                 _image = image.Copy();
             }
             _location = new Rectangle(); ;
-            _filename = @$"data\Images\Image_{name}.png";
+            _filename = @$"data\images\image_{name}.png";
         }
 
         public ImageBlock(int id, string name, Image<Bgr, byte> image, Rectangle location)
@@ -73,7 +73,7 @@ namespace Foxconn.Editor.Configuration
                 _image = image.Copy();
             }
             _location = location;
-            _filename = @$"data\Images\{id}_{name}.png";
+            _filename = @$"data\images\{id}_{name}.png";
         }
 
         public void Dispose()
@@ -85,7 +85,8 @@ namespace Foxconn.Editor.Configuration
         {
             try
             {
-                string tempPath = $"{path}/{_filename}";
+                string tempPath = path;
+                //string tempPath = $"{path}/{_filename}";
                 if (File.Exists(tempPath))
                 {
                     _image = new Image<Bgr, byte>(tempPath);
@@ -102,7 +103,8 @@ namespace Foxconn.Editor.Configuration
         {
             try
             {
-                string tempPath = $"{path}/{_filename}";
+                string tempPath = path;
+                //string tempPath = $"{path}/{_filename}";
                 FileInfo fileInfo = new FileInfo(tempPath);
                 if (!Directory.Exists(fileInfo.DirectoryName))
                 {

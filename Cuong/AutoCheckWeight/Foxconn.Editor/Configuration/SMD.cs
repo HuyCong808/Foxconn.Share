@@ -1,5 +1,4 @@
-﻿using Foxconn.Editor.FoxconnEdit.OpenCV;
-using static Foxconn.Editor.Enums;
+﻿using Foxconn.Editor.OpenCV;
 
 namespace Foxconn.Editor.Configuration
 {
