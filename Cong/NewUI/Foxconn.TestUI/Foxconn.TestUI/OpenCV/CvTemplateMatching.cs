@@ -1,9 +1,8 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
-using Foxconn.TestUI.Config;
+using Foxconn.TestUI.Editor;
 using System;
 using System.Drawing;
-using Foxconn.TestUI.Editor;
 
 
 namespace Foxconn.TestUI.OpenCV
@@ -80,6 +79,9 @@ namespace Foxconn.TestUI.OpenCV
                             cvRet.Score = s;
                             cvRet.Center = new System.Windows.Point(loc.X + ROI.X + _template.Size.Width / 2, loc.Y + ROI.Y + _template.Size.Height / 2);
                             DrawResult(ref dst, cvRet.Result, new Rectangle(loc, _template.Size));
+                         //   AutoRun.Current.UpdateLogInfo(Convert.ToString("Score :" + cvRet.Score));
+
+
                         }
                         else
                         {
@@ -87,6 +89,8 @@ namespace Foxconn.TestUI.OpenCV
                             cvRet.Score = s;
                             cvRet.Center = new System.Windows.Point(loc.X + ROI.X + _template.Size.Width / 2, loc.Y + ROI.Y + _template.Size.Height / 2);
                             DrawResult(ref dst, cvRet.Result, new Rectangle(loc, _template.Size));
+                         //   AutoRun.Current.UpdateLogInfo(Convert.ToString("Score :" + cvRet.Score));
+
                         }
                     }
                     else
@@ -110,7 +114,7 @@ namespace Foxconn.TestUI.OpenCV
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+               // AutoRun.Current.UpdateLogError(ex.Message);
             }
             finally
             {

@@ -26,8 +26,6 @@ namespace Foxconn.TestUI.Editor
                 rect.Width = Math.Abs(StartPoint.X - EndPoint.X);
                 rect.Height = Math.Abs(StartPoint.Y - EndPoint.Y);
                 return rect;
-
-
             }
             else
             {

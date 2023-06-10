@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Foxconn.TestUI.Enums
+﻿namespace Foxconn.TestUI.Enums
 {
 
     public enum Algorithm
     {
-        Unknow,
-        CodeRecognition,
         HSVExtraction,
+        HSVExtractionQty,
+        CodeRecognition,
         TemplateMatching,
-        Contour
+        Contour,
+        Unknow
     }
 }

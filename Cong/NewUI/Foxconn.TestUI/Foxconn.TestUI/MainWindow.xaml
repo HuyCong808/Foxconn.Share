@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="MainWindow"
         Width="1280"
-        Height="720"
+        Height="830"
         MinWidth="800"
         MinHeight="450"
         Background="{DynamicResource BackgroundBrush}"
@@ -69,7 +69,7 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="350" />
+                <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0"
                   Margin="0,0,0,0">
@@ -111,7 +111,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0" Margin="0,1,0,1" 
-                          Height="33"
+                          Height="30"
                          Background="{DynamicResource BackgroundBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -136,8 +136,8 @@
                                         <StackPanel Orientation="Horizontal"
                                                 HorizontalAlignment="Right">
                                             <Button  x:Name="btnGrabFrame"
-                                            Width="20"
-                                             Height="20"
+                                            Width="22"
+                                             Height="22"
                                              MinWidth="0"
                                              MinHeight="0"
                                              BorderThickness="0"
@@ -153,8 +153,8 @@
                                         <StackPanel Orientation="Horizontal"
                                                 HorizontalAlignment="Left">
                                             <Button  x:Name="btnStreamvideo"
-                                            Width="20"
-                                             Height="20"
+                                             Width="22"
+                                             Height="22"
                                              MinWidth="0"
                                              MinHeight="0"
                                              BorderThickness="0"
@@ -164,14 +164,14 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
-                                <Grid Grid.Column="2" HorizontalAlignment="Left" >
+                                <Grid Grid.Column="2" >
                                     <StackPanel Orientation="Vertical"
                                             Margin="4">
                                         <StackPanel Orientation="Horizontal"
                                                 HorizontalAlignment="Left">
                                             <Button  x:Name="btnOpenImage"
-                                            Width="20"
-                                             Height="20"
+                                             Width="22"
+                                             Height="22"
                                              MinWidth="0"
                                              MinHeight="0"
                                              BorderThickness="0"
@@ -187,8 +187,8 @@
                                         <StackPanel Orientation="Horizontal"
                                                 HorizontalAlignment="Left">
                                             <Button  x:Name="btnSelectROI"
-                                            Width="20"
-                                             Height="20"
+                                             Width="22"
+                                             Height="22"
                                              MinWidth="0"
                                              MinHeight="0"
                                              BorderThickness="0"
@@ -204,8 +204,8 @@
                                         <StackPanel Orientation="Horizontal"
                                                 HorizontalAlignment="Left">
                                             <Button  x:Name="btnSaveROI"
-                                           Width="20"
-                                             Height="20"
+                                           Width="22"
+                                             Height="22"
                                              MinWidth="0"
                                              MinHeight="0"
                                              BorderThickness="0"
@@ -231,8 +231,8 @@
                                     <StackPanel Orientation="Vertical"
                                             Margin="0,1,1,1">
                                         <StackPanel Orientation="Horizontal"
-                                                HorizontalAlignment="Left">
-                                            <Label x:Name="lblPosition" Content=""  Width="120"/>
+                                                HorizontalAlignment="Left" Height="28">
+                                            <Label x:Name="lblPosition" Content=""  Width="50" Margin="1,1,1,3"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
@@ -272,7 +272,7 @@
                 <Grid Grid.Row="1">
                     <GroupBox Header="Configuration"
                               BorderBrush="White"
-                              Margin="10,0,10,0">
+                             Margin="5,3,5,0">
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Right">
@@ -308,25 +308,25 @@
                                     <Image Source="/Icons/addFOV.png" />
                                 </Button>
                                 <Button x:Name="btnAddSMD"
-                                                Height="22"
+                                                Height="25"
                                                 Margin="1,1,3,1"
                                                 BorderThickness="0"
                                                 ToolTip="Add SMD" Click="btnAddSMD_Click_1" >
                                     <Image Source="/Icons/addSMD.png" />
                                 </Button>
-                                <Button x:Name="btnDelete"
-                                                Height="26"
+                                <Button x:Name="btnDeleteOFV"
+                                                Height="28"
                                                 Margin="1,1,3,1"
                                                 BorderThickness="0"
-                                                ToolTip="Delete" Click="btnDelete_Click_1">
-                                    <Image Source="/Icons/delete.png" />
+                                                ToolTip="Delete FOV" Click="btnDeleteOFV_Click" >
+                                    <Image Source="/Icons/deleteFOV.png" />
                                 </Button>
-                                <Button x:Name="btnSaveConfig"
-                                                Height="26"
+                                <Button x:Name="btnDelete"
+                                                Height="28"
                                                 Margin="1,1,3,1"
                                                 BorderThickness="0"
-                                                ToolTip="Save" Click="btnSaveConfig_Click">
-                                    <Image Source="/Icons/saveconfig.png" />
+                                                ToolTip="Delete SMD" Click="btnDelete_Click_1">
+                                    <Image Source="/Icons/deleteSMD.png" />
                                 </Button>
                                 <Button x:Name="btnRefresh"
                                                 Height="26"
@@ -343,61 +343,64 @@
                 <Grid Grid.Row="2">
                     <GroupBox Header="Properties FOV"
                               BorderBrush="White"
-                              Margin="10,5,10,0">
+                              Margin="5,3,5,0">
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Left"
-                                        Margin="50,0,0,0"
-                                        Width="289">
+                                        Margin="103,5,0,0">
                                 <Label Content="ID"
                                        Height="19"
-                                       Margin="68,0,0,0" />
+                                       Margin="10,0,0,0" />
                                 <TextBox Text="{Binding ID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         Width="70"
+                                         Width="149"
                                          IsReadOnly="True"
                                          Margin="4,5,0,0"
                                          x:Name="txtIDFOV" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Left"
+                                        Margin="71,5,0,0">
                                 <Label Content="Name"
                                        Height="19"
-                                       Margin="10,0,0,0" />
+                                       Margin="25,0,0,0" />
                                 <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         Width="70"
+                                         Width="148"
                                          Margin="2,5,0,0"
                                          IsReadOnly="True"
                                          x:Name="txtNameFOV" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Left"
-                                        Margin="31,7,0,0">
+                                        Margin="15,5,0,0" >
                                 <Label Content="Exposure Time"
-                                       Margin="16,5,1,1"
+                                       Margin="35,5,1,1"
                                        Height="19" />
                                 <TextBox Text="{Binding ExposureTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         Width="187"
-                                         Margin="5,0,0,0"
-                                         x:Name="txtExposureTimeFOV" />
+                                         Width="149"
+                                         Margin="1,0,0,0"
+                                         x:Name="txtExposureTimeFOV" Height="22" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Left"
-                                        Margin="31,7,0,0">
+                                        Margin="31,5,0,0" >
                                 <Label Content="Type"
                                        Margin="68,5,1,1"
                                        Height="19" />
                                 <ComboBox x:Name="cmbFOVType"
-                                          Width="187"
+                                          Width="148"
                                           Margin="5,0,0,0"
-                                          SelectedItem="{Binding FOVType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                          SelectedItem="{Binding FOVType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="22"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Left"
-                                        Margin="31,7,0,0">
+                                        Margin="31,5,0,0">
                                 <Label Content="Camera Mode"
                                        Margin="18,5,1,1"
                                        Height="19" />
                                 <ComboBox x:Name="cmbCameraType"
-                                          Width="187"
+                                          Width="148"
                                           SelectedItem="{Binding CameraMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          Margin="5,0,0,0" />
+                                          Margin="5,0,0,0" Height="22" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -405,51 +408,50 @@
                 <Grid Grid.Row="3">
                     <GroupBox Header="Properties SMD"
                               BorderBrush="White"
-                              Margin="10,5,10,0">
+                              Margin="5,3,5,0">
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Right">
+                                        HorizontalAlignment="Left"
+                                       Margin="115,5,0,3" >
                                 <Label Content="ID"
-                                       Height="19"
-                                       Margin="68,0,0,0" />
+                                       Height="19" Margin="0,2,3,1"/>
                                 <TextBox Text="{Binding Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          IsReadOnly="True"
-                                         Width="70"
-                                         Margin="4,5,0,0" />
-                                <Label Content="Name"
-                                       Height="19"
-                                       Margin="10,0,0,0" />
-                                <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         IsReadOnly="True"
-                                         Width="70"
-                                         Margin="4,5,0,0" />
+                                         Width="148" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Left"
-                                        Margin="31,7,0,0">
+                                        Margin="90,3,0,3">
+                                <Label Content="Name"
+                                       Height="19" Margin="4,2,3,1"
+                                       />
+                                <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         IsReadOnly="True"
+                                         Width="149"
+                                        />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Left"
+                                        Margin="97,5,0,3">
                                 <Label Content="Type"
-                                       Margin="68,5,1,1"
-                                       Height="19" />
+                                       Height="19" Margin="4,2,3,1" />
                                 <ComboBox x:Name="cmbSMDType"
-                                          Width="187"
-                                          Margin="5,0,0,0"
+                                          Width="149"
                                           SelectedItem="{Binding SMDType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Left"
-                                        Margin="31,7,0,0">
+                                        Margin="69,5,0,3">
                                 <Label Content="Algorithm"
-                                       Margin="40,5,1,1"
-                                       Height="19" />
+                                       Height="19" Margin="4,2,3,1" />
                                 <ComboBox x:Name="cmbAlgorithm"
-                                          Width="187"
-                                          Margin="5,0,0,0"
+                                          Width="149"
                                           SelectedItem="{Binding Algorithm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           SelectionChanged="cmbAlgorithm_SelectionChanged"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Right"
-                                        Margin="0,7,4,0">
+                                        Margin="0,5,0,0">
                                 <TextBlock Text="ROI"
                                            Foreground="{StaticResource Text1Brush}"
                                            Margin="0,0,6,0" />
@@ -470,7 +472,7 @@
                                 </Border>
                                 <Border CornerRadius="3"
                                         Background="#222222"
-                                        Width="85"
+                                        Width="84"
                                         Margin="0,0,0,0">
                                     <DockPanel>
                                         <Border BorderThickness="1"
@@ -480,13 +482,13 @@
                                                        Width="18"
                                                        TextAlignment="Center" />
                                         </Border>
-                                        <TextBox x:Name="txtROIY" />
+                                        <TextBox x:Name="txtROIY" Width="64" />
                                     </DockPanel>
                                 </Border>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Right"
-                                        Margin="0,7,4,0">
+                                        Margin="0,5,0,0">
                                 <Border CornerRadius="3"
                                         Background="#222222"
                                         Width="85"
@@ -524,7 +526,7 @@
                 <Grid Grid.Row="4">
                     <GroupBox Header="Algorithm"
                               BorderBrush="White"
-                              Margin="10,5,10,0">
+                              Margin="5,3,5,0">
                         <TabControl x:Name="tabAlgorithm">
                             <TabItem Header="HSV">
                                 <Grid    Background="{DynamicResource PaletteBrush}">
@@ -536,7 +538,21 @@
                                                     Content="Get HSV Color"
                                                     Margin="1,1,0,1"
                                                     Width="183"
-                                                    Background="Black" Click="GetHSVColorButton_Click" />
+                                                    Background="#FF3A3939" Click="GetHSVColorButton_Click" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Right"
+                                                    Margin="0,2,4,0">
+                                            <Button x:Name="BtnCoppyHSV"
+                                                    Content="Coppy HSV"
+                                                    Margin="0,0,15,0"
+                                                    Width="85"
+                                                    Background="#FF3A3939" Click="GetHSVColorButton_Click" />
+                                            <Button x:Name="BtnPasteHSV"
+                                                    Content="Paste HSV"
+                                                    Margin="1,1,0,1"
+                                                    Width="85"
+                                                    Background="#FF3A3939" Click="GetHSVColorButton_Click" />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal"
                                                     HorizontalAlignment="Right"
@@ -696,7 +712,7 @@
                                             <TextBlock Text=""
                                                        Margin="0,0,5,0" />
                                             <DockPanel Width="184">
-                                                <CheckBox  Content="Reverse Search" />
+                                                <CheckBox  Content="Reverse Search" IsChecked="{Binding HSVExtraction.IsEnabledReserveSearch}"/>
                                             </DockPanel>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal"
@@ -722,6 +738,223 @@
                                             </Border>
                                         </StackPanel>
                                     </StackPanel>
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="HSVQty">
+                                <Grid    Background="{DynamicResource PaletteBrush}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="17*"/>
+                                        <ColumnDefinition Width="122*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Vertical" Grid.ColumnSpan="2">
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Right"
+                                                    Margin="0,7,4,0">
+                                            <Button x:Name="GetHSVQtyColorButton"
+                                                    Content="Get HSV Color"
+                                                    Margin="1,1,0,1"
+                                                    Width="183"
+                                                    Background="#FF3A3939" Click="GetHSVQtyColorButton_Click"  />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Right"
+                                                    Margin="0,2,4,0">
+                                            <Button x:Name="BtnCoppyHSVQty"
+                                                    Content="Coppy HSV"
+                                                    Margin="0,0,15,0"
+                                                    Width="85"
+                                                    Background="#FF3A3939" Click="GetHSVColorButton_Click" />
+                                            <Button x:Name="BtnPasteHSVQty"
+                                                    Content="Paste HSV"
+                                                    Margin="1,1,0,1"
+                                                    Width="85"
+                                                    Background="#FF3A3939" Click="GetHSVColorButton_Click" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Right"
+                                                    Margin="0,7,4,0">
+                                            <TextBlock Text="Hue"
+                                                       Margin="0,0,4,0" />
+                                            <Border CornerRadius="3"
+                                                    Background="#222222"
+                                                    Width="85"
+                                                    Margin="0,0,15,0">
+                                                <DockPanel>
+                                                    <Border BorderThickness="1"
+                                                            Height="19"
+                                                            Margin="0,0,0,0">
+                                                        <TextBlock Text="L"
+                                                                   Width="18"
+                                                                   TextAlignment="Center" />
+                                                    </Border>
+                                                    <TextBox Text="{Binding HSVExtractionQty.Hue.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                             x:Name="txtHQty_Low" />
+                                                </DockPanel>
+                                            </Border>
+                                            <Border CornerRadius="3"
+                                                    Background="#222222"
+                                                    Width="85"
+                                                    Margin="0,0,0,0">
+                                                <DockPanel>
+                                                    <Border BorderThickness="1"
+                                                            Height="19"
+                                                            Margin="0,0,0,0">
+                                                        <TextBlock Text="U"
+                                                                   Width="18"
+                                                                   TextAlignment="Center" />
+                                                    </Border>
+                                                    <TextBox Text="{Binding HSVExtractionQty.Hue.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        x:Name="txtHQty_Up" />
+                                                </DockPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Right"
+                                                    Margin="0,7,4,0">
+                                            <TextBlock Text="Saturation"
+                                                       Margin="0,0,4,0" />
+                                            <Border CornerRadius="3"
+                                                    Background="#222222"
+                                                    Width="85"
+                                                    Margin="0,0,15,0">
+                                                <DockPanel>
+                                                    <Border BorderThickness="1"
+                                                            Height="19"
+                                                            Margin="0,0,0,0">
+                                                        <TextBlock Text="L"
+                                                                   Width="18"
+                                                                   TextAlignment="Center" />
+                                                    </Border>
+                                                    <TextBox Text="{Binding HSVExtractionQty.Saturation.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        x:Name="txtSQty_Low" />
+                                                </DockPanel>
+                                            </Border>
+                                            <Border CornerRadius="3"
+                                                    Background="#222222"
+                                                    Width="85"
+                                                    Margin="0,0,0,0">
+                                                <DockPanel>
+                                                    <Border BorderThickness="1"
+                                                            Height="19"
+                                                            Margin="0,0,0,0">
+                                                        <TextBlock Text="U"
+                                                                   Width="18"
+                                                                   TextAlignment="Center" />
+                                                    </Border>
+                                                    <TextBox Text="{Binding HSVExtractionQty.Saturation.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        x:Name="txtSQty_Up" />
+                                                </DockPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Right"
+                                                    Margin="0,7,4,0">
+                                            <TextBlock Text="Value"
+                                                       Margin="0,0,4,0" />
+                                            <Border CornerRadius="3"
+                                                    Background="#222222"
+                                                    Width="85"
+                                                    Margin="0,0,15,0">
+                                                <DockPanel>
+                                                    <Border BorderThickness="1"
+                                                            Height="19"
+                                                            Margin="0,0,0,0">
+                                                        <TextBlock Text="L"
+                                                                   Width="18"
+                                                                   TextAlignment="Center" />
+                                                    </Border>
+                                                    <TextBox Text="{Binding HSVExtractionQty.Value.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                         x:Name="txtVQty_Low" />
+                                                </DockPanel>
+                                            </Border>
+                                            <Border CornerRadius="3"
+                                                    Background="#222222"
+                                                    Width="85"
+                                                    Margin="0,0,0,0">
+                                                <DockPanel>
+                                                    <Border BorderThickness="1"
+                                                            Height="19"
+                                                            Margin="0,0,0,0">
+                                                        <TextBlock Text="U"
+                                                                   Width="18"
+                                                                   TextAlignment="Center" />
+                                                    </Border>
+                                                    <TextBox Text="{Binding HSVExtractionQty.Value.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        x:Name="txtVQty_Up" />
+                                                </DockPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Right"
+                                                    Margin="0,7,4,0">
+                                            <TextBlock Text="OK Range"
+                                                       Margin="0,0,4,0" />
+                                            <Border CornerRadius="3"
+                                                    Background="#222222"
+                                                    Width="85"
+                                                    Margin="0,0,15,0">
+                                                <DockPanel>
+                                                    <Border BorderThickness="1"
+                                                            Height="19"
+                                                            Margin="0,0,0,0">
+                                                        <TextBlock Text="L"
+                                                                   Width="18"
+                                                                   TextAlignment="Center" />
+                                                    </Border>
+                                                    <TextBox Text="{Binding HSVExtractionQty.OKRange.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        x:Name="txtOKQty_Low" />
+                                                </DockPanel>
+                                            </Border>
+                                            <Border CornerRadius="3"
+                                                    Background="#222222"
+                                                    Width="85"
+                                                    Margin="0,0,0,0">
+                                                <DockPanel>
+                                                    <Border BorderThickness="1"
+                                                            Height="19"
+                                                            Margin="0,0,0,0">
+                                                        <TextBlock Text="U"
+                                                                   Width="18"
+                                                                   TextAlignment="Center" />
+                                                    </Border>
+                                                    <TextBox Text="{Binding HSVExtractionQty.OKRange.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        x:Name="txtOKQty_Up" />
+                                                </DockPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Right"
+                                                    Margin="0,7,4,0">
+                                            <TextBlock Text=""
+                                                       Margin="0,0,5,0" />
+                                            <DockPanel Width="184">
+                                                <CheckBox  Content="Reverse Search" IsChecked="{Binding HSVExtractionQty.IsEnabledReserveSearch}"/>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Right"
+                                                    Margin="0,7,4,0">
+                                            <TextBlock Text="Qty"
+                                                       Margin="0,0,4,0" />
+                                            <Border CornerRadius="3"
+                                                    Background="#222222"
+                                                    Width="188"
+                                                    Margin="0,0,0,0">
+                                                <DockPanel>
+                                                    <Border BorderThickness="1"
+                                                            Height="19"
+                                                            Margin="0,0,0,0">
+                                                        <TextBlock Text="Q"
+                                                                   Width="18"
+                                                                   TextAlignment="Center" />
+                                                    </Border>
+                                                    <TextBox Text="{Binding HSVExtractionQty.Qty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        x:Name="txt_ScoreHSVQty" IsReadOnly="True" />
+                                                </DockPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </StackPanel>
+
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Barcode">

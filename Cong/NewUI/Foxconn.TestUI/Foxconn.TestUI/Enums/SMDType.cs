@@ -6,6 +6,6 @@
         SN1,
         SN2,
         SMD,
-        Mark
+        Mark,
     }
 }

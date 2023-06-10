@@ -1,5 +1,6 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
+using Foxconn.TestUI.Editor;
 using Foxconn.TestUI.Enums;
 using HalconDotNet;
 using System;
@@ -9,7 +10,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using ZXing;
-using Foxconn.TestUI.Editor;
 using ZXing.Common;
 
 namespace Foxconn.TestUI.OpenCV
@@ -210,6 +210,7 @@ namespace Foxconn.TestUI.OpenCV
             if (data == string.Empty)
             {
                 data = "NOT FOUND";
+             //   AutoRun.Current.UpdateLogError(data);
             }
             return data;
         }

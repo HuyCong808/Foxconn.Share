@@ -1,9 +1,6 @@
-﻿using System;
-using Foxconn.TestUI.Camera;
+﻿using Foxconn.TestUI.Camera;
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Foxconn.TestUI.Editor
@@ -233,8 +230,8 @@ namespace Foxconn.TestUI.Editor
         {
             try
             {
-                  _camera1?.Close();
-                   _camera2?.Close();
+                _camera1?.Close();
+                _camera2?.Close();
                 _light1?.Close();
                 _light2?.Close();
                 _robot1?.Close();

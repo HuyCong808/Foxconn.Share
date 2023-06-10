@@ -20,11 +20,11 @@ using Rectangle = System.Drawing.Rectangle;
 namespace Foxconn.TestUI
 {
     /// <summary>
-    /// Interaction logic for AutoRun.xaml
+    /// Interaction logic for AutoRunDialog.xaml
     /// </summary>
-    public partial class AutoRun : Window
+    public partial class AutoRunDialog : Window
     {
-        public static AutoRun Current;
+        public static AutoRunDialog Current;
         private Image<Bgr, byte> _image { get; set; }
         private Worker _loopWorker;
         private Board _program
@@ -41,7 +41,7 @@ namespace Foxconn.TestUI
         private string _SN { get; set; }
         public string CycleTime { get; set; }
         public string BoardName { get; set; }
-        public AutoRun()
+        public AutoRunDialog()
         {
             InitializeComponent();
             Current = this;
@@ -90,31 +90,148 @@ namespace Foxconn.TestUI
             return bRet;
         }
 
+        private bool GetSignal(string device)
+        {
+            //if (_device.PLC1.GetFlag(device) == 1)
+            //{
+            //    _device.PLC1.SetBitDevice(device, 0);
+            //    // Neu get M1 = 1 thi reset M1 = 0
+            //    return true;
+            //}
+            //else
+            //{
+            return false;
+            // }
+        }
+
+        private void SetResultToPLC(FOVType pCheck, int pResult) // set pass fail voi PLC
+        {
+            switch (pCheck)
+            {
+                case FOVType.Unknow:
+                    break;
+                case FOVType.L1_PCB1:
+                    {
+                        // neu pass ->
+
+
+                        // neu fail ->
+
+
+                    }
+                    break;
+                case FOVType.L1_PCB2:
+                    {
+                        // neu pass ->
+
+
+                        // neu fail ->
+
+
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CheckResults(FOVType pCheck)
+        {
+            switch (pCheck)
+            {
+                case FOVType.Unknow:
+                    break;
+                case FOVType.L1_PCB1:
+                    {
+                        var f = _FOVResults.FirstOrDefault(x => x.Type == pCheck);
+                        if (f != null)
+                        {
+                            //  SetResultToPLC(pCheck, f.Result);
+                        }
+                        break;
+                    }
+                case FOVType.L1_PCB2:
+                    {
+                        var f = _FOVResults.FirstOrDefault(x => x.Type == pCheck);
+                        if (f != null)
+                        {
+                            //   SetResultToPLC(pCheck, f.Result);
+                        }
+                        break;
+                    }
+            }
+        }
+
+        private List<FOVResult> _FOVResults = new List<FOVResult>();
+
         private void AutoRunProcess()
         {
             Thread.CurrentThread.IsBackground = true;
             Thread.CurrentThread.Name = "Auto run thread.";
-            FOVType PCB1 = FOVType.PCB1;
-            FOVType PCB2 = FOVType.PCB2;
+            string flagLane1 = "S200"; // chay lan1
+            string flagLane2 = "S201"; // chay lan2
+            string flaglb1 = ""; // label 1
+            string flaglb2 = "";//label 2
+            string flagPCB1 = ""; // check color 1
+            string flagPCB2 = "";//check color 2
+            string flagSOLDER1 = ""; // solder 1
+            string flagSOLDER2 = ""; // soulder 2
+            string flagEnd = "";
+            FOVType typelb1 = FOVType.Unknow;
+            FOVType typelb2 = FOVType.Unknow;
+            FOVType typePCB1 = FOVType.Unknow;
+            FOVType typePCB2 = FOVType.Unknow;
+            FOVType typeSOLDER1 = FOVType.Unknow;
+            FOVType typeSOLDER2 = FOVType.Unknow;
             while (true)
             {
-                // nhan tin hieu lan 1
-                ShowFOVBitmap(CameraMode.Top, null);
-                int nRet = CheckType(PCB1);
-                Thread.Sleep(5000);
-                if (nRet == 1)
+                try
                 {
-                    ShowFOVBitmap(CameraMode.Top, null);
-                    int nRet2 = CheckType(PCB2);
-                    string message2 = nRet2 == 1 ? $"{PCB2}: Pass" : $"{PCB2}: Fail";
-                    Console.WriteLine(message2);
+                    int runL1 = _device.PLC1.GetFlag(flagLane1);
+                    int runL2 = _device.PLC1.GetFlag(flagLane2);
+                    if (runL1 == 1 || runL2 == 1)
+                    {
+                        Stopwatch stopwatch = new Stopwatch();
+                        stopwatch.Start();
+                        if (runL1 == 1)
+                        {
+                            Console.WriteLine("AutoRun ---------> Lane 1");
+                            flaglb1 = "S50";
+                            flaglb2 = "S52";
+                            flagPCB1 = "S51";
+                            flagPCB2 = "S53";
+                            flagSOLDER1 = "S100";
+                            flagSOLDER2 = "S101";
+                            typelb1 = FOVType.L1_lb1;
+                            typelb2 = FOVType.L1_lb2;
+                            typePCB1 = FOVType.L1_PCB1;
+                            typePCB2 = FOVType.L1_PCB2;
+                            typeSOLDER1 = FOVType.L1_SOLDER1;
+                            typeSOLDER2 = FOVType.L1_SOLDER2;
+                        }
+                        if(runL2==1)
+                        {
+                            Console.WriteLine("AutoRun ---------> Lane 2");
+                            flaglb1 = "S250";
+                            flaglb2 = "S252";
+                            flagPCB1 = "S251";
+                            flagPCB2 = "S253";
+                            flagSOLDER1 = "S300";
+                            flagSOLDER2 = "S301";
+                            typelb1 = FOVType.L1_lb1;
+                            typelb2 = FOVType.L1_lb2;
+                            typePCB1 = FOVType.L1_PCB1;
+                            typePCB2 = FOVType.L1_PCB2;
+                            typeSOLDER1 = FOVType.L1_SOLDER1;
+                            typeSOLDER2 = FOVType.L1_SOLDER2;
+                        }
+
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    break;
+                    Console.WriteLine(ex);
                 }
-                string message = nRet == 1 ? $"{PCB1}: Pass" : $"{PCB1}: Fail";
-                Console.WriteLine(message);
             }
         }
 
@@ -138,6 +255,7 @@ namespace Foxconn.TestUI
                     {
                         fRet = -1;
                     }
+                    // Update FOV Results
                 }
                 return fRet;
             }
@@ -178,13 +296,9 @@ namespace Foxconn.TestUI
                                 src.ROI = offsetROI;
                                 dst.ROI = offsetROI;
                                 CvResult cvRet = CheckSMD(pSMD, src.Copy(), dst);
-                                if (cvRet.Result)
-                                {
-                                    UpdateLogInfo("check OK");
-                                }
                                 if (!cvRet.Result)
                                 {
-                                    UpdateLogInfo("check NG");
+                                    fRet = -1;
                                 }
                                 src.ROI = new System.Drawing.Rectangle();
                                 dst.ROI = new System.Drawing.Rectangle();
@@ -193,9 +307,12 @@ namespace Foxconn.TestUI
                             stopwatch.Stop();
                             lblCircleTime.Content = "Circle Time: " + stopwatch.Elapsed;
                         }
-
                     }
                 }
+            }
+            else
+            {
+                fRet = -1;
             }
 
             return fRet;
@@ -205,8 +322,6 @@ namespace Foxconn.TestUI
         private CvResult CheckSMD(SMD pSMD, Image<Bgr, byte> src, Image<Bgr, byte> dst)
         {
             CvResult cvRet = new CvResult();
-            Current.UpdateLogInfo("----------------------------------------");
-            Current.UpdateLogInfo("Check " + pSMD.Name);
             switch (pSMD.Algorithm)
             {
                 case Algorithm.Unknow:
@@ -328,58 +443,9 @@ namespace Foxconn.TestUI
         }
 
 
-        private void btntest_Click(object sender, RoutedEventArgs e) // k chụp ảnh, check test
+        private void btntest_Click(object sender, RoutedEventArgs e)
         {
 
-            int fRet = 1;
-            string filepath = _program.ImageBoard.Blocks[0].Filename;
-            Bitmap bmp = new Bitmap(filepath);
-            if (bmp != null)
-            {
-
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                using (Image<Bgr, byte> src = bmp.ToImage<Bgr, byte>())
-                using (Image<Bgr, byte> dst = bmp.ToImage<Bgr, byte>())
-                {
-                    var pFOV = _program.FOVs[0];
-                    IEnumerable<SMD> pSMDs = pFOV.SMDs.Where(x => x.IsEnabled == true);
-                    if (pSMDs == null)
-                    {
-                        fRet = -1;
-                    }
-                    else
-                    {
-                        System.Windows.Point offset = GetOffsetROI(pFOV, src);
-                        foreach (SMD pSMD in pSMDs)
-                        {
-                            Rectangle offsetROI = new Rectangle
-                            {
-                                X = pSMD.ROI.Rectangle.X + (int)offset.X,
-                                Y = pSMD.ROI.Rectangle.Y + (int)offset.Y,
-                                Width = pSMD.ROI.Rectangle.Width,
-                                Height = pSMD.ROI.Rectangle.Height
-                            };
-                            src.ROI = offsetROI;
-                            dst.ROI = offsetROI;
-                            CvResult cvRet = CheckSMD(pSMD, src.Copy(), dst);
-                            if (cvRet.Result)
-                            {
-                                Console.WriteLine($"Check SMD_{pSMD.Id} : OK");
-                            }
-                            if (!cvRet.Result)
-                            {
-                                Console.WriteLine($"Check SMD_{pSMD.Id} : NG");
-                            }
-                            src.ROI = new System.Drawing.Rectangle();
-                            dst.ROI = new System.Drawing.Rectangle();
-                            imbAutoRun.Image = dst.Clone();
-                        }
-                        stopwatch.Stop();
-                        lblCircleTime.Content = "Circle Time: " + stopwatch.Elapsed;
-                    }
-                }
-            }
         }
 
         private void ShowFOVBitmap(CameraMode mode, Bitmap bmp)
@@ -462,6 +528,31 @@ namespace Foxconn.TestUI
             newWindow.Show();
 
 
+        }
+    }
+
+    public class FOVResult
+    {
+        private FOVType _type = FOVType.Unknow;
+        private int _result = -1;
+        private Image<Bgr, byte> _image = null;
+
+        public FOVType Type
+        {
+            get => _type;
+            set => _type = value;
+        }
+
+        public int Result
+        {
+            get => _result;
+            set => _result = value;
+        }
+
+        public Image<Bgr, byte> Image
+        {
+            get => _image;
+            set => _image = value;
         }
     }
 }

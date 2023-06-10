@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foxconn.TestUI", "Foxconn.TestUI\Foxconn.TestUI.csproj", "{4051F904-EEC2-461D-B1A5-44F1A0C452A1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foxconn.UI", "..\Foxconn.UI\Foxconn.UI.csproj", "{DD9690BB-A6C4-4E74-ACEF-A34A78136679}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foxconn.UI", "..\Foxconn.UI\Foxconn.UI.csproj", "{2A42EBDC-5AF4-46ED-B10A-4B48CF6006F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{4051F904-EEC2-461D-B1A5-44F1A0C452A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4051F904-EEC2-461D-B1A5-44F1A0C452A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4051F904-EEC2-461D-B1A5-44F1A0C452A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD9690BB-A6C4-4E74-ACEF-A34A78136679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD9690BB-A6C4-4E74-ACEF-A34A78136679}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD9690BB-A6C4-4E74-ACEF-A34A78136679}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD9690BB-A6C4-4E74-ACEF-A34A78136679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A42EBDC-5AF4-46ED-B10A-4B48CF6006F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A42EBDC-5AF4-46ED-B10A-4B48CF6006F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A42EBDC-5AF4-46ED-B10A-4B48CF6006F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A42EBDC-5AF4-46ED-B10A-4B48CF6006F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

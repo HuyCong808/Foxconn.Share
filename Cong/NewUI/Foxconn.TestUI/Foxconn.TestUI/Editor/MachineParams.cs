@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Foxconn.TestUI.Editor
 {
-    public class MachineParams 
+    public class MachineParams
     {
         private string _filePath = @$"{AppDomain.CurrentDomain.BaseDirectory}params\MachineParams.json";
         private CameraParams _camera1 = new CameraParams();
@@ -137,6 +137,7 @@ namespace Foxconn.TestUI.Editor
             private string _portName = string.Empty;
             private string _undo = "UNDO";
             private string _user = "125H";
+            private string _format = "";
 
             public bool IsEnabled
             {
@@ -160,6 +161,11 @@ namespace Foxconn.TestUI.Editor
             {
                 get => _user;
                 set => _user = value;
+            }
+            public string Format
+            {
+                get => _format;
+                set => _format = value;
             }
 
         }

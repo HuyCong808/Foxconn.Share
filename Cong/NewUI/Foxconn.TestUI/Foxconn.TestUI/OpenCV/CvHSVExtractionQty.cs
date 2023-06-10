@@ -3,18 +3,21 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Foxconn.TestUI.Editor;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
-
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Foxconn.TestUI.OpenCV
 {
-    public class CvHSVExtraction : NotifyProperty
+    public class CvHSVExtractionQty : NotifyProperty
     {
         private ValueRange _hue { get; set; }
         private ValueRange _saturation { get; set; }
         private ValueRange _value { get; set; }
         private ValueRange _OKRange { get; set; }
-        private double _score { get; set; }
+
         private bool _isEnabledReverseSearch { get; set; }
 
 
@@ -37,7 +40,6 @@ namespace Foxconn.TestUI.OpenCV
                 NotifyPropertyChanged(nameof(Saturation));
             }
         }
-
         public ValueRange Value
         {
             get => _value;
@@ -47,11 +49,7 @@ namespace Foxconn.TestUI.OpenCV
                 NotifyPropertyChanged(nameof(Value));
             }
         }
-        public bool IsEnabledReserveSearch
-        {
-            get => _isEnabledReverseSearch;
-            set => _isEnabledReverseSearch = value;
-        }
+
         public ValueRange OKRange
         {
             get => _OKRange;
@@ -62,6 +60,7 @@ namespace Foxconn.TestUI.OpenCV
             }
         }
 
+       
         public bool IsEnabledReverseSearch
         {
             get => _isEnabledReverseSearch;
@@ -72,12 +71,12 @@ namespace Foxconn.TestUI.OpenCV
             }
         }
 
-        public CvHSVExtraction()
+        public CvHSVExtractionQty()
         {
             _hue = new ValueRange(0, 150, 0, 255);
             _saturation = new ValueRange(0, 200, 0, 255);
             _value = new ValueRange(50, 255, 0, 255);
-            _OKRange = new ValueRange(80, 100, 0, 100);
+            _OKRange = new ValueRange(80, 100, 0, 2448 * 2048);
             _isEnabledReverseSearch = false;
         }
 
@@ -90,8 +89,8 @@ namespace Foxconn.TestUI.OpenCV
                 {
                     int countMask = src.Width * src.Height;
                     int countHSV = CvInvoke.CountNonZero(mask);
-                    double score = (double)countHSV / countMask;
-                    if (IsMatched(score, _OKRange))
+                    cvRet.Qty = countHSV;
+                    if (IsMatched(countHSV, _OKRange))
                     {
                         cvRet.Result = _isEnabledReverseSearch ? false : true;
                     }
@@ -99,8 +98,7 @@ namespace Foxconn.TestUI.OpenCV
                     {
                         cvRet.Result = _isEnabledReverseSearch ? true : false;
                     }
-                    cvRet.Score = score;
-                    cvRet.Qty = countHSV;
+                  
                     if (dst != null)
                     {
                         DrawResult(ref dst, cvRet.Result);
@@ -109,7 +107,7 @@ namespace Foxconn.TestUI.OpenCV
             }
             catch (Exception ex)
             {
-//AutoRun.Current.UpdateLogError(ex.Message);
+           //     AutoRun.Current.UpdateLogError(ex.Message);
             }
             finally
             {
@@ -127,8 +125,8 @@ namespace Foxconn.TestUI.OpenCV
                 {
                     int countMask = src.Width * src.Height;
                     int countHSV = CvInvoke.CountNonZero(mask);
-                    double score = (double)countHSV / countMask;
-                    if (IsMatched(score, _OKRange))
+                    cvRet.Qty = countHSV;
+                    if (IsMatched(countHSV, _OKRange))
                     {
                         cvRet.Result = _isEnabledReverseSearch ? false : true;
                     }
@@ -136,8 +134,6 @@ namespace Foxconn.TestUI.OpenCV
                     {
                         cvRet.Result = _isEnabledReverseSearch ? true : false;
                     }
-                    cvRet.Score = score;
-                    cvRet.Qty = countHSV;
                     if (dst != null)
                     {
                         DrawResult(ref dst, cvRet.Result);
@@ -152,7 +148,7 @@ namespace Foxconn.TestUI.OpenCV
             }
             catch (Exception ex)
             {
-              //  AutoRun.Current.UpdateLogError(ex.Message);
+               // AutoRun.Current.UpdateLogError(ex.Message);
             }
             finally
             {
@@ -213,7 +209,6 @@ namespace Foxconn.TestUI.OpenCV
 
         private bool IsMatched(double s, ValueRange OKrange)
         {
-            s *= 100;
             if (OKrange.Lower < OKrange.Upper)
             {
                 if (s >= OKrange.Lower && s <= OKrange.Upper)

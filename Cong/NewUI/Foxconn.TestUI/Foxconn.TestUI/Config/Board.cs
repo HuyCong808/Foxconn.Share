@@ -1,74 +1,238 @@
-﻿using System.Collections.Generic;
+﻿using Emgu.CV;
+using Emgu.CV.Structure;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Foxconn.TestUI.Config
 {
     public class Board
     {
-        public string Name { get; set; }
-        public List<FOV> FOVs { get; set; }
+        private string _name { get; set; }
+        private Image _imageBoard { get; set; }
+        private List<FOV> _FOVs { get; set; }
+
+        public string Name
+        {
+            get => _name;
+            set => _name = value;
+        }
+
+        public Image ImageBoard
+        {
+            get => _imageBoard;
+            set => _imageBoard = value;
+        }
+
+        public List<FOV> FOVs
+        {
+            get => _FOVs;
+            set => _FOVs = value;
+        }
 
         public Board()
         {
-            Name = "";
-            FOVs = new List<FOV>();
+            _name = "";
+            _imageBoard = new Image();
+            _FOVs = new List<FOV>();
         }
+
+        public void LoadProgram()
+        {
+            try
+            {
+                Board _program = null;
+                string _filePath = @"data\board.json";
+                if (File.Exists(_filePath))
+                {
+                    Board data = JsonConvert.DeserializeObject<Board>(File.ReadAllText(_filePath));
+                    if (data != null)
+                    {
+                        _program = data;
+                    }
+
+                    //if (_program.ImageBoard != null)
+                    //{
+                    //    for (int i = 0; i < _program.ImageBoard.Blocks.Count; i++)
+                    //    {
+                    //        bool loaded = _program.ImageBoard.Blocks[i].Load($"data\\images\\image_{_imageBoard.Blocks[i].Name}.png");
+                    //        if (!loaded)
+                    //        {
+                    //            _program.ImageBoard.Dispose();
+                    //        }
+                    //    }
+                    //}
+                }
+                else
+                {
+                    _program = new Board();
+                    _program.Name = "DEFAULT_PROGRAM";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+
+
+        public void SaveProgram()
+        {
+            try
+            {
+                string _filePath = @"data\board.json";
+                Image<Bgr, byte>[] imageArray = new Image<Bgr, byte>[0];
+                if (_imageBoard != null)
+                {
+                    imageArray = new Image<Bgr, byte>[_imageBoard.Blocks.Count];
+                    for (int i = 0; i < _imageBoard.Blocks.Count; i++)
+                    {
+                        _imageBoard.Blocks[i].Save($"data\\images\\image_{_imageBoard.Blocks[i].Name}.png");
+                        imageArray[i] = _imageBoard.Blocks[i].Image;
+                        _imageBoard.Blocks[i].Image = null;
+                    }
+                }
+                else
+                {
+                    _imageBoard = null;
+                }
+                string data = JsonConvert.SerializeObject(this);
+                File.WriteAllText(_filePath, data);
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
 
         public void AddFOV()
         {
             int id = FOVs.Count;
-            FOV item = new FOV()
+            FOV fovitem = new FOV()
             {
                 ID = id,
                 Name = $"FOV_{id}"
             };
-            FOVs.Add(item);
+            FOVs.Add(fovitem);
+            AddImageBlock(fovitem.ImageBlockName);
         }
 
-        public void AddSMD(int fovId)
+        public void RemoveFOV(FOV item)
         {
-            var currentFOV = FOVs.Find(x => x.ID == fovId);
+            FOVs.Remove(item);
+            RemoveImageBlock(item.ImageBlockName);
+            SortFOV();
+        }
+
+        public void AddSMD(int fovID)
+        {
+            var currentFOV = FOVs.Find(x => x.ID == fovID);
             if (currentFOV != null)
             {
-                var newId = currentFOV.SMDs.Count;
-                var smd = new SMD()
+                int id = currentFOV.SMDs.Count;
+                SMD smditem = new SMD()
                 {
-                    Id = newId,
-                    Name = $"SMD_{newId}"
+                    Id = id,
+                    Name = $"SMD_{id}",
+                    FOV_ID = fovID,
                 };
-                currentFOV.SMDs.Add(smd);
+                currentFOV.SMDs.Add(smditem);
             }
+        }
+
+        public void RemoveSMD(SMD smd)
+        {
+            _FOVs[smd.FOV_ID].SMDs.Remove(smd);
+            SortSMD(smd.FOV_ID);
         }
 
         public void SortFOV()
         {
-            //int i=0;
-            //foreach(var fov in FOVs)
-            //{
-            //    fov.Id = i;
-            //    fov.Name = $"FOV_{i}";
-            //    ++i;
-            //}
-
-            for (int j = 0; j < FOVs.Count; j++)
+            for (int i = 0; i < FOVs.Count; i++)
             {
-                FOVs[j].ID = j;
-                FOVs[j].Name = $"FOV_{j}";
+                FOVs[i].ID = i;
+                FOVs[i].Name = $"FOV_{i}";
             }
         }
 
-        public void SortSMD(int fovid)
+        public void SortSMD(int fovID)
         {
-            var cunrentFOV = FOVs.Find(x => x.ID == fovid);
+            FOV currentFOV = FOVs.Find(x => x.ID == fovID);
             int i = 0;
-            if (cunrentFOV != null)
+            if (currentFOV != null)
             {
-                foreach (var smd in FOVs[fovid].SMDs)
+                foreach (var smd in currentFOV.SMDs)
                 {
                     smd.Id = i;
                     smd.Name = $"SMD_{i}";
-                    ++i;
+                    i++;
                 }
             }
         }
+
+
+        public void AddImageBlock(string blockName)
+        {
+            ImageBlock block = _imageBoard.Blocks.Find(x => x.Name == blockName);
+            if (block == null)
+            {
+                ImageBlock item = new ImageBlock(0, blockName, null);
+                _imageBoard.Blocks.Add(item);
+            }
+        }
+
+        public void RemoveImageBlock(string blockName)
+        {
+            ImageBlock block = _imageBoard.Blocks.Find(x => x.Name == blockName);
+            if (block != null)
+            {
+                _imageBoard.Blocks.Remove(block);
+            }
+        }
+
+        public Image<Bgr, byte> GetImageBlock(string blockName)
+        {
+            ImageBlock block = _imageBoard.Blocks.Find(x => x.Name == blockName);
+            if (block != null)
+            {
+                return block.Image;
+            }
+            return null;
+        }
+
+        public Image<Bgr, byte> GetImageBlock(SMD itemSMD)
+        {
+            foreach (var itemFOV in FOVs)
+            {
+                if (itemFOV.ID == itemSMD.FOV_ID)
+                {
+                    ImageBlock block = _imageBoard.Blocks.Find(x => x.Name == itemFOV.ImageBlockName);
+                    if (block != null)
+                    {
+                        return block.Image;
+                    }
+                    break;
+                }
+            }
+            return null;
+        }
+
+        public void SetImageBlock(string blockName, System.Drawing.Bitmap bmp)
+        {
+            ImageBlock block = _imageBoard.Blocks.Find(x => x.Name == blockName);
+            if (block != null)
+            {
+                block.Image = bmp.ToImage<Bgr, byte>();
+            }
+        }
+
+
+
     }
 }

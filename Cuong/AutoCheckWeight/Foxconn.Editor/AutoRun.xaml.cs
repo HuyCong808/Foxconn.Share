@@ -36,9 +36,6 @@ namespace Foxconn.Editor
         private Image<Bgr, byte> _image { get; set; }
         private VideoCapture _capture = null;
         private Mat _frame;
-
-
-
         private string _SN { get; set; }
         public string CycleTime { get; set; }
         public string BoardName { get; set; }

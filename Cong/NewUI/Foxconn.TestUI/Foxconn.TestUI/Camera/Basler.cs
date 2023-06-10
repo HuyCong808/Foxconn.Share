@@ -1,5 +1,4 @@
-﻿using Foxconn.TestUI.Enums;
-namespace Foxconn.TestUI.Camera
+﻿namespace Foxconn.TestUI.Camera
 {
     public class Basler : ICamera
     {

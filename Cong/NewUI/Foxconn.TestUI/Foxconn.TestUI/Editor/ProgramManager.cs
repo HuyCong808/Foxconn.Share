@@ -3,16 +3,14 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Foxconn.TestUI.Editor
 {
     public class ProgramManager
     {
-        private string _filePath = @$"data\board.json";
         private Board _program = new Board();
+        public string _filePath = @"data\board.json";
+        private Image _imageBoard { get; set; }
         public Board Program
         {
             get => _program;
@@ -22,16 +20,16 @@ namespace Foxconn.TestUI.Editor
             }
         }
 
-        private static ProgramManager _instance;
-        public static ProgramManager Instance
+        private static ProgramManager _current;
+        public static ProgramManager Current
         {
             get
             {
-                if (_instance == null)
+                if (_current == null)
                 {
-                    _instance = new ProgramManager();
+                    _current = new ProgramManager();
                 }
-                return _instance;
+                return _current;
             }
         }
 
@@ -39,23 +37,8 @@ namespace Foxconn.TestUI.Editor
         {
             try
             {
-                var lst = new List<string>
-                {
-                "data",
-                "docs",
-                "logs",
-                "params",
-                "temp"
-                };
-                foreach (var dir in lst)
-                {
-                    if (!Directory.Exists(dir))
-                    {
-                        Directory.CreateDirectory(dir);
-                    }
-                }
-
-                // string filename = @"data\board.json";
+                ProjectLayout.Init();
+                // _program.LoadProgram();
                 if (File.Exists(_filePath))
                 {
                     Board data = JsonConvert.DeserializeObject<Board>(File.ReadAllText(_filePath));
@@ -63,12 +46,22 @@ namespace Foxconn.TestUI.Editor
                     {
                         _program = data;
                     }
+                    if (_program.ImageBoard != null)
+                    {
+                        for (int i = 0; i < _program.ImageBoard.Blocks.Count; i++)
+                        {
+                            bool loaded = _program.ImageBoard.Blocks[i].Load($"data\\images\\image_{_program.ImageBoard.Blocks[i].Name}.png");
+                            if (!loaded)
+                            {
+                                _program.ImageBoard.Dispose();
+                            }
+                        }
+                    }
                 }
                 else
                 {
                     _program = new Board();
                     _program.Name = "DEFAULT_PROGRAM";
-                    SaveProgram();
                 }
             }
             catch (Exception ex)
@@ -81,8 +74,7 @@ namespace Foxconn.TestUI.Editor
         {
             try
             {
-                string data = JsonConvert.SerializeObject(_program);
-                File.WriteAllText(_filePath, data);
+                _program.SaveProgram();
             }
             catch (Exception ex)
             {

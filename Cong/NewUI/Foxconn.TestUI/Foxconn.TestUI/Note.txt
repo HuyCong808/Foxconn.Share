@@ -1,5 +1,34 @@
-﻿MachineParams => doc file config
-DeviceManager => open , ping , close => device
-
-Loadconfig -> xong
-thuat toan barcode -> 
+﻿ Thread.CurrentThread.IsBackground = true;
+            Thread.CurrentThread.Name = "Auto run thread.";
+            FOVType pCheck = FOVType.Unknow;
+            int nRet = 0;
+            while (true)
+            {
+                try
+                {
+                    pCheck = FOVType.L1_PCB1;
+                    if (GetSignal("S200"))
+                    {
+                        Console.WriteLine($"AutoRunManager =====> {pCheck}");
+                        nRet = CheckType(pCheck);
+                        CheckResults(pCheck);
+                        // StatusBar
+                    }
+                    pCheck = FOVType.L1_PCB2;
+                    if (GetSignal("S202"))
+                    {
+                        Console.WriteLine($"AutoRunManager =====> {pCheck}");
+                        nRet = CheckType(pCheck);
+                        CheckResults(pCheck);
+                        // StatusBar
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    Thread.Sleep(100);
+                }
+            }

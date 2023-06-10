@@ -9,10 +9,14 @@
 
   <ItemGroup>
     <None Remove="C:\Users\Cong Auto\.nuget\packages\nlog.config\4.7.15\contentFiles\any\any\NLog.config" />
+    <None Remove="C:\Users\HaHuyCong\.nuget\packages\nlog.config\4.7.10\contentFiles\any\any\NLog.config" />
+    <None Remove="C:\Users\HaHuyCong\.nuget\packages\nlog.config\4.7.15\contentFiles\any\any\NLog.config" />
     <None Remove="Icons\addFOV.png" />
     <None Remove="Icons\addSMD.png" />
     <None Remove="Icons\camera_100px.png" />
     <None Remove="Icons\delete.png" />
+    <None Remove="Icons\deleteFOV.png" />
+    <None Remove="Icons\deleteSMD.png" />
     <None Remove="Icons\OpenImage.png" />
     <None Remove="Icons\rectangle.png" />
     <None Remove="Icons\refresh.png" />
@@ -29,7 +33,7 @@
     <PackageReference Include="HalconDotNet" Version="18.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.0.5" />
-    <PackageReference Include="NLog.Config" Version="4.7.15" />
+    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
     <PackageReference Include="System.IO.Ports" Version="7.0.0" />
     <PackageReference Include="ZXing.Net" Version="0.16.6" />
   </ItemGroup>
@@ -39,7 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\TestUI\Foxconn.UI\Foxconn.UI.csproj" />
     <ProjectReference Include="..\..\Foxconn.UI\Foxconn.UI.csproj" />
   </ItemGroup>
 
@@ -53,7 +56,8 @@
     <Resource Include="Icons\addFOV.png" />
     <Resource Include="Icons\addSMD.png" />
     <Resource Include="Icons\camera_100px.png" />
-    <Resource Include="Icons\delete.png" />
+    <Resource Include="Icons\deleteFOV.png" />
+    <Resource Include="Icons\deleteSMD.png" />
     <Resource Include="Icons\OpenImage.png" />
     <Resource Include="Icons\rectangle.png" />
     <Resource Include="Icons\refresh.png" />
