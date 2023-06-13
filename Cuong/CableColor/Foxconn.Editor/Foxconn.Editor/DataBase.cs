@@ -21,10 +21,6 @@ namespace Foxconn.Editor
         }
 
 
-        //      public static DataBase Current => __current;
-        //      private static DataBase __current = new DataBase();
-        ////      public DataBase() { }
-        //      static DataBase() { }
 
         public void Save()
         {
@@ -75,15 +71,18 @@ namespace Foxconn.Editor
         {
             _data.Remove(sn);
         }
-
     }
 
     public class Data
     {
         public string SN { get; set; }
+        public bool IsStep1 { get; set; }
+        public bool IsStep2 { get; set; }
         public Data()
         {
             SN = "";
+            IsStep1 = false;
+            IsStep2 = false;
         }
     }
 }

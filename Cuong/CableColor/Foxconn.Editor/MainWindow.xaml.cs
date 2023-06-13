@@ -806,7 +806,7 @@ namespace Foxconn.Editor
                 MachineParams param = MachineParams.Current;
                 if (param.Terminal.IsEnabled)
                 {
-                    device.Terminal.SendData(message);
+                    device.Terminal.SerialWriteData(message);
                     Console.WriteLine("Sent to Serial Port: " + message);
                     MessageBox.Show("Sent to Serial Port: " + message);
                 }

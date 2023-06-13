@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
@@ -8,15 +9,13 @@ namespace Foxconn.Editor
 {
     public class SLMP
     {
-
         private readonly object _lockObj = new object();
         private const int _writeTimeout = 500;
         private const int _readTimeout = 500;
         private const int _delay = 10;
         private const int _times = 10;
-
-        private string _host { get; set; }
-        private int _port { get; set; }
+        protected string _host { get; set; }
+        protected int _port { get; set; }
         private string _subHeader { get; set; }
         private string _network { get; set; }
         private string _station { get; set; }
@@ -44,6 +43,11 @@ namespace Foxconn.Editor
 
         public SLMP()
         {
+            Init();
+        }
+
+        private void Init()
+        {
             _subHeader = "5000";
             _network = "00";
             _station = "FF";
@@ -57,7 +61,12 @@ namespace Foxconn.Editor
             _listsp = "XYMZDLFVBSW";
             _dateTime = DateTime.Now;
         }
-
+        /// <summary>
+        /// Ping to device
+        /// </summary>
+        /// <param name="host"></param>
+        /// <param name="port"></param>
+        /// <returns></returns>
         public int Ping(string host, int port)
         {
             try
@@ -93,7 +102,12 @@ namespace Foxconn.Editor
                 _dateTime = DateTime.Now;
             }
         }
-
+        /// <summary>
+        /// Send command
+        /// </summary>
+        /// <param name="command">Command string</param>
+        /// <param name="result">result</param>
+        /// <returns>0: Success, -1: Fail</returns>
         private int SendCommand(string command, ref string result)
         {
             try
@@ -105,6 +119,7 @@ namespace Foxconn.Editor
                     {
                         Thread.Sleep(_delay - elapsed);
                     }
+
                     using (TcpClient tcpClient = new TcpClient(_host, _port))
                     {
                         tcpClient.SendTimeout = _writeTimeout;
@@ -131,12 +146,23 @@ namespace Foxconn.Editor
                 _dateTime = DateTime.Now;
             }
         }
-
+        /// <summary>
+        /// Convert 32
+        /// </summary>
+        /// <param name="low"></param>
+        /// <param name="high"></param>
+        /// <returns></returns>
         private int Convert32(int low, int high)
         {
             return high << 16 | low;
         }
-
+        /// <summary>
+        /// Get value from device
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="value"></param>
+        /// <param name="times"></param>
+        /// <returns>return number of device want get value, -1: Fail</returns>
         public int GetBitDevice(string device, ref int value)
         {
             try
@@ -182,7 +208,12 @@ namespace Foxconn.Editor
                 return -1;
             }
         }
-
+        /// <summary>
+        /// Get value from 32 bit register
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public int ReadDeviceBlock(string device, ref int value)
         {
             int lowValue = -1;
@@ -205,7 +236,19 @@ namespace Foxconn.Editor
             }
             return -1;
         }
-
+        /// <summary>
+        /// Get value from 32 bit register
+        /// </summary>
+        /// <example>
+        /// Example for get 32 bit device
+        /// <code>
+        /// int result = ReadDeviceBlock("D8340", "D8341", ref value);
+        /// </code>
+        /// </example>
+        /// <param name="lowDevice"></param>
+        /// <param name="highDevice"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public int ReadDeviceBlock(string lowDevice, string highDevice, ref int value)
         {
             int lowValue = -1;
@@ -226,7 +269,13 @@ namespace Foxconn.Editor
             }
             return -1;
         }
-
+        /// <summary>
+        /// Set value to device
+        /// </summary>
+        /// <param name="device">Register of PLC</param>
+        /// <param name="value">16bit value</param>
+        /// <param name="times"></param>
+        /// <returns></returns>
         public int SetBitDevice(string device, int value)
         {
             try
@@ -310,7 +359,12 @@ namespace Foxconn.Editor
                 return -1;
             }
         }
-
+        /// <summary>
+        /// Set value for 32 bit register
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public int WriteDeviceBlock(string device, int value)
         {
             string lowDevice = device;
@@ -330,7 +384,19 @@ namespace Foxconn.Editor
             }
             return -1;
         }
-
+        /// <summary>
+        /// Set value for 32 bit register
+        /// </summary>
+        /// <example>
+        /// Example for get 32 bit device
+        /// <code>
+        /// int result = WriteDeviceBlock("D8340", "D8341", value);
+        /// </code>
+        /// </example>
+        /// <param name="lowDevice"></param>
+        /// <param name="highDevice"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public int WriteDeviceBlock(string lowDevice, string highDevice, int value)
         {
             ushort highValue = (ushort)(value >> 16);
@@ -348,7 +414,11 @@ namespace Foxconn.Editor
             }
             return -1;
         }
-
+        /// <summary>
+        /// Run
+        /// </summary>
+        /// <param name="times"></param>
+        /// <returns></returns>
         public int Run()
         {
             try
@@ -388,7 +458,11 @@ namespace Foxconn.Editor
                 return -1;
             }
         }
-
+        /// <summary>
+        /// Pause
+        /// </summary>
+        /// <param name="times"></param>
+        /// <returns></returns>
         public int Pause()
         {
             try
@@ -428,7 +502,11 @@ namespace Foxconn.Editor
                 return -1;
             }
         }
-
+        /// <summary>
+        /// Reset
+        /// </summary>
+        /// <param name="times"></param>
+        /// <returns></returns>
         public int Reset()
         {
             try
@@ -468,7 +546,11 @@ namespace Foxconn.Editor
                 return -1;
             }
         }
-
+        /// <summary>
+        /// Stop
+        /// </summary>
+        /// <param name="times"></param>
+        /// <returns></returns>
         public int Stop()
         {
             try
@@ -515,79 +597,78 @@ namespace Foxconn.Editor
             int nRet = GetBitDevice(device, ref value);
             if (value == 1)
             {
-                LogInfoMessage($"Get {device}: {value}");
+                Console.WriteLine($"Get {device}: {value}");
                 nRet = SetBitDevice(device, 0);
                 if (nRet == 1)
                 {
-                    LogInfoMessage($"Set {device}: 0");
+                    Trace.WriteLine($"Set {device}: 0");
                 }
                 else
                 {
-                    LogInfoMessage($"Set {device}: {value} (ERROR)");
+                    Trace.WriteLine($"Set {device}: {value} (ERROR)");
                 }
                 return nRet;
             }
             return -1;
         }
 
-
         public int GetDevice(string device, ref int value, bool saveLogs = false)
         {
             int nRet = GetBitDevice(device, ref value);
             if (saveLogs)
             {
-                LogInfoMessage($"Get {device}: {value}");
+                Trace.WriteLine($"Get {device}: {value}");
             }
             return nRet;
         }
 
-        public int GetDevice32bit(string device, ref int value, bool saveLogs = false)
+        public int GetDevice32Bit(string device, ref int value, bool saveLogs = false)
         {
             int nRet = ReadDeviceBlock(device, ref value);
             if (saveLogs)
             {
-                LogInfoMessage($"Get {device}: {value}");
+                Trace.WriteLine($"Get {device}: {value}");
             }
             return nRet;
         }
 
-        public int SetDevice(string device, ref int value)
+        public int SetDevice(string device, int value)
         {
             int nRet = SetBitDevice(device, value);
             if (nRet == 1)
             {
-                LogInfoMessage($"Set {device}: {value}");
+                Trace.WriteLine($"Set {device}: {value}");
             }
             else
             {
-                LogInfoMessage($"Set {device}: {value} Error");
+                Trace.WriteLine($"Set {device}: {value} (ERROR)");
             }
             return nRet;
         }
 
-        public int SetDevice32Bit(string device, ref int value)
+        public int SetDevice32Bit(string device, int value)
         {
             int nRet = WriteDeviceBlock(device, value);
             if (nRet == 1)
             {
-                LogInfoMessage($"Set {device}: {value}");
+                Trace.WriteLine($"Set {device}: {value}");
             }
             else
             {
-                LogInfoMessage($"Set {device}: {value} Error");
+                Trace.WriteLine($"Set {device}: {value} (ERROR)");
             }
             return nRet;
         }
-        public void LogInfoMessage(string message)
+
+        public void LogInfo(string message)
         {
-            Console.WriteLine(message);
             Logger.Current.Info(message);
         }
 
-        public void LogErrorMessage(string message)
+        public void LogError(string message)
         {
-            Console.WriteLine(message);
             Logger.Current.Error(message);
         }
+
     }
 }

@@ -230,12 +230,12 @@ namespace Foxconn.Editor
                         Console.WriteLine("DeviceManager.Open: Terminal opened");
                         if (param.Terminal.Undo != "")
                         {
-                            nRet = device.Terminal.SendData(param.Terminal.Undo);
+                            nRet = device.Terminal.SerialWriteData(param.Terminal.Undo);
                             Console.WriteLine(param.Terminal.Undo);
                         }
                         if (param.Terminal.User != "")
                         {
-                            nRet = device.Terminal.SendData(param.Terminal.User);
+                            nRet = device.Terminal.SerialWriteData(param.Terminal.User);
                             Console.WriteLine(param.Terminal.User);
                         }
                     }

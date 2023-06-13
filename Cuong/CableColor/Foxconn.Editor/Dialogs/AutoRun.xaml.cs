@@ -207,43 +207,65 @@ namespace Foxconn.Editor.Dialogs
             NotifyPropertyChanged();
         }
 
-        public void AutoRunProcess()
+        private bool GetSignal(string device)
         {
-
-
-
-
-        }
-
-
-
-        private void imbCamera_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (imbImageBox1.Image != null)
+            if (_device.PLC1.GetFlag(device) == 1)
             {
-                double newZoom = imbImageBox1.ZoomScale * (e.Delta > 0 ? 1.2 : 0.8);
-                newZoom = Math.Max(0.5, Math.Min(5, newZoom)); // gioi han ti le zoom
-                imbImageBox1.SetZoomScale(newZoom, e.Location);
+                _device.PLC1.SetBitDevice(device, 0);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
-
-        private void imbCamera_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void SetResultToPLC(FOVType pCheck, int pResult) // set pass fail voi PLC
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-                imbImageBox1.SetZoomScale(1, e.Location);
-                imbImageBox1.AutoScrollOffset = new System.Drawing.Point(0, 0);
-            }
-        }
-
-        private void CheckResults(FOVType pCheck)
-        {
+            string pass = "S3";
+            string fail = "S4";
             switch (pCheck)
             {
                 case FOVType.Unknow:
                     break;
-                case FOVType.L1_PCB1:
+                case FOVType.L1_LABLE1:
+                    {
+                        // neu pass ->
+                        var f = _FOVResults.FirstOrDefault(x => x.FOVType == pCheck);
+                        {
+                            if (f != null)
+                            {
+                                _device.PLC1.SetDevice(pass, 1);
+                            }
+                            else
+                                _device.PLC1.SetDevice(fail, 1);
+                        }
+                        // neu fail ->
+                    }
+                    break;
+                case FOVType.L1_LABLE2:
+                    {
+                        // neu pass ->
+
+
+                        // neu fail ->
+
+
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CheckFOVResults(FOVType pCheck)
+        {
+
+            switch (pCheck)
+            {
+                case FOVType.Unknow:
+                    break;
+                case FOVType.L1_SOLDER_CAP1:
                     {
                         var f = _FOVResults.FirstOrDefault(x => x.FOVType == pCheck);
                         if (f != null)
@@ -252,7 +274,26 @@ namespace Foxconn.Editor.Dialogs
                         }
                         break;
                     }
-                case FOVType.L1_PCB2:
+                case FOVType.L1_SOLDER_CAP2:
+                    {
+                        var f = _FOVResults.FirstOrDefault(x => x.FOVType == pCheck);
+                        if (f != null)
+                        {
+                            //   SetResultToPLC(pCheck, f.Result);
+
+                        }
+                        break;
+                    }
+                case FOVType.L2_SOLDER_CAP1:
+                    {
+                        var f = _FOVResults.FirstOrDefault(x => x.FOVType == pCheck);
+                        if (f != null)
+                        {
+                            //   SetResultToPLC(pCheck, f.Result);
+                        }
+                        break;
+                    }
+                case FOVType.L2_SOLDER_CAP2:
                     {
                         var f = _FOVResults.FirstOrDefault(x => x.FOVType == pCheck);
                         if (f != null)
@@ -263,6 +304,484 @@ namespace Foxconn.Editor.Dialogs
                     }
             }
         }
+
+
+
+        public void AutoRunProcess()
+        {
+            Thread.CurrentThread.IsBackground = true;
+            Thread.CurrentThread.Name = "Auto run thread.";
+            string flagLane1 = "S200";
+            string flagLane2 = "S202";
+            string flagL1_LABLE1 = "S50";
+            string flagL1_LABLE2 = "S51";
+            string flagL1_COLOR1 = "S52";
+            string flagL1_COLOR2 = "S53";
+            string flagL1_SOLDER_CAP1 = "S100";
+            string flagL1_SOLDER_CAP2 = "S101";
+
+            string flagL2_LABLE1 = "S250";
+            string flagL2_LABLE2 = "S251";
+            string flagL2_COLOR1 = "S252";
+            string flagL2_COLOR2 = "S253";
+            string flagL2_SOLDER_CAP1 = "S300";
+            string flagL2_SOLDER_CAP2 = "S301";
+
+            string flagL1_End = "S201";
+            string flagL2_End = "S203";
+
+            while (_loopWorker.WaitStopSignal(100))
+            {
+                try
+                {
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    UpdateStatusControl("Processing...", -1);
+                    ShowFOVImage(CameraMode.Top, null, FOVType.Unknow);
+                    int step = 100 / 12;
+
+                    if (GetSignal(flagL1_LABLE1))
+                    {
+                        LogInfo($"AutoRunProcess =====> {FOVType.L2_LABLE1}");
+                        UpdateStatusControl($"{FOVType.L2_LABLE1}", step * 1);
+                        int nRet = CheckType(FOVType.L2_LABLE1);
+                        string message = nRet == 1 ? $"{FOVType.L2_LABLE1}: Pass" : $"{FOVType.L2_LABLE1}: Fail";
+                        //
+                        CheckFOVResult(FOVType.L1_LABLE1, FOVType.L1_COLOR1);
+                    }
+
+                    if (GetSignal(flagL1_LABLE2))
+                    {
+                        int nRet = CheckType(FOVType.L1_LABLE2);
+                        CheckFOVResult(FOVType.L1_LABLE2, FOVType.L1_COLOR2);
+                    }
+
+                    if (GetSignal(flagL1_COLOR1))
+                    {
+                        int nRet = CheckType(FOVType.L1_COLOR1);
+                        CheckFOVResult(FOVType.L1_LABLE1, FOVType.L1_COLOR1);
+                    }
+
+                    if (GetSignal(flagL1_COLOR2))
+                    {
+                        int nRet = CheckType(FOVType.L1_COLOR2);
+                        CheckFOVResult(FOVType.L1_LABLE2, FOVType.L1_COLOR2);
+                    }
+
+                    if (GetSignal(flagL1_SOLDER_CAP1))
+                    {
+                        int nRet = CheckType(FOVType.L1_SOLDER_CAP1);
+                    }
+
+                    if (GetSignal(flagL1_SOLDER_CAP2))
+                    {
+                        int nRet = CheckType(FOVType.L1_SOLDER_CAP2);
+                    }
+
+                    if (GetSignal(flagL2_LABLE1))
+                    {
+                        int nRet = CheckType(FOVType.L2_LABLE1);
+                    }
+
+                    if (GetSignal(flagL2_LABLE2))
+                    {
+                        int nRet = CheckType(FOVType.L2_LABLE2);
+                    }
+
+                    if (GetSignal(flagL2_COLOR1))
+                    {
+                        int nRet = CheckType(FOVType.L2_COLOR1);
+                    }
+
+                    if (GetSignal(flagL2_COLOR2))
+                    {
+                        int nRet = CheckType(FOVType.L2_COLOR2);
+                    }
+
+                    if (GetSignal(flagL2_SOLDER_CAP1))
+                    {
+                        int nRet = CheckType(FOVType.L2_SOLDER_CAP1);
+                    }
+
+                    if (GetSignal(flagL2_SOLDER_CAP2))
+                    {
+                        int nRet = CheckType(FOVType.L2_SOLDER_CAP2);
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    LogError(ex.Message);
+                }
+            }
+
+        }
+
+
+
+        private void imbImageBox1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (imbImageBox1.Image != null)
+            {
+                double newZoom = imbImageBox1.ZoomScale * (e.Delta > 0 ? 1.2 : 0.8);
+                newZoom = Math.Max(0.5, Math.Min(5, newZoom)); // gioi han ti le zoom
+                imbImageBox1.SetZoomScale(newZoom, e.Location);
+            }
+        }
+
+
+        private void imbImageBox1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                imbImageBox1.SetZoomScale(1, e.Location);
+                imbImageBox1.AutoScrollOffset = new System.Drawing.Point(0, 0);
+            }
+        }
+
+        private void imbImageBox2_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (imbImageBox2.Image != null)
+            {
+                double newZoom = imbImageBox2.ZoomScale * (e.Delta > 0 ? 1.2 : 0.8);
+                newZoom = Math.Max(0.5, Math.Min(5, newZoom)); // gioi han ti le zoom
+                imbImageBox1.SetZoomScale(newZoom, e.Location);
+            }
+        }
+
+        private void imbImageBox2_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                imbImageBox2.SetZoomScale(1, e.Location);
+                imbImageBox2.AutoScrollOffset = new System.Drawing.Point(0, 0);
+            }
+        }
+
+
+
+        //public int SendTerminalCheck(FOVType pLABLE)
+        //{
+        //    FOVResult rLABLE = _FOVResults.Find(x => x.FOVType == pLABLE);
+        //    if (_param.Terminal.IsEnabled)
+        //    {
+        //        string SN = rLABLE.SN;
+        //        string data = SN.PadRight(25) + "CHECK";
+        //        _device.Terminal.SerialWriteData(data);
+        //        bool isTimeout = false;
+        //        int timeout = 10000;
+        //        for (int i = 0; i < timeout / 400; i++)
+        //        {
+        //            string responseData = _device.Terminal.DataReceive;
+        //            if (responseData.Contains("Station1") && responseData.Contains("PASS"))
+        //            {
+        //                isTimeout = true;
+        //                return 1;
+        //            }
+        //            else if (responseData.Contains("Station2") && responseData.Contains("PASS"))
+        //            {
+        //                isTimeout = true;
+        //                return 2;
+        //            }
+        //            else if (responseData.Contains("ERRO"))
+        //            {
+        //                isTimeout = true;
+        //                return 0;
+        //            }
+        //            Thread.Sleep(25);
+        //        }
+        //        if (!isTimeout)
+        //        {
+        //            return -1;
+        //        }
+        //    }
+        //    return -2;
+        //}
+
+
+
+
+
+
+        public void CheckFOVResult(FOVType pLABLE, FOVType pCOLOR)
+        {
+            string pass = "S3"; // Pass
+            string fail = "S4"; // Fail
+            string step1 = "S8"; // Over Step1
+            string step2 = "S9"; // Over Step2
+            FOVResult rLABLE = _FOVResults.Find(x => x.FOVType == pLABLE);
+            FOVResult rCOLOR = _FOVResults.Find(x => x.FOVType == pCOLOR);
+
+            if (rLABLE != null && rCOLOR != null)
+            {
+                if (rLABLE.Result == 1 && rCOLOR.Result == 1)
+                {
+                    //Pass LABLE && PCB
+
+
+                    var item = _database.Data.Find(x => x.SN == rLABLE.SN && x.IsStep1 == true);
+                    if (item != null)
+                    {
+                        _device.PLC1.SetDevice(fail, 1);
+                        // STEP1 OVERED
+                        return;
+                    }
+
+                    if (_param.Terminal.IsEnabled)
+                    {
+                        string SN = rLABLE.SN;
+                        if (SN == string.Empty)
+                        {
+                            _device.PLC1.SetDevice(fail, 1);
+                            return;
+                        }
+                        string data = SN.PadRight(25) + "CHECK";
+                        _device.Terminal.SerialWriteData(data);
+                        bool isTimeout = false;
+                        int timeout = 4000;
+                        for (int i = 0; i < timeout / 400; i++)
+                        {
+                            string responeData = _device.Terminal.DataReceive;
+                            if (responeData.Contains("SOLDER_CAP") && responeData.Contains("PASS"))
+                            {
+                                isTimeout = true;
+                                _device.PLC1.SetDevice(pass, 1);
+                                // SOLDER_CAP
+                                return;
+                            }
+                            else if (responeData.Contains("") && responeData.Contains("PASS"))
+                            {
+                                isTimeout = true;
+                                //Send overstep before send pass/fail
+                                if (pLABLE == FOVType.L1_LABLE1 || pLABLE == FOVType.L1_LABLE2)
+                                {
+                                    _device.PLC1.SetDevice(step1, 1);
+                                }
+                                else if (pLABLE == FOVType.L2_LABLE1 || pLABLE == FOVType.L2_LABLE2)
+                                {
+                                    _device.PLC1.SetDevice(step2, 1);
+                                }
+
+                                _device.PLC1.SetDevice(pass, 1);
+                                //  """
+                                return;
+                            }
+
+                            else if (responeData.Contains("ERRO"))
+                            {
+                                isTimeout = true;
+                                _device.PLC1.SetDevice(fail, 1);
+                                // ERROR
+                                return;
+                            }
+                            Thread.Sleep(25);
+                        }
+
+                        if (!isTimeout)
+                        {
+                            _device.PLC1.SetDevice(fail, 1);
+                            // FAIL_TIMEOUT
+                        }
+                    }
+                    else
+                    {
+                        _device.PLC1.SetDevice(pass, 1);
+                        // PASS
+                    }
+                }
+                else
+                {
+
+                    //Fail Lable && COLOR
+                    if (_param.PLC1.IsEnabled)
+                    {
+                        string SN = rLABLE.SN;
+                        if (SN == string.Empty)
+                        {
+                            _device.PLC1.SetDevice(fail, 1);
+                            //Fail-SN
+                            return;
+                        }
+                        _device.PLC1.SetDevice(fail, 1);
+                        // Fail
+                    }
+
+                    else
+                    {
+                        _device.PLC1.SetDevice(fail, 1);
+                        //FAIL
+                    }
+                }
+            }
+            else
+            {
+                if (rLABLE != null)
+                {
+                    _device.PLC1.SetDevice(rLABLE.Result == 1 ? pass : fail, 1);
+                }
+                if (rCOLOR != null)
+                {
+                    _device.PLC1.SetDevice(rCOLOR.Result == 1 ? pass : fail, 1);
+                }
+            }
+        }
+
+
+        public void CheckFOVResult(FOVType pSOLDER_CAP)
+        {
+            string SN = string.Empty;
+            FOVType type;
+            if (pSOLDER_CAP == FOVType.L1_SOLDER_CAP1)
+            {
+                type = FOVType.L1_LABLE1;
+            }
+            else if (pSOLDER_CAP == FOVType.L1_SOLDER_CAP2)
+            {
+                type = FOVType.L1_LABLE2;
+            }
+            else if (pSOLDER_CAP == FOVType.L2_SOLDER_CAP1)
+            {
+                type = FOVType.L2_LABLE1;
+            }
+            else if (pSOLDER_CAP == FOVType.L2_SOLDER_CAP2)
+            {
+                type = FOVType.L1_LABLE2;
+            }
+            else
+            {
+                type = FOVType.Unknow;
+            }
+
+            FOVResult temp = _FOVResults.Find(x => x.FOVType == type);
+            if (temp != null)
+            {
+                SN = temp.SN;
+            }
+
+            string pass = "S3";
+            string fail = "S4";
+            string step1 = "S8"; // Over Step1
+            string step2 = "S9"; // Over Step2
+            if (SN == string.Empty)
+            {
+                _device.PLC1.SetDevice(fail, 1);
+                // FAIL-SN
+                return;
+            }
+
+            FOVResult result = _FOVResults.Find(x => x.FOVType == pSOLDER_CAP);
+            if (result != null)
+            {
+                if (result.Result == 1)
+                {
+                    //PASS SOLDER_CAP
+                    if (_param.Terminal.IsEnabled)
+                    {
+                        string data1 = SN.PadRight(25) + "OK";
+                        string data2 = SN.PadRight(25) + "CHECK";
+                        if (_database.Data.Find(x => x.SN == SN) != null)
+                        {
+                            _device.Terminal.SerialWriteData(data1);
+                            bool isTimeout = false;
+                            int timeout = 10000;
+                            for (int i = 0; i < timeout / 400; i++)
+                            {
+                                string respone = _device.Terminal.DataReceive;
+                                if (respone == data1 + "PASS")
+                                {
+                                    isTimeout = true;
+                                    _device.PLC1.SetDevice(step2, 1);
+                                    _device.PLC1.SetDevice(pass, 1);
+                                    // PASS
+                                    _database.RemoveData(_database.Data.Find(x => x.SN == SN)); // Delete SN in database
+                                    return;
+                                }
+                                else if (respone == data1 + "ERRO")
+                                {
+                                    isTimeout = true;
+                                    _device.PLC1.SetDevice(fail, 1);
+                                    // FAIL
+                                    return;
+                                }
+                                Thread.Sleep(25);
+                            }
+
+                            if (!isTimeout)
+                            {
+                                _device.PLC1.SetDevice(fail, 1);
+                                //FAIL-TIMEOUT
+                            }
+                        }
+                        else
+                        {
+                            _device.Terminal.SerialWriteData(data2);
+                            bool isTimeout = false;
+                            int timeout = 10000;
+                            for (int i = 0; i < timeout / 400; i++)
+                            {
+                                string responeData = _device.Terminal.DataReceive;
+                                if (responeData.Contains("SOLDER_CAP") && responeData == data1 + "PASS")
+                                {
+                                    isTimeout = true;
+                                    _device.PLC1.SetDevice(step1, 1);
+                                    _device.PLC1.SetDevice(pass, 1);
+                                    // PASS "SOLDER_CAP"
+                                    return;
+                                }
+                                else if (responeData.Contains("Staion2") && responeData == data1 + "PASS")
+                                {
+                                    isTimeout = true;
+                                    //Send overstep before send pass/fail
+                                    if (type == FOVType.L1_LABLE1 || type == FOVType.L1_LABLE2)
+                                    {
+                                        _device.PLC1.SetDevice(step1, 1);
+                                    }
+                                    else if (type == FOVType.L2_LABLE1 || type == FOVType.L2_LABLE2)
+                                    {
+                                        _device.PLC1.SetDevice(step2, 1);
+                                    }
+
+                                    _device.PLC1.SetDevice(pass, 1);
+                                    //  """
+                                    return;
+                                }
+                                Thread.Sleep(25);
+                            }
+                            if (!isTimeout)
+                            {
+                                _device.PLC1.SetDevice(fail, 1);
+                                // FAIL-TIMEOUT
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _device.PLC1.SetDevice(pass, 1);
+                        //PASS
+                    }
+                }
+                else
+                {
+                    //FAIL SOLDER_CAP
+                    if (_param.WorkerConfirm2)
+                    {
+                        string msg = "Đây có phải lỗi ảo không?\r\nNhấn 'OK' nếu lỗi ảo\r\rNhấn 'Cancel' nếu lỗi thật";
+                        MessageBoxResult mbr = MessageBox.Show(msg, "Xác nhận", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                        if (mbr == MessageBoxResult.OK)
+                        {
+                            result.WorkerConfirm = "WPASS";
+                            _device.PLC1.SetDevice(pass, 1);
+                            //PASS-WORKER
+                            return;
+                        }
+                    }
+
+
+                }
+            }
+        }
+
 
 
         private int CheckType(FOVType type, FOVType targetType = FOVType.Unknow)
@@ -297,6 +816,8 @@ namespace Foxconn.Editor.Dialogs
         private int CheckFOV(FOV pFOV)
         {
             int fRet = 1;
+            ShowFOVImage(pFOV.CameraMode, null, pFOV.FOVType);
+
             ICamera pCamera = GetFOVParams(pFOV.CameraMode);
             if (pCamera != null)
             {
@@ -339,7 +860,7 @@ namespace Foxconn.Editor.Dialogs
                                 }
                             }
                             UpdateFOVResult(pFOV.FOVType, fRet, _SN, dst.Clone());
-                            ShowFOVImage(pFOV.CameraMode, dst.Clone(),pFOV.FOVType);
+                            ShowFOVImage(pFOV.CameraMode, dst.Clone(), pFOV.FOVType);
                         }
                     }
                     else
@@ -471,7 +992,7 @@ namespace Foxconn.Editor.Dialogs
             {
                 if (cameraMode != CameraMode.Unknow)
                 {
-                    if (fovtype == FOVType.L1_LABLE1 || fovtype == FOVType.L1_PCB1 || fovtype == FOVType.L1_SOLDER_CAP1 || fovtype == FOVType.L2_LABLE1 || fovtype == FOVType.L2_PCB1 || fovtype == FOVType.L2_SOLDER_CAP1)
+                    if (fovtype == FOVType.L1_LABLE1 || fovtype == FOVType.L1_COLOR1 || fovtype == FOVType.L1_SOLDER_CAP1 || fovtype == FOVType.L2_LABLE1 || fovtype == FOVType.L2_COLOR1 || fovtype == FOVType.L2_SOLDER_CAP1)
                     {
                         imbImageBox1.Image = image;
                     }
@@ -479,7 +1000,6 @@ namespace Foxconn.Editor.Dialogs
                     {
                         imbImageBox2.Image = image;
                     }
-
                 }
                 else
                 {
@@ -488,7 +1008,7 @@ namespace Foxconn.Editor.Dialogs
             }
             else
             {
-                if (fovtype == FOVType.L1_LABLE1 || fovtype == FOVType.L1_PCB1 || fovtype == FOVType.L1_SOLDER_CAP1 || fovtype == FOVType.L2_LABLE1 || fovtype == FOVType.L2_PCB1 || fovtype == FOVType.L2_SOLDER_CAP1)
+                if (fovtype == FOVType.L1_LABLE1 || fovtype == FOVType.L1_COLOR1 || fovtype == FOVType.L1_SOLDER_CAP1 || fovtype == FOVType.L2_LABLE1 || fovtype == FOVType.L2_COLOR1 || fovtype == FOVType.L2_SOLDER_CAP1)
                 {
                     imbImageBox1.Image = null;
                 }
@@ -496,9 +1016,7 @@ namespace Foxconn.Editor.Dialogs
                 {
                     imbImageBox2.Image = null;
                 }
-
             }
-
         }
 
         private ICamera GetFOVParams(CameraMode mode)
@@ -626,7 +1144,7 @@ namespace Foxconn.Editor.Dialogs
 
                             src.ROI = new Rectangle();
                             dst.ROI = new Rectangle();
-                            
+
 
                         }
                         stopwatch.Stop();
@@ -665,10 +1183,10 @@ namespace Foxconn.Editor.Dialogs
 
         public void UpdateFOVResult(FOVType fovtype, int result, string SN, Image<Bgr, byte> image)
         {
-            fovResult.FOVType = fovtype;
-            fovResult.Result = result;
-            fovResult.SN = SN;
-            fovResult.Image = image;
+            //fovResult.FOVType = fovtype;
+            //fovResult.Result = result;
+            //fovResult.SN = SN;
+            //fovResult.Image = image;
 
             FOVResult item = _FOVResults.Find(x => x.FOVType == fovtype);
             if (item != null)
@@ -812,6 +1330,8 @@ namespace Foxconn.Editor.Dialogs
                 WorkerConfirm = string.Empty;
             }
         }
+
+
     }
 
 }

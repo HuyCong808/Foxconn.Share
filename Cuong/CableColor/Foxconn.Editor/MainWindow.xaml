@@ -110,7 +110,6 @@
                                          MouseUp="imbCamera_MouseUp"
                                          MouseWheel="imbCamera_MouseWheel">
                             </CV:ImageBox>
-
                         </WindowsFormsHost>
                     </Grid>
                 </Border>

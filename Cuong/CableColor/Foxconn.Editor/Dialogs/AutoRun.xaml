@@ -91,8 +91,8 @@
                             <CV:ImageBox x:Name="imbImageBox1"
                                          SizeMode="Zoom"
                                          FunctionalMode="Minimum"
-                                         MouseWheel="imbCamera_MouseWheel"
-                                         MouseDown="imbCamera_MouseDown">
+                                         MouseWheel="imbImageBox1_MouseWheel"
+                                         MouseDown="imbImageBox1_MouseDown">
                             </CV:ImageBox>
                         </WindowsFormsHost>
                     </Border>
@@ -104,9 +104,10 @@
                         <WindowsFormsHost>
                             <CV:ImageBox x:Name="imbImageBox2"
                                          SizeMode="Zoom"
-                                         FunctionalMode="Minimum"
-                                         MouseWheel="imbCamera_MouseWheel"
-                                         MouseDown="imbCamera_MouseDown">
+                                         FunctionalMode="Minimum" 
+                                         MouseWheel="imbImageBox2_MouseWheel" MouseDown="imbImageBox2_MouseDown"
+                                         
+                                         >
                             </CV:ImageBox>
                         </WindowsFormsHost>
                     </Border>

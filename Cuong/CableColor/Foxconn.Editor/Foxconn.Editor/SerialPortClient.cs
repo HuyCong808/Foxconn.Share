@@ -7,14 +7,14 @@ namespace Foxconn.Editor
     public class SerialPortClient
     {
         private SerialPort _serialPort { get; set; }
+        private string _portName { get;set; }
         private bool _isConnected { get; set; }
-        public string DataReceive { get; set; }
+        private string _dataReceived { get; set; }
 
-        public SerialPortClient()
+        public string PortName
         {
-            _serialPort = new SerialPort();
-            _isConnected = false;
-            DataReceive = string.Empty;
+            get => _portName;
+            set => _portName = value;
         }
         public bool IsConnected
         {
@@ -22,32 +22,49 @@ namespace Foxconn.Editor
             set => _isConnected = value;
         }
 
+        public string DataReceive
+        {
+            get => _dataReceived;
+            set => _dataReceived = value;
+        }
+        public SerialPortClient()
+        {
+            _serialPort = new SerialPort();
+            _isConnected = false;
+            _dataReceived = string.Empty;
+        }
+
         public int Open(string portName)
         {
             try
             {
-                _serialPort.PortName = portName;
+                _portName = portName;
+                _serialPort = new SerialPort(portName);
                 _serialPort.BaudRate = 9600;
                 _serialPort.Parity = Parity.None;
+                _serialPort.DataBits = 8;
                 _serialPort.StopBits = StopBits.One;
                 _serialPort.Handshake = Handshake.None;
+                _serialPort.ReadTimeout = 500;
+                _serialPort.WriteTimeout = 500;
                 _serialPort.DataReceived += new SerialDataReceivedEventHandler(SerialDataReceived);
                 _serialPort.Open();
                 if (_serialPort.IsOpen)
                 {
                     _isConnected = true;
+                    Logger.Current.Info($"SerialClient.Open ({_portName}): Opened");
                     return 1;
                 }
                 else
                 {
                     _isConnected = false;
+                    Logger.Current.Info($"SerialClient.Open ({_portName}): Can not opened");
                     return 0;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show(ex.ToString());
+                Logger.Current.Error(ex.Message);
                 return -1;
             }
         }
@@ -57,30 +74,34 @@ namespace Foxconn.Editor
             try
             {
                 _isConnected = false;
-                DataReceive = string.Empty;
+                _dataReceived = string.Empty;
                 _serialPort.DataReceived -= new SerialDataReceivedEventHandler(SerialDataReceived);
+                _serialPort.DiscardInBuffer();
+                _serialPort.DiscardOutBuffer();
                 _serialPort.Close();
                 _serialPort.Dispose();
+                Logger.Current.Info($"SerialClient.Close ({_portName}): Closed");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show(ex.ToString());
+                Logger.Current.Error(ex.Message);
             }
         }
 
-        public int SendData(string data)
+        public int SerialWriteData(string data)
         {
             try
             {
-                _serialPort.WriteLine(data);
+                _dataReceived = string.Empty;
+                _serialPort.DiscardOutBuffer();
+                _serialPort.WriteLine(data + "\r\n");
+                 Logger.Current.Info($"SerialClient.SerialWriteData ({_portName}): {data}");
                 return 1;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show(ex.ToString());
-                return 0;
+                Logger.Current.Error(ex.Message);
+                return -1;
             }
         }
 
@@ -91,14 +112,18 @@ namespace Foxconn.Editor
                 string data = _serialPort.ReadExisting().Trim();
                 if (data.Length > 0)
                 {
-                    DataReceive = data;
-                    Console.WriteLine("Recieve from SerialPort: " + data);
+                    _dataReceived = data;
+                    _serialPort.DiscardInBuffer();
+                    Logger.Current.Info($"SerialClient.SerialDataReceived ({_portName}): {data}");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                Logger.Current.Error(ex.Message);
             }
         }
+
+
+
     }
 }
