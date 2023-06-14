@@ -224,35 +224,161 @@ namespace Foxconn.Editor.Dialogs
         {
             string pass = "S3";
             string fail = "S4";
+            string step1 = "S8";
+            string step2 = "S9";
+            FOVResult rLABEL = _FOVResults.Find(x => x.FOVType == pCheck);
+            FOVResult rCOLOR = _FOVResults.Find(x => x.FOVType == pCheck);
+            FOVResult rSOLDER_CAP = _FOVResults.Find(x => x.FOVType == pCheck);
             switch (pCheck)
             {
                 case FOVType.Unknow:
                     break;
-                case FOVType.L1_LABLE1:
+                case FOVType.L1_LABEL1:
                     {
                         // neu pass ->
-                        var f = _FOVResults.FirstOrDefault(x => x.FOVType == pCheck);
+                        var item = _database.Data.Find(x => x.SN == rLABEL.SN && x.IsStep1 == true);
+
+                        if (rLABEL.SN != string.Empty && item != null)
                         {
-                            if (f != null)
+                            if (SendTerminalCheck(pCheck) == 2) // overed sttation
                             {
-                                _device.PLC1.SetDevice(pass, 1);
+                                _device.PLC1.SetDevice(step1, 1);
+                                _device.PLC1.SetDevice(pass, pResult);
+                                return;
                             }
-                            else
-                                _device.PLC1.SetDevice(fail, 1);
+                        }
+                        if (rLABEL.SN != string.Empty && item == null)
+                        {
+                            if (SendTerminalCheck(pCheck) == 1) // in station
+                            {
+                                _device.PLC1.SetDevice(pass, pResult);
+                                _database.AddData(rLABEL.SN);  // Add SN
+                                return;
+                            }
+                            else if (SendTerminalCheck(pCheck) == -1) // timeout
+                            {
+                                _device.PLC1.SetDevice(fail, pResult);
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            _device.PLC1.SetDevice(fail, pResult);
                         }
                         // neu fail ->
                     }
                     break;
-                case FOVType.L1_LABLE2:
+                case FOVType.L1_LABEL2:
                     {
                         // neu pass ->
+                        var item = _database.Data.Find(x => x.SN == rLABEL.SN && x.IsStep1 == true);
 
+                        if (rLABEL.SN != string.Empty && item != null)
+                        {
+                            if (SendTerminalCheck(pCheck) == 2)
+                            {
+                                _device.PLC1.SetDevice(step1, 1);
+                                _device.PLC1.SetDevice(pass, pResult);
+                                return;
+                            }
+                        }
+                        if (rLABEL.SN != string.Empty && item == null)
+                        {
+                            if (SendTerminalCheck(pCheck) == 1)
+                            {
+                                _device.PLC1.SetDevice(pass, pResult);
 
+                                _database.AddData(rLABEL.SN);  ///////Add SN
+                                return;
+                            }
+                            else if (SendTerminalCheck(pCheck) == -1)
+                            {
+                                _device.PLC1.SetDevice(fail, pResult);
+                            }
+                        }
+                        else
+                        {
+                            _device.PLC1.SetDevice(fail, pResult);
+                        }
                         // neu fail ->
-
-
                     }
                     break;
+                case FOVType.L1_COLOR1:
+                    {
+                        if (rCOLOR.Result == 1)
+                        {
+                            _device.PLC1.SetDevice(pass, pResult);
+                        }
+                        else
+                        {
+                            _device.PLC1.SetDevice(fail, pResult);
+                        }
+                    }
+                    break;
+                case FOVType.L1_COLOR2:
+                    {
+                        if (rCOLOR.Result == 1)
+                        {
+                            _device.PLC1.SetDevice(pass, pResult);
+                        }
+                        else
+                        {
+                            _device.PLC1.SetDevice(fail, pResult);
+                        }
+                    }
+                    break;
+                case FOVType.L1_SOLDER_CAP1:
+                    {
+                        if (rSOLDER_CAP.Result == 1)
+                        {
+                            _device.PLC1.SetDevice(step1, pResult);
+                            _device.PLC1.SetDevice(pass, pResult);
+                            _database.Data.Find(x => x.SN == rLABEL.SN).IsStep1 = true;
+
+                        }
+                        else
+                        {
+                            _device.PLC1.SetDevice(step1, pResult);
+                            if(WorkerConfirm(pCheck) ==1)
+                            {
+                                _device.PLC1.SetDevice(pass, pResult);
+                            }
+                            else
+                            {
+                                _device.PLC1.SetDevice(fail, pResult);
+                            }
+                            _database.Data.Find(x => x.SN == rLABEL.SN).IsStep1 = true;
+                        }
+                    }
+                    break;
+
+                case FOVType.L1_SOLDER_CAP2:
+                    {
+                        if (rSOLDER_CAP.Result == 1)
+                        {
+                            _device.PLC1.SetDevice(step1, pResult);
+                            _device.PLC1.SetDevice(pass, pResult);
+                            _database.Data.Find(x => x.SN == rLABEL.SN).IsStep1 = true;
+
+                        }
+                        else
+                        {
+                            _device.PLC1.SetDevice(step1, pResult);
+                            if (WorkerConfirm(pCheck) == 1)
+                            {
+                                _device.PLC1.SetDevice(pass, pResult);
+                            }
+                            else
+                            {
+                                _device.PLC1.SetDevice(fail, pResult);
+                            }
+                            _database.Data.Find(x => x.SN == rLABEL.SN).IsStep1 = true;
+                        }
+
+                        break;
+                    }
+                    
+
                 default:
                     break;
             }
@@ -305,12 +431,35 @@ namespace Foxconn.Editor.Dialogs
             }
         }
 
-
+        public int WorkerConfirm(FOVType pSOLDER_CAP)
+        {
+            FOVResult result = _FOVResults.Find(x => x.FOVType == pSOLDER_CAP);
+            if (_param.WorkerConfirm2)
+            {
+                string msg = "Đây có phải lỗi ảo không?\r\nNhấn 'OK' nếu lỗi ảo\r\rNhấn 'Cancel' nếu lỗi thật";
+                MessageBoxResult mbr = MessageBox.Show(msg, "Xác nhận", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                if (mbr == MessageBoxResult.OK)
+                {
+                    result.WorkerConfirm = "WPASS";
+                    //PASS-WORKER
+                    return 1;
+                }
+                else
+                {
+                    result.WorkerConfirm = "WFAIL";
+                    //FAIL-WORKER
+                    return 0;
+                }
+            }
+            return -1;
+           
+        }
 
         public void AutoRunProcess()
         {
             Thread.CurrentThread.IsBackground = true;
             Thread.CurrentThread.Name = "Auto run thread.";
+            FOVType pCheck = FOVType.Unknow;
             string flagLane1 = "S200";
             string flagLane2 = "S202";
             string flagL1_LABLE1 = "S50";
@@ -340,32 +489,34 @@ namespace Foxconn.Editor.Dialogs
                     ShowFOVImage(CameraMode.Top, null, FOVType.Unknow);
                     int step = 100 / 12;
 
+                    //pCheck = FOVType.L1_LABLE1;
                     if (GetSignal(flagL1_LABLE1))
                     {
-                        LogInfo($"AutoRunProcess =====> {FOVType.L2_LABLE1}");
-                        UpdateStatusControl($"{FOVType.L2_LABLE1}", step * 1);
-                        int nRet = CheckType(FOVType.L2_LABLE1);
-                        string message = nRet == 1 ? $"{FOVType.L2_LABLE1}: Pass" : $"{FOVType.L2_LABLE1}: Fail";
-                        //
-                        CheckFOVResult(FOVType.L1_LABLE1, FOVType.L1_COLOR1);
+                        LogInfo($"AutoRunProcess =====> {FOVType.L2_LABEL1}");
+                        UpdateStatusControl($"{FOVType.L2_LABEL1}", step * 1);
+                        int nRet = CheckType(FOVType.L2_LABEL1);
+                        string message = nRet == 1 ? $"{FOVType.L2_LABEL1}: Pass" : $"{FOVType.L2_LABEL1}: Fail";
+                        // 
+                        CheckFOVResult(FOVType.L1_LABEL1, FOVType.L1_COLOR1);
+                       // CheckFOVResults(pCheck);
                     }
 
                     if (GetSignal(flagL1_LABLE2))
                     {
-                        int nRet = CheckType(FOVType.L1_LABLE2);
-                        CheckFOVResult(FOVType.L1_LABLE2, FOVType.L1_COLOR2);
+                        int nRet = CheckType(FOVType.L1_LABEL2);
+                        CheckFOVResult(FOVType.L1_LABEL2, FOVType.L1_COLOR2);
                     }
 
                     if (GetSignal(flagL1_COLOR1))
                     {
                         int nRet = CheckType(FOVType.L1_COLOR1);
-                        CheckFOVResult(FOVType.L1_LABLE1, FOVType.L1_COLOR1);
+                        CheckFOVResult(FOVType.L1_LABEL1, FOVType.L1_COLOR1);
                     }
 
                     if (GetSignal(flagL1_COLOR2))
                     {
                         int nRet = CheckType(FOVType.L1_COLOR2);
-                        CheckFOVResult(FOVType.L1_LABLE2, FOVType.L1_COLOR2);
+                        CheckFOVResult(FOVType.L1_LABEL2, FOVType.L1_COLOR2);
                     }
 
                     if (GetSignal(flagL1_SOLDER_CAP1))
@@ -380,12 +531,12 @@ namespace Foxconn.Editor.Dialogs
 
                     if (GetSignal(flagL2_LABLE1))
                     {
-                        int nRet = CheckType(FOVType.L2_LABLE1);
+                        int nRet = CheckType(FOVType.L2_LABEL1);
                     }
 
                     if (GetSignal(flagL2_LABLE2))
                     {
-                        int nRet = CheckType(FOVType.L2_LABLE2);
+                        int nRet = CheckType(FOVType.L2_LABEL2);
                     }
 
                     if (GetSignal(flagL2_COLOR1))
@@ -422,11 +573,11 @@ namespace Foxconn.Editor.Dialogs
 
         private void imbImageBox1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (imbImageBox1.Image != null)
+            if (imbImageBox1_L1.Image != null)
             {
-                double newZoom = imbImageBox1.ZoomScale * (e.Delta > 0 ? 1.2 : 0.8);
+                double newZoom = imbImageBox1_L1.ZoomScale * (e.Delta > 0 ? 1.2 : 0.8);
                 newZoom = Math.Max(0.5, Math.Min(5, newZoom)); // gioi han ti le zoom
-                imbImageBox1.SetZoomScale(newZoom, e.Location);
+                imbImageBox1_L1.SetZoomScale(newZoom, e.Location);
             }
         }
 
@@ -435,18 +586,18 @@ namespace Foxconn.Editor.Dialogs
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
-                imbImageBox1.SetZoomScale(1, e.Location);
-                imbImageBox1.AutoScrollOffset = new System.Drawing.Point(0, 0);
+                imbImageBox1_L1.SetZoomScale(1, e.Location);
+                imbImageBox1_L1.AutoScrollOffset = new System.Drawing.Point(0, 0);
             }
         }
 
         private void imbImageBox2_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (imbImageBox2.Image != null)
+            if (imbImageBox2_L1.Image != null)
             {
-                double newZoom = imbImageBox2.ZoomScale * (e.Delta > 0 ? 1.2 : 0.8);
+                double newZoom = imbImageBox2_L1.ZoomScale * (e.Delta > 0 ? 1.2 : 0.8);
                 newZoom = Math.Max(0.5, Math.Min(5, newZoom)); // gioi han ti le zoom
-                imbImageBox1.SetZoomScale(newZoom, e.Location);
+                imbImageBox1_L1.SetZoomScale(newZoom, e.Location);
             }
         }
 
@@ -454,52 +605,165 @@ namespace Foxconn.Editor.Dialogs
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
-                imbImageBox2.SetZoomScale(1, e.Location);
-                imbImageBox2.AutoScrollOffset = new System.Drawing.Point(0, 0);
+                imbImageBox2_L1.SetZoomScale(1, e.Location);
+                imbImageBox2_L1.AutoScrollOffset = new System.Drawing.Point(0, 0);
             }
         }
 
 
 
-        //public int SendTerminalCheck(FOVType pLABLE)
-        //{
-        //    FOVResult rLABLE = _FOVResults.Find(x => x.FOVType == pLABLE);
-        //    if (_param.Terminal.IsEnabled)
-        //    {
-        //        string SN = rLABLE.SN;
-        //        string data = SN.PadRight(25) + "CHECK";
-        //        _device.Terminal.SerialWriteData(data);
-        //        bool isTimeout = false;
-        //        int timeout = 10000;
-        //        for (int i = 0; i < timeout / 400; i++)
-        //        {
-        //            string responseData = _device.Terminal.DataReceive;
-        //            if (responseData.Contains("Station1") && responseData.Contains("PASS"))
-        //            {
-        //                isTimeout = true;
-        //                return 1;
-        //            }
-        //            else if (responseData.Contains("Station2") && responseData.Contains("PASS"))
-        //            {
-        //                isTimeout = true;
-        //                return 2;
-        //            }
-        //            else if (responseData.Contains("ERRO"))
-        //            {
-        //                isTimeout = true;
-        //                return 0;
-        //            }
-        //            Thread.Sleep(25);
-        //        }
-        //        if (!isTimeout)
-        //        {
-        //            return -1;
-        //        }
-        //    }
-        //    return -2;
-        //}
+        public int SendTerminalCheck(FOVType pLABLE)
+        {
+            FOVResult rLABEL = _FOVResults.Find(x => x.FOVType == pLABLE);
+            if (_param.Terminal.IsEnabled)
+            {
+                string SN = rLABEL.SN;
+                string data = SN.PadRight(25) + "CHECK";
+                _device.Terminal.SerialWriteData(data);
+                bool isTimeout = false;
+                int timeout = 10000;
+                for (int i = 0; i < timeout / 400; i++)
+                {
+                    string responseData = _device.Terminal.DataReceived;
+                    if (responseData.Contains("Station1") && responseData.Contains("PASS"))
+                    {
+                        isTimeout = true;
+
+                        return 1;
+                    }
+                    else if (responseData.Contains("Station2") && responseData.Contains("PASS"))
+                    {
+                        isTimeout = true;
+                        return 2;
+                    }
+                    else if (responseData.Contains("ERRO"))
+                    {
+                        isTimeout = true;
+                        return 0;
+                    }
+                    Thread.Sleep(25);
+                }
+                if (!isTimeout)
+                {
+                    return -1;
+                }
+            }
+            return -2;
+        }
+
+        public int SendTerminalOK(FOVType pSOLDER_CAP)
+        {
+            string SN = string.Empty;
+            FOVType type;
+            if (pSOLDER_CAP == FOVType.L1_SOLDER_CAP1)
+            {
+                type = FOVType.L1_LABEL1;
+            }
+            else if (pSOLDER_CAP == FOVType.L1_SOLDER_CAP2)
+            {
+                type = FOVType.L1_LABEL2;
+            }
+            else if (pSOLDER_CAP == FOVType.L2_SOLDER_CAP1)
+            {
+                type = FOVType.L2_LABEL1;
+            }
+            else if (pSOLDER_CAP == FOVType.L2_SOLDER_CAP2)
+            {
+                type = FOVType.L2_LABEL2;
+            }
+            else
+            {
+                type = FOVType.Unknow;
+            }
+
+            FOVResult temp = _FOVResults.Find(x => x.FOVType == type);
+            if( temp != null)
+            {
+                SN = temp.SN;
+            }
+
+            if (_param.Terminal.IsEnabled)
+            {
+               
+                string data = SN.PadRight(25) + "OK";
+                _device.Terminal.SerialWriteData(data);
+                bool isTimeout = false;
+                int timeout = 10000;
+
+                for (int i = 0; i < timeout / 400; i++)
+                {
+                    string respone = _device.Terminal.DataReceived;
+                    if (respone == data + "PASS")
+                    {
+                        isTimeout = true;
+                        return 1;
+                    }
+                    else if (respone == data + "ERRO")
+                    {
+                        isTimeout = true;
+                        // FAIL
+                        return 0;
+                    }
+                    Thread.Sleep(25);
+                }
+
+                if (!isTimeout)
+                {
+
+                    //FAIL-TIMEOUT
+                    return -1;
+                }
+            }
+            return -2;
+        }
+
+        public int SendTerminalNG(FOVType pSOLDER_CAP)
+        {
+            string SN = string.Empty;
+            FOVType type;
+            if (pSOLDER_CAP == FOVType.L1_SOLDER_CAP1)
+            {
+                type = FOVType.L1_LABEL1;
+            }
+            else if (pSOLDER_CAP == FOVType.L1_SOLDER_CAP2)
+            {
+                type = FOVType.L1_LABEL2;
+            }
+            else if (pSOLDER_CAP == FOVType.L2_SOLDER_CAP1)
+            {
+                type = FOVType.L2_LABEL1;
+            }
+            else if (pSOLDER_CAP == FOVType.L2_SOLDER_CAP2)
+            {
+                type = FOVType.L2_LABEL2;
+            }
+            else
+            {
+                type = FOVType.Unknow;
+            }
 
 
+            FOVResult temp = _FOVResults.Find(x => x.FOVType == type);
+            if(temp !=null)
+            {
+                SN = temp.SN;
+            }
+            if (_param.Terminal.IsEnabled)
+            {
+                string errorCode = "PCB001";
+                string data = SN.PadRight(25) + errorCode.PadRight(10) + "NG";
+                _device.Terminal.SerialWriteData(data);
+                int timeout = 10000;
+                for (int i = 0; i < timeout / 400; i++)
+                {
+                    string responseData = _device.Terminal.DataReceived;
+                    if (responseData == data + "PASS" || responseData == data + "ERRO")
+                        break;
+                    Thread.Sleep(25);
+                }
+            }
+            return -2;
+        }
 
 
 
@@ -510,27 +774,27 @@ namespace Foxconn.Editor.Dialogs
             string fail = "S4"; // Fail
             string step1 = "S8"; // Over Step1
             string step2 = "S9"; // Over Step2
-            FOVResult rLABLE = _FOVResults.Find(x => x.FOVType == pLABLE);
+            FOVResult rLABEL = _FOVResults.Find(x => x.FOVType == pLABLE);
             FOVResult rCOLOR = _FOVResults.Find(x => x.FOVType == pCOLOR);
 
-            if (rLABLE != null && rCOLOR != null)
+            if (rLABEL != null && rCOLOR != null)
             {
-                if (rLABLE.Result == 1 && rCOLOR.Result == 1)
+                if (rLABEL.Result == 1 && rCOLOR.Result == 1)
                 {
                     //Pass LABLE && PCB
 
 
-                    var item = _database.Data.Find(x => x.SN == rLABLE.SN && x.IsStep1 == true);
-                    if (item != null)
-                    {
-                        _device.PLC1.SetDevice(fail, 1);
-                        // STEP1 OVERED
-                        return;
-                    }
+                    //var item = _database.Data.Find(x => x.SN == rLABEL.SN && x.IsStep1 == true);
+                    //if (item != null)
+                    //{
+                    //    _device.PLC1.SetDevice(fail, 1);
+                    //    // STEP1 OVERED
+                    //    return;
+                    //}
 
                     if (_param.Terminal.IsEnabled)
                     {
-                        string SN = rLABLE.SN;
+                        string SN = rLABEL.SN;
                         if (SN == string.Empty)
                         {
                             _device.PLC1.SetDevice(fail, 1);
@@ -542,7 +806,7 @@ namespace Foxconn.Editor.Dialogs
                         int timeout = 4000;
                         for (int i = 0; i < timeout / 400; i++)
                         {
-                            string responeData = _device.Terminal.DataReceive;
+                            string responeData = _device.Terminal.DataReceived;
                             if (responeData.Contains("SOLDER_CAP") && responeData.Contains("PASS"))
                             {
                                 isTimeout = true;
@@ -554,11 +818,11 @@ namespace Foxconn.Editor.Dialogs
                             {
                                 isTimeout = true;
                                 //Send overstep before send pass/fail
-                                if (pLABLE == FOVType.L1_LABLE1 || pLABLE == FOVType.L1_LABLE2)
+                                if (pLABLE == FOVType.L1_LABEL1 || pLABLE == FOVType.L1_LABEL2)
                                 {
                                     _device.PLC1.SetDevice(step1, 1);
                                 }
-                                else if (pLABLE == FOVType.L2_LABLE1 || pLABLE == FOVType.L2_LABLE2)
+                                else if (pLABLE == FOVType.L2_LABEL1 || pLABLE == FOVType.L2_LABEL2)
                                 {
                                     _device.PLC1.SetDevice(step2, 1);
                                 }
@@ -596,7 +860,7 @@ namespace Foxconn.Editor.Dialogs
                     //Fail Lable && COLOR
                     if (_param.PLC1.IsEnabled)
                     {
-                        string SN = rLABLE.SN;
+                        string SN = rLABEL.SN;
                         if (SN == string.Empty)
                         {
                             _device.PLC1.SetDevice(fail, 1);
@@ -616,9 +880,9 @@ namespace Foxconn.Editor.Dialogs
             }
             else
             {
-                if (rLABLE != null)
+                if (rLABEL != null)
                 {
-                    _device.PLC1.SetDevice(rLABLE.Result == 1 ? pass : fail, 1);
+                    _device.PLC1.SetDevice(rLABEL.Result == 1 ? pass : fail, 1);
                 }
                 if (rCOLOR != null)
                 {
@@ -634,19 +898,19 @@ namespace Foxconn.Editor.Dialogs
             FOVType type;
             if (pSOLDER_CAP == FOVType.L1_SOLDER_CAP1)
             {
-                type = FOVType.L1_LABLE1;
+                type = FOVType.L1_LABEL1;
             }
             else if (pSOLDER_CAP == FOVType.L1_SOLDER_CAP2)
             {
-                type = FOVType.L1_LABLE2;
+                type = FOVType.L1_LABEL2;
             }
             else if (pSOLDER_CAP == FOVType.L2_SOLDER_CAP1)
             {
-                type = FOVType.L2_LABLE1;
+                type = FOVType.L2_LABEL1;
             }
             else if (pSOLDER_CAP == FOVType.L2_SOLDER_CAP2)
             {
-                type = FOVType.L1_LABLE2;
+                type = FOVType.L1_LABEL2;
             }
             else
             {
@@ -687,7 +951,7 @@ namespace Foxconn.Editor.Dialogs
                             int timeout = 10000;
                             for (int i = 0; i < timeout / 400; i++)
                             {
-                                string respone = _device.Terminal.DataReceive;
+                                string respone = _device.Terminal.DataReceived;
                                 if (respone == data1 + "PASS")
                                 {
                                     isTimeout = true;
@@ -720,7 +984,7 @@ namespace Foxconn.Editor.Dialogs
                             int timeout = 10000;
                             for (int i = 0; i < timeout / 400; i++)
                             {
-                                string responeData = _device.Terminal.DataReceive;
+                                string responeData = _device.Terminal.DataReceived;
                                 if (responeData.Contains("SOLDER_CAP") && responeData == data1 + "PASS")
                                 {
                                     isTimeout = true;
@@ -729,15 +993,15 @@ namespace Foxconn.Editor.Dialogs
                                     // PASS "SOLDER_CAP"
                                     return;
                                 }
-                                else if (responeData.Contains("Staion2") && responeData == data1 + "PASS")
+                                else if (responeData.Contains("Station2") && responeData == data1 + "PASS")
                                 {
                                     isTimeout = true;
                                     //Send overstep before send pass/fail
-                                    if (type == FOVType.L1_LABLE1 || type == FOVType.L1_LABLE2)
+                                    if (type == FOVType.L1_LABEL1 || type == FOVType.L1_LABEL2)
                                     {
                                         _device.PLC1.SetDevice(step1, 1);
                                     }
-                                    else if (type == FOVType.L2_LABLE1 || type == FOVType.L2_LABLE2)
+                                    else if (type == FOVType.L2_LABEL1 || type == FOVType.L2_LABEL2)
                                     {
                                         _device.PLC1.SetDevice(step2, 1);
                                     }
@@ -775,9 +1039,34 @@ namespace Foxconn.Editor.Dialogs
                             //PASS-WORKER
                             return;
                         }
+
+                        else
+
+                        {
+                            result.WorkerConfirm = "WFAIL";
+                            _device.PLC1.SetDevice(fail, 1);
+                            // WFAIL
+                            if (_param.Terminal.IsEnabled)
+                            {
+                                string errorCode = "PCB001";
+                                string data = SN.PadRight(25) + errorCode.PadRight(10) + "NG";
+                                _device.Terminal.SerialWriteData(data);
+                                int timeout = 10000;
+                                for (int i = 0; i < timeout / 400; i++)
+                                {
+                                    string responseData = _device.Terminal.DataReceived;
+                                    if (responseData == data + "PASS" || responseData == data + "ERRO")
+                                        break;
+                                    Thread.Sleep(25);
+                                }
+                            }
+                        }
                     }
-
-
+                    else
+                    {
+                        _device.PLC1.SetDevice(fail, 1);
+                        //FAIL
+                    }
                 }
             }
         }
@@ -992,29 +1281,41 @@ namespace Foxconn.Editor.Dialogs
             {
                 if (cameraMode != CameraMode.Unknow)
                 {
-                    if (fovtype == FOVType.L1_LABLE1 || fovtype == FOVType.L1_COLOR1 || fovtype == FOVType.L1_SOLDER_CAP1 || fovtype == FOVType.L2_LABLE1 || fovtype == FOVType.L2_COLOR1 || fovtype == FOVType.L2_SOLDER_CAP1)
+                    if (fovtype == FOVType.L1_LABEL1 || fovtype == FOVType.L1_COLOR1 || fovtype == FOVType.L1_SOLDER_CAP1)
                     {
-                        imbImageBox1.Image = image;
+                        imbImageBox1_L1.Image = image;
+                    }
+                    else if (fovtype == FOVType.L1_LABEL2 || fovtype == FOVType.L1_COLOR2 || fovtype == FOVType.L1_SOLDER_CAP2)
+                    {
+                        imbImageBox2_L1.Image = image;
+                    }
+                    else if (fovtype == FOVType.L2_LABEL1 || fovtype == FOVType.L2_COLOR1 || fovtype == FOVType.L2_SOLDER_CAP1)
+                    {
+                        imbImageBox1_L2.Image = image;
                     }
                     else
                     {
-                        imbImageBox2.Image = image;
+                        imbImageBox2_L2.Image = image;
                     }
-                }
-                else
-                {
-                    imbImageBox1.Image = null;
                 }
             }
             else
             {
-                if (fovtype == FOVType.L1_LABLE1 || fovtype == FOVType.L1_COLOR1 || fovtype == FOVType.L1_SOLDER_CAP1 || fovtype == FOVType.L2_LABLE1 || fovtype == FOVType.L2_COLOR1 || fovtype == FOVType.L2_SOLDER_CAP1)
+                if (fovtype == FOVType.L1_LABEL1 || fovtype == FOVType.L1_COLOR1 || fovtype == FOVType.L1_SOLDER_CAP1)
                 {
-                    imbImageBox1.Image = null;
+                    imbImageBox1_L1.Image = null;
+                }
+                else if (fovtype == FOVType.L1_LABEL2 || fovtype == FOVType.L1_COLOR2 || fovtype == FOVType.L1_SOLDER_CAP2)
+                {
+                    imbImageBox2_L1.Image = null;
+                }
+                else if (fovtype == FOVType.L1_LABEL1 || fovtype == FOVType.L1_COLOR1 || fovtype == FOVType.L1_SOLDER_CAP1)
+                {
+                    imbImageBox1_L2.Image = null;
                 }
                 else
                 {
-                    imbImageBox2.Image = null;
+                    imbImageBox2_L2.Image = null;
                 }
             }
         }
@@ -1064,7 +1365,7 @@ namespace Foxconn.Editor.Dialogs
             if (_capture != null && _capture.Ptr != IntPtr.Zero)
             {
                 _capture.Retrieve(_frame, 0);
-                Dispatcher.Invoke(() => imbImageBox1.Image = _frame);
+                Dispatcher.Invoke(() => imbImageBox1_L1.Image = _frame);
             }
         }
 
@@ -1077,10 +1378,10 @@ namespace Foxconn.Editor.Dialogs
             {
                 FOV pFOV = _program.FOVs[0];
                 int nRet = CheckFOV0(pFOV);
-                lblResultPCB1.Content = nRet == 1 ? "PASS" : "FAIL";
-                lblResultPCB1.FontWeight = FontWeights.Bold;
-                lblResultPCB1.FontSize = 50;
-                lblResultPCB1.Foreground = nRet == 1 ? System.Windows.Media.Brushes.LimeGreen : System.Windows.Media.Brushes.Red;
+                //lblResultPCB1.Content = nRet == 1 ? "PASS" : "FAIL";
+                //lblResultPCB1.FontWeight = FontWeights.Bold;
+                //lblResultPCB1.FontSize = 50;
+                //lblResultPCB1.Foreground = nRet == 1 ? System.Windows.Media.Brushes.LimeGreen : System.Windows.Media.Brushes.Red;
                 //borderResultPCB1.Background = nRet == 1 ? System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Red;
                 SetRate();
                 NotifyPropertyChanged();
@@ -1224,8 +1525,11 @@ namespace Foxconn.Editor.Dialogs
                     int indexLastLineToRemove = txtLogsAutoRun.GetCharacterIndexFromLineIndex(lineCount - MAX_LINES);
                     txtLogsAutoRun.Select(indexFirstLineToRemove, indexLastLineToRemove);
                     txtLogsAutoRun.SelectedText = "";
+
                 }
+                txtLogsAutoRun.ScrollToEnd();
             });
+
         }
 
         public void UpdateStatusControl(string text, int progress)
@@ -1328,7 +1632,10 @@ namespace Foxconn.Editor.Dialogs
             }
         }
 
+        private void txtLogsAutoRun_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
+        {
 
+        }
     }
 
 }
