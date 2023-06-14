@@ -766,7 +766,7 @@ namespace Foxconn.Editor.Dialogs
                     //FAIL SOLDER_CAP
                     if (_param.WorkerConfirm2)
                     {
-                        string msg = "Đây có phải lỗi ảo không?\r\nNhấn 'OK' nếu lỗi ảo\r\rNhấn 'Cancel' nếu lỗi thật";
+                        string msg = "Đây có phải lỗi ảo không?\r\n Nhấn 'OK' nếu lỗi ảo\r\r Nhấn 'Cancel' nếu lỗi thật";
                         MessageBoxResult mbr = MessageBox.Show(msg, "Xác nhận", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
                         if (mbr == MessageBoxResult.OK)
                         {
@@ -1156,15 +1156,12 @@ namespace Foxconn.Editor.Dialogs
 
                     //===================================TEST==============================
                     _database.AddData(_SN);
-
                     //_database.RemoveData(_database.Data.First(x => x.SN == _SN));
 
                 }
             }
             return fRet;
         }
-
-
         // ===============================================================================
 
         #region logs
