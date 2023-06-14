@@ -44,7 +44,7 @@
                     <MenuItem Header="Test"
                               x:Name="mnuiTest"
                               Click="mnuiTest_Click"></MenuItem>
-                    <MenuItem Header="Setup"
+                    <MenuItem Header="Controls"
                               x:Name="mnuiSetSpeed" >
                         <MenuItem Header="SetSpeed Robot" 
                                   x:Name="mnuiSetSpeedRobot" 
@@ -83,12 +83,19 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" BorderBrush="Gray"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" ></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Column="0" 
+                            Grid.Row="0"
+                            BorderBrush="Gray"
                             BorderThickness="1"
                             Margin="3 0 1 2"
                             CornerRadius="3">
                         <WindowsFormsHost>
-                            <CV:ImageBox x:Name="imbImageBox1"
+                            <CV:ImageBox x:Name="imbImageBox1_L1"
                                          SizeMode="Zoom"
                                          FunctionalMode="Minimum"
                                          MouseWheel="imbImageBox1_MouseWheel"
@@ -97,22 +104,51 @@
                         </WindowsFormsHost>
                     </Border>
 
-                    <Border Grid.Column="1" BorderBrush="Gray"
+                    <Border Grid.Column="0" 
+                            Grid.Row="1"
+                            BorderBrush="Gray"
+                            BorderThickness="1"
+                            Margin="3 0 1 2"
+                            CornerRadius="3">
+                        <WindowsFormsHost>
+                            <CV:ImageBox x:Name="imbImageBox2_L1"
+                                         SizeMode="Zoom"
+                                         FunctionalMode="Minimum" 
+                                         MouseWheel="imbImageBox2_MouseWheel" 
+                                         MouseDown="imbImageBox2_MouseDown" >
+                            </CV:ImageBox>
+                        </WindowsFormsHost>
+                    </Border>
+
+                    <Border Grid.Column="1" 
+                            Grid.Row="0"
+                            BorderBrush="Gray"
                             BorderThickness="1"
                             Margin="0 0 3 2"
                             CornerRadius="3">
                         <WindowsFormsHost>
-                            <CV:ImageBox x:Name="imbImageBox2"
+                            <CV:ImageBox x:Name="imbImageBox1_L2"
                                          SizeMode="Zoom"
                                          FunctionalMode="Minimum" 
-                                         MouseWheel="imbImageBox2_MouseWheel" MouseDown="imbImageBox2_MouseDown"
-                                         
                                          >
                             </CV:ImageBox>
                         </WindowsFormsHost>
                     </Border>
 
-
+                    <Border Grid.Column="1" 
+                            Grid.Row="1"
+                            BorderBrush="Gray"
+                            BorderThickness="1"
+                            Margin="0 0 3 2"
+                            CornerRadius="3">
+                        <WindowsFormsHost>
+                            <CV:ImageBox x:Name="imbImageBox2_L2"
+                                         SizeMode="Zoom"
+                                         FunctionalMode="Minimum" 
+                                         >
+                            </CV:ImageBox>
+                        </WindowsFormsHost>
+                    </Border>
                 </Grid>
             </Grid>
 
@@ -150,7 +186,7 @@
                                 <DockPanel Margin="3 5 5 0">
                                     <DockPanel HorizontalAlignment="Left"  >
                                         <TextBlock Text="Total Pass :" 
-                                                   Foreground="LimeGreen" 
+                                                   Foreground="White" 
                                                    Width="80"></TextBlock>
                                         <TextBlock x:Name="txbPassRate" 
                                                    Foreground="LimeGreen" 
@@ -163,7 +199,7 @@
                                     <DockPanel HorizontalAlignment="Left">
                                         <TextBlock Text="Total Fail :"
                                                    Width="80"
-                                                   Foreground="#FFF91616"></TextBlock>
+                                                   Foreground="White"></TextBlock>
                                         <TextBlock x:Name="txbFailRate" 
                                                    Foreground="#FFF91616" 
                                                    FontWeight="DemiBold" 
@@ -174,7 +210,8 @@
 
                                 <DockPanel Margin="3 5 5 0">
                                     <DockPanel HorizontalAlignment="Left">
-                                        <TextBlock Text="Total Checked: " Foreground="#FF509AF3" ></TextBlock>
+                                        <TextBlock Text="Total Checked: " 
+                                                   Foreground="White" ></TextBlock>
                                         <TextBlock Text="{Binding TotalChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    FontWeight="DemiBold"
                                                    Foreground="#FF509AF3"></TextBlock>
@@ -184,7 +221,7 @@
                                 <DockPanel Margin="3 5 5 0">
                                     <DockPanel HorizontalAlignment="Left">
                                         <TextBlock Text="Yield Rate :" 
-                                                   Foreground="Yellow" 
+                                                   Foreground="White" 
                                                    Width="80"></TextBlock>
                                         <TextBlock x:Name="txbYieldRate" 
                                                    Foreground="Yellow" 
@@ -195,13 +232,8 @@
                                                    FontWeight="DemiBold" ></TextBlock>
                                     </DockPanel>
                                 </DockPanel>
-
                             </StackPanel>
-
-
                         </GroupBox>
-
-
                     </Grid>
 
 
@@ -209,15 +241,31 @@
                     <Border Grid.Row="2"
                             CornerRadius="3">
 
-                        <GroupBox Header="Result"
+                        <GroupBox Header="Results"
                                   BorderBrush="White"
                                   Margin="3 0 3 3">
                             <Grid>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="auto"></RowDefinition>
+
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0" HorizontalAlignment="Center">
+                                        <Label Content="Lane 1"></Label>
+                                    </Grid>
+                                    <Grid Grid.Column="1" HorizontalAlignment="Center">
+                                        <Label Content="Lane 2"></Label>
+                                    </Grid>
+                                </Grid>
+
+
+                                <Grid Grid.Row="1" Margin="0 2 0 0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -227,28 +275,47 @@
                                             BorderThickness="1" 
                                             BorderBrush="Gray" 
                                             CornerRadius="3"
-                                            Margin="0 0 1 0">
-                                        <Label x:Name="lblResultPCB1"
-                                           MinHeight="50"
-                                           MinWidth="100"
-                                           Height="auto"
-                                           FontSize="50"
-                                           HorizontalAlignment="Center"></Label>
+                                            Margin="0 0 3 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <DockPanel  Margin="3 3 3 3 ">
+                                                <TextBlock Text="CELL 1: "></TextBlock>
+                                                <TextBox x:Name="txtResultCELL1_L1"  
+                                                         IsReadOnly="True" 
+                                                         ></TextBox>
+                                            </DockPanel>
+
+                                            <DockPanel  Margin="3 3 3 3 ">
+                                                <TextBlock Text="CELL 2: "></TextBlock>
+                                                <TextBox  x:Name="txtResultCELL2_L1"
+                                                          IsReadOnly="True"></TextBox>
+                                            </DockPanel>
+                                        </StackPanel>
                                     </Border>
 
                                     <Border Grid.Row="0" Grid.Column="1"
                                         x:Name="borderResultPCB2" 
                                             BorderThickness="1" 
+                                            Margin="3 0 0 0"
                                             BorderBrush="Gray" CornerRadius="3">
-                                        <Label x:Name="lblResultPCB2"
-                                           MinHeight="50"
-                                           MinWidth="100"
-                                           Height="auto"
-                                           FontSize="50"
-                                           HorizontalAlignment="Center"></Label>
+                                        <StackPanel Orientation="Vertical">
+                                            <DockPanel  Margin="3 3 3 3 ">
+                                                <TextBlock Text="CELL 1: "></TextBlock>
+                                                <TextBox x:Name="txtResultCELL1_L2"  
+                                                        
+                                                         IsReadOnly="True" 
+                                                         ></TextBox>
+                                            </DockPanel>
+
+                                            <DockPanel  Margin="3 3 3 3 ">
+                                                <TextBlock Text="CELL 2: "></TextBlock>
+                                                <TextBox  x:Name="txtResultCELL2_L2"
+                                                          IsReadOnly="True"></TextBox>
+                                            </DockPanel>
+                                        </StackPanel>
+
                                     </Border>
                                 </Grid>
-                                <Border Grid.Row="1">
+                                <Border Grid.Row="2" Margin="0 3 0 0">
                                     <DockPanel HorizontalAlignment="Left">
                                         <Label Content="CycleTime: " />
                                         <TextBlock x:Name="txbCycleTime"
@@ -267,18 +334,19 @@
                                   BorderBrush="White"
                                   Margin="3 0 3 3">
                             <TextBox x:Name="txtLogsAutoRun"
-                                     VerticalAlignment="Top"
+                                     VerticalAlignment="Stretch"
                                      IsReadOnly="True"
                                      Margin="0 5 0 0" 
                                      VerticalScrollBarVisibility="Auto"
-                                     HorizontalScrollBarVisibility="Auto"/>
+                                     HorizontalScrollBarVisibility="Auto"
+                                     />
                         </GroupBox>
                     </Border>
 
                     <Border Grid.Row="4"
                             CornerRadius="3"
                             BorderBrush="{DynamicResource PaletteBrush}">
-                        <Expander Header="Setup"
+                        <Expander Header="Controls"
                                   IsExpanded="True">
                             <DockPanel x:Name="dpnSetup" ></DockPanel>
 

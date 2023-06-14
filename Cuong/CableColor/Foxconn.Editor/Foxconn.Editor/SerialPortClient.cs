@@ -22,7 +22,7 @@ namespace Foxconn.Editor
             set => _isConnected = value;
         }
 
-        public string DataReceive
+        public string DataReceived
         {
             get => _dataReceived;
             set => _dataReceived = value;

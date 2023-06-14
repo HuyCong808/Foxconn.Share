@@ -45,6 +45,7 @@ namespace Foxconn.Editor
         //private bool _isLiveStream = false;
         private ICamera _camera = null;
         private bool _isStreaming = false;
+        
 
         private CvCodeRecognitionControl _codeRecognitionControl = new CvCodeRecognitionControl();
         private CvTemplateMatchingControl _templateMatchingControl = new CvTemplateMatchingControl();
