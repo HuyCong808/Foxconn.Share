@@ -46,23 +46,23 @@
     <ProjectReference Include="..\Foxconn.UI\Foxconn.UI.csproj" />
   </ItemGroup>
 
-	<ItemGroup>
-		<Reference Include="Basler.Pylon">
-			<HintPath>..\Dll\Basler\win64\Basler.Pylon.dll</HintPath>
-		</Reference>
-		<Reference Include="bgapi2_genicam_dotnet">
-			<HintPath>..\Dll\Baumer\win64\bgapi2_genicam_dotnet.dll</HintPath>
-		</Reference>
-		<Reference Include="DirectShowLib">
-			<HintPath>..\Dll\Webcam\AnyCpu\DirectShowLib.dll</HintPath>
-		</Reference>
-		<Reference Include="MvCameraControl.Net">
-			<HintPath>..\Dll\Hikvision\AnyCpu\MvCameraControl.Net.dll</HintPath>
-		</Reference>
-		<Reference Include="MVSDK">
-			<HintPath>..\Dll\Mindvision\AnyCpu\MVSDK.dll</HintPath>
-		</Reference>
-	</ItemGroup>
+  <ItemGroup>
+    <Reference Include="Basler.Pylon">
+      <HintPath>..\Dll\Basler\win64\Basler.Pylon.dll</HintPath>
+    </Reference>
+    <Reference Include="bgapi2_genicam_dotnet">
+      <HintPath>..\Dll\Baumer\win64\bgapi2_genicam_dotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="DirectShowLib">
+      <HintPath>..\Dll\Webcam\AnyCpu\DirectShowLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MvCameraControl.Net">
+      <HintPath>..\Dll\Hikvision\AnyCpu\MvCameraControl.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="MVSDK">
+      <HintPath>..\Dll\Mindvision\AnyCpu\MVSDK.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 	
   <ItemGroup>
     <Resource Include="Resources\Icons\add_camera_32px.png" />

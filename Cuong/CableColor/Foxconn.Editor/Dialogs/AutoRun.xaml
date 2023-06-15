@@ -98,8 +98,8 @@
                             <CV:ImageBox x:Name="imbImageBox1_L1"
                                          SizeMode="Zoom"
                                          FunctionalMode="Minimum"
-                                         MouseWheel="imbImageBox1_MouseWheel"
-                                         MouseDown="imbImageBox1_MouseDown">
+                                         MouseWheel="imbImageBox1_L1_MouseWheel"
+                                         MouseDown="imbImageBox1_L1_MouseDown">
                             </CV:ImageBox>
                         </WindowsFormsHost>
                     </Border>
@@ -114,8 +114,8 @@
                             <CV:ImageBox x:Name="imbImageBox2_L1"
                                          SizeMode="Zoom"
                                          FunctionalMode="Minimum" 
-                                         MouseWheel="imbImageBox2_MouseWheel" 
-                                         MouseDown="imbImageBox2_MouseDown" >
+                                         MouseWheel="imbImageBox2_L1_MouseWheel" 
+                                         MouseDown="imbImageBox2_L1_MouseDown" >
                             </CV:ImageBox>
                         </WindowsFormsHost>
                     </Border>
@@ -130,6 +130,8 @@
                             <CV:ImageBox x:Name="imbImageBox1_L2"
                                          SizeMode="Zoom"
                                          FunctionalMode="Minimum" 
+                                         MouseDown="imbImageBox1_L2_MouseDown" 
+                                         MouseWheel="imbImageBox1_L2_MouseWheel" 
                                          >
                             </CV:ImageBox>
                         </WindowsFormsHost>
@@ -145,6 +147,8 @@
                             <CV:ImageBox x:Name="imbImageBox2_L2"
                                          SizeMode="Zoom"
                                          FunctionalMode="Minimum" 
+                                         MouseDown="imbImageBox2_L2_MouseDown" 
+                                         MouseWheel="imbImageBox2_L2_MouseWheel" 
                                          >
                             </CV:ImageBox>
                         </WindowsFormsHost>
@@ -279,14 +283,14 @@
                                         <StackPanel Orientation="Vertical">
                                             <DockPanel  Margin="3 3 3 3 ">
                                                 <TextBlock Text="CELL 1: "></TextBlock>
-                                                <TextBox x:Name="txtResultCELL1_L1"  
+                                                <TextBox x:Name="txtL1_Cell1"  
                                                          IsReadOnly="True" 
                                                          ></TextBox>
                                             </DockPanel>
 
                                             <DockPanel  Margin="3 3 3 3 ">
                                                 <TextBlock Text="CELL 2: "></TextBlock>
-                                                <TextBox  x:Name="txtResultCELL2_L1"
+                                                <TextBox  x:Name="txtL1_Cell2"
                                                           IsReadOnly="True"></TextBox>
                                             </DockPanel>
                                         </StackPanel>
@@ -300,7 +304,7 @@
                                         <StackPanel Orientation="Vertical">
                                             <DockPanel  Margin="3 3 3 3 ">
                                                 <TextBlock Text="CELL 1: "></TextBlock>
-                                                <TextBox x:Name="txtResultCELL1_L2"  
+                                                <TextBox x:Name="txtL2_Cell1"  
                                                         
                                                          IsReadOnly="True" 
                                                          ></TextBox>
@@ -308,7 +312,7 @@
 
                                             <DockPanel  Margin="3 3 3 3 ">
                                                 <TextBlock Text="CELL 2: "></TextBlock>
-                                                <TextBox  x:Name="txtResultCELL2_L2"
+                                                <TextBox  x:Name="txtL2_Cell2"
                                                           IsReadOnly="True"></TextBox>
                                             </DockPanel>
                                         </StackPanel>
