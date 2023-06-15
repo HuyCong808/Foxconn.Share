@@ -59,12 +59,16 @@ namespace Foxconn.Editor
 
         public void AddData(string sn)
         {
-            int num = Data.Count;
-            Data item = new Data()
+            var item = _data.Find(x => x.SN == sn);
+            if (item == null)
             {
-                SN = sn,
-            };
-            _data.Add(item);
+                int num = Data.Count;
+                Data data = new Data()
+                {
+                    SN = sn,
+                };
+                _data.Add(data);
+            }
         }
 
         public void RemoveData(Data sn)
@@ -83,6 +87,7 @@ namespace Foxconn.Editor
             SN = "";
             IsStep1 = false;
             IsStep2 = false;
+
         }
     }
 }

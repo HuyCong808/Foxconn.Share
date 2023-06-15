@@ -17,6 +17,7 @@ namespace Foxconn.Editor.Enums
         L2_COLOR2,
         L2_SOLDER_CAP1,
         L2_SOLDER_CAP2,
+        L1_CLEAR,
+        L2_CLEAR
     }
-
 }

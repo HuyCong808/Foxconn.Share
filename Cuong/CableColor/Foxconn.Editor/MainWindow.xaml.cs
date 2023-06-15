@@ -1190,6 +1190,10 @@ namespace Foxconn.Editor
             }
         }
 
+        private void imbCamera_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
+        {
+
+        }
     }
 }
 

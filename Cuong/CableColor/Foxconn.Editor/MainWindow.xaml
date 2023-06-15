@@ -94,12 +94,6 @@
                         Margin="3 0 2 2"
                         CornerRadius="3">
                     <Grid>
-                        <Grid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="aaaa"></MenuItem>
-                                <MenuItem Header="BBBBB"></MenuItem>
-                            </ContextMenu>
-                        </Grid.ContextMenu>
                         <WindowsFormsHost>
                             <CV:ImageBox x:Name="imbCamera"
                                          SizeMode="Zoom"
@@ -108,7 +102,7 @@
                                          MouseMove="imbCamera_MouseMove"
                                          MouseDown="imbCamera_MouseDown"
                                          MouseUp="imbCamera_MouseUp"
-                                         MouseWheel="imbCamera_MouseWheel">
+                                         MouseWheel="imbCamera_MouseWheel" Visible="True">
                             </CV:ImageBox>
                         </WindowsFormsHost>
                     </Grid>
@@ -317,7 +311,7 @@
                                     <ComboBox x:Name="cmbFOVs"
                                               Width="150"
                                               SelectionChanged="cmbFOVs_SelectionChanged" >
-                                       
+
                                     </ComboBox>
                                 </StackPanel>
 
