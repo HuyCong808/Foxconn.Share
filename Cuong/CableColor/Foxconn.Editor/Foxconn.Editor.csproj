@@ -1,0 +1,97 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <UseWPF>true</UseWPF>
+	<UseWindowsForms> true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\add_camera_32px.png" />
+    <None Remove="Resources\add_ROI_50px.png" />
+    <None Remove="Resources\add_SMD.png" />
+    <None Remove="Resources\delete_FOV_32px.png" />
+    <None Remove="Resources\delete_roi_50px.png" />
+    <None Remove="Resources\full_image_32px.png" />
+    <None Remove="Resources\Icons\screenshot_32px.png" />
+    <None Remove="Resources\image_32px.png" />
+    <None Remove="Resources\position_30px.png" />
+    <None Remove="Resources\refresh_26px.png" />
+    <None Remove="Resources\screenshot_32px.png" />
+    <None Remove="Resources\video_call_32px_off.png" />
+    <None Remove="Resources\video_call_32px_on.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DirectShowLib" Version="1.0.0" />
+    <PackageReference Include="Emgu.CV" Version="4.7.0.5276" />
+    <PackageReference Include="Emgu.CV.Bitmap" Version="4.7.0.5276" />
+    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.7.0.5276" />
+    <PackageReference Include="Emgu.CV.UI" Version="4.7.0.5276" />
+    <PackageReference Include="HalconDotNet" Version="19.11.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.1.4" />
+    <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+    <PackageReference Include="ZXing.Net" Version="0.16.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Foxconn.UI\Foxconn.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Basler.Pylon">
+      <HintPath>..\Dll\Basler\win64\Basler.Pylon.dll</HintPath>
+    </Reference>
+    <Reference Include="bgapi2_genicam_dotnet">
+      <HintPath>..\Dll\Baumer\win64\bgapi2_genicam_dotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="DirectShowLib">
+      <HintPath>..\Dll\Webcam\AnyCpu\DirectShowLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MvCameraControl.Net">
+      <HintPath>..\Dll\Hikvision\AnyCpu\MvCameraControl.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="MVSDK">
+      <HintPath>..\Dll\Mindvision\AnyCpu\MVSDK.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Resource Include="Resources\Icons\add_camera_32px.png" />
+    <Resource Include="Resources\Icons\add_ROI_50px.png" />
+    <Resource Include="Resources\Icons\add_SMD.png" />
+    <Resource Include="Resources\Icons\delete_FOV_32px.png" />
+    <Resource Include="Resources\Icons\delete_roi_50px.png" />
+    <Resource Include="Resources\Icons\full_image_32px.png" />
+    <Resource Include="Resources\Icons\image_32px.png" />
+    <Resource Include="Resources\Icons\position_30px.png" />
+    <Resource Include="Resources\Icons\refresh_26px.png" />
+    <Resource Include="Resources\Icons\screenshot_32px.png" />
+    <Resource Include="Resources\Icons\video_call_32px_off.png" />
+    <Resource Include="Resources\Icons\video_call_32px_on.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

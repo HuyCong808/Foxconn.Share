@@ -1,0 +1,1163 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Foxconn.Editor"
+        xmlns:CV="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.Platform.NetCore"
+        xmlns:Forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        x:Class="Foxconn.Editor.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        WindowStartupLocation="CenterScreen"
+        Width="1280"
+        Height="720"
+        MinWidth="800"
+        MinHeight="450"
+        WindowState="Maximized"
+        Background="{DynamicResource BackgroundBrush}"
+        Closed="Window_Closed"
+        Closing="Window_Closing"
+        Loaded="Window_Loaded"
+        KeyDown="Window_KeyDown">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Menu>
+                <MenuItem Header="File">
+                    <MenuItem Header="New..."
+                              x:Name="mnuiNewProgram"
+                              Click="mnuiNewProgram_Click" />
+                    <MenuItem Header="Open"
+                              x:Name="mnuiOpenProgram"
+                              Click="mnuiOpenProgram_Click" />
+                    <Separator />
+                    <MenuItem Header="Save"
+                              x:Name="mnuiSaveProgram"
+                              Click="mnuiSaveProgram_Click" />
+                    <MenuItem Header="Close"
+                              x:Name="muniCloseProgram" Click="muniCloseProgram_Click" />
+                </MenuItem>
+                <MenuItem Header="View">
+                    <MenuItem Header="View ConsoleApp"
+                              x:Name="mnuiConsoleApp" Click="mnuiConsoleApp_Click"  />
+                    <MenuItem Header="Open file Location"
+                              x:Name="mnuiFileLocation" Click="mnuiFileLocation_Click" 
+                              />
+                    <MenuItem x:Name="mnuiZoom"
+                              Header="Zoom"
+                              Click="mnuiZoom_Click" />
+                </MenuItem>
+                <MenuItem Header="Run">
+                    <MenuItem Header="AutoRun"
+                              x:Name="mnuiAutoRun"
+                              Click="mnuiAutoRun_Click" />
+                    <MenuItem Header="Test"
+                              x:Name="mnuiTest"
+                              InputGestureText="F5"
+                              Click="mnuiTest_Click" />
+                </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="Check for Updates"
+                              x:Name="mnuiCheckforUpdate" />
+                    <MenuItem Header="About"
+                              x:Name="mnuiAbout" />
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="300" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="80" />
+
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Label Content="Image"
+                           Margin="5 0 0 0" />
+                </Grid>
+                <Border Grid.Row="1"
+                        BorderBrush="Gray"
+                        BorderThickness="1.5"
+                        AllowDrop="true"
+                        Margin="3 0 2 2"
+                        CornerRadius="3">
+                    <Grid>
+                        <WindowsFormsHost>
+                            <CV:ImageBox x:Name="imbCamera"
+                                         SizeMode="Zoom"
+                                         FunctionalMode="Minimum"
+                                         InterpolationMode="High"
+                                         MouseMove="imbCamera_MouseMove"
+                                         MouseDown="imbCamera_MouseDown"
+                                         MouseUp="imbCamera_MouseUp"
+                                         MouseWheel="imbCamera_MouseWheel" Visible="True">
+                            </CV:ImageBox>
+                        </WindowsFormsHost>
+                    </Grid>
+                </Border>
+
+                <Border></Border>
+                <Grid Grid.Row="2"
+                      Height="22">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0"
+                                CornerRadius="3"
+                                Background="{DynamicResource PaletteBrush}"
+                                Margin="3,0,0,0"
+                                Padding="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0"
+                                        x:Name="btnGrabFrame"
+                                        Width="20"
+                                        Height="20"
+                                        MinWidth="0"
+                                        MinHeight="0"
+                                        BorderThickness="0"
+                                        Margin="0,0,0,0"
+                                        ToolTip="Capture"
+                                        Click="btnGrabFrame_Click">
+                                    <Image Source="Resources\Icons\screenshot_32px.png" />
+                                </Button>
+                                <Button Grid.Column="1"
+                                        x:Name="btnStreaming"
+                                        ToolTip="Streaming"
+                                        Height="20"
+                                        Width="20"
+                                        MinWidth="0"
+                                        MinHeight="0"
+                                        BorderThickness="0"
+                                        Click="btnStreaming_Click">
+                                    <Image x:Name="imgStreaming"
+                                           Source="Resources\Icons\video_call_32px_off.png" />
+                                </Button>
+
+                                <Button Grid.Column="2"
+                                        x:Name="btnUapdateImageBlock"
+                                        ToolTip="Update Image Block"
+                                        Height="20"
+                                        Width="20"
+                                        MinHeight="0"
+                                        MinWidth="0"
+                                        BorderThickness="0"
+                                        Click="btnUpdateImageBlock_Click">
+                                    <Image Source="Resources\Icons\image_32px.png" />
+                                </Button>
+
+                                <Button Grid.Column="3"
+                                        x:Name="btnAddROI"
+                                        ToolTip="Add ROI"
+                                        Height="20"
+                                        Width="20"
+                                        MinWidth="0"
+                                        MinHeight="0"
+                                        BorderThickness="0"
+                                        Click="btnAddROI_Click">
+                                    <Image Source="Resources\Icons\add_ROI_50px.png" />
+                                </Button>
+
+                                <Button Grid.Column="4"
+                                        x:Name="btnDeleteROI"
+                                        ToolTip="Delete ROI"
+                                        Height="20"
+                                        Width="20"
+                                        MinWidth="0"
+                                        MinHeight="0"
+                                        BorderThickness="0"
+                                        Click="btnDeleteROI_Click">
+                                    <Image Source="Resources\Icons\delete_roi_50px.png" />
+                                </Button>
+
+                                <Button Grid.Column="5"
+                                        x:Name="btnSaveROI"
+                                        ToolTip="Save ROI"
+                                        Height="20"
+                                        Width="20"
+                                        MinWidth="0"
+                                        MinHeight="0"
+                                        BorderThickness="0"
+                                        Margin="0,0,0,1"
+                                        Click="btnSaveROI_Click">
+                                    <Image Source="Resources\Icons\full_image_32px.png" />
+                                </Button>
+                            </Grid>
+                        </Border>
+                        <Border Grid.Column="1"
+                                CornerRadius="3"
+                                Background="{DynamicResource PaletteBrush}"
+                                Margin="2,0,0,0"
+                                MinWidth="100">
+                        </Border>
+                        <Border Grid.Column="2"
+                                CornerRadius="3"
+                                Background="{DynamicResource PaletteBrush}"
+                                Margin="2,0,2,0"
+                                MinWidth="50"
+                                HorizontalAlignment="Right">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Resources\Icons\position_30px.png"></Image>
+                                <Border   CornerRadius="3"
+                                          Background="{DynamicResource PaletteBrush}"
+                                          Margin="5,0,0,0"
+                                          Width="auto"
+                                          HorizontalAlignment="Left">
+                                    <Label x:Name="lblPosition"
+                                              Background="{DynamicResource PaletteBrush}"
+                                             Foreground="{StaticResource Text1Brush}" Margin="0 0 5 0"></Label>
+                                </Border>
+
+                            </StackPanel>
+                        </Border>
+
+                    </Grid>
+
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="95*" />
+                        <ColumnDefinition Width="48*" />
+                        <ColumnDefinition Width="821*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Help View"
+                           Height="20"
+                           Margin="4,0,0,0"
+                           Grid.ColumnSpan="3" />
+                </Grid>
+
+                <Grid Grid.Row="4">
+                    <Border Margin=" 3 0 2 0"
+                            CornerRadius="3"
+                            Background="{DynamicResource PaletteBrush}">
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <Border Grid.Column="1"
+                    Margin="0,0,3,0"
+                    Background="{DynamicResource PaletteBrush}"
+                    CornerRadius="3">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Navigation"
+                           Height="16"
+                           Margin="5 0 0 0" />
+                    <Grid Grid.Row="1">
+                        <GroupBox Header="Configuration"
+                                  BorderBrush="White"
+                                  Margin="3 0 3 0">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 10 5 7">
+                                    <Button x:Name="btnAddFOV"
+                                            ToolTip="Add FOV"
+                                            Margin="0 0 15 0"
+                                            Width="22"
+                                            Height="22"
+                                            BorderThickness="0"
+                                            MinHeight="0"
+                                            MinWidth="0"
+                                            Click="btnAddFOV_Click">
+                                        <Image Source="Resources\Icons\add_camera_32px.png" />
+                                    </Button>
+
+                                    <Button x:Name="btnDeleteFOV"
+                                            ToolTip="Delete FOV"
+                                            BorderThickness="0"
+                                            Margin="0 0 15 0"
+                                            Width="22"
+                                            Height="22"
+                                            MinHeight="20"
+                                            MinWidth="20"
+                                            Click="btnDeleteFOV_Click">
+                                        <Image Source="Resources\Icons\delete_FOV_32px.png"/>
+                                    </Button>
+
+                                    <Label Content="FOVs"
+                                           Margin="0 0 5 0" />
+                                    <ComboBox x:Name="cmbFOVs"
+                                              Width="150"
+                                              SelectionChanged="cmbFOVs_SelectionChanged" >
+
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 0 5 7">
+                                    <Button x:Name="btnAddSMD"
+                                            Margin="0 0 15 0"
+                                            ToolTip="Add FOV"
+                                            Width="22"
+                                            Height="22"
+                                            MinHeight="0"
+                                            MinWidth="0"
+                                            BorderThickness="0"
+                                            Click="btnAddSMD_Click">
+                                        <Image Source="Resources\Icons\add_SMD.png"/>
+                                    </Button>
+
+                                    <Button x:Name="btnDeleteSMD"
+                                            ToolTip="Delete SMD"
+                                            BorderThickness="0"
+                                            MinHeight="0"
+                                            MinWidth="0"
+                                            Width="22"
+                                            Height="22"
+                                            Margin="0 0 12 0"
+                                            Click="btnDeleteSMD_Click">
+                                        <Image Source="Resources\Icons\delete_FOV_32px.png" />
+                                    </Button>
+                                    <Label Content="SMDs"
+                                           Margin="0 0 5 0" />
+                                    <ComboBox x:Name="cmbSMDs"
+                                              Width="150"
+                                              SelectionChanged="cmbSMDs_SelectionChanged" />
+                                </StackPanel>
+
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <GroupBox Header="FOV Properties"
+                                  BorderBrush="White"
+                                  Margin="3 0 3 0">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 0 5 7">
+                                    <Label Content="ID"
+                                           Margin="0 0 5 0" />
+                                    <TextBox x:Name="txtIDFOV"
+                                             Width="54"
+                                             Text="{Binding ID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             IsReadOnly="True" />
+                                    <Label Content="Name"
+                                           Margin="5 0 5 0" />
+                                    <TextBox x:Name="txtNameFOV"
+                                             Width="54"
+                                             Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             IsReadOnly="True" />
+                                </StackPanel>
+
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 0 5 7">
+                                    <Label Content="Exposure Time"
+                                           Margin="0 0 5 0" />
+                                    <TextBox x:Name="txtExposureTime"
+                                             Width="150"
+                                             Text="{Binding ExposureTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin=" 0 0 5 7">
+                                    <Label Content="Is Enabled"
+                                           Margin=" 0 0 5 0" />
+                                    <CheckBox x:Name="ckbIsEnableFOV"
+                                              IsChecked="{Binding IsEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Width="150"
+                                              Content=""
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Center" Click="ckbIsEnableFOV_Click" 
+                                              />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 0 5 7">
+                                    <Label Content="Type"
+                                           Margin="0 0 5 0" />
+                                    <ComboBox x:Name="cmbFOVType"
+                                              Width="150"
+                                              SelectedItem="{Binding FOVType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 0 5 0">
+                                    <Label Content="Camera Mode"
+                                           Margin="0 0 5 0" />
+                                    <ComboBox x:Name="cmbCameraMode"
+                                              SelectedItem="{Binding CameraMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Width="150" />
+                                </StackPanel>
+
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+
+                    <Grid Grid.Row="3">
+                        <GroupBox Header="SMD Properties"
+                                  BorderBrush="White"
+                                  Margin="3 0 3 0">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 0 5 7">
+                                    <Label Content="ID"
+                                           Margin="0 0 5 0" />
+                                    <TextBox x:Name="txtSMDID"
+                                             Width="54"
+                                             Text="{Binding Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             IsReadOnly="True" />
+                                    <Label Content="Name"
+                                           Margin="5 0 5 0" />
+                                    <TextBox x:Name="txtSMDName"
+                                             Width="54"
+                                             Text="{Binding name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             IsReadOnly="True" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 0 5 7">
+                                    <Label Content="Type"
+                                           Margin="0 0 5 0" />
+                                    <ComboBox x:Name="cmbSMDType"
+                                              SelectedItem="{Binding SMDType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Width="150" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 0 5 7">
+                                    <Label Content="Algorithm"
+                                           Margin="0 0 5 0" />
+                                    <ComboBox x:Name="cmbSMDAlgorithm"
+                                              SelectedItem="{Binding Algorithm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Width="150"
+                                              SelectionChanged="cmbSMDAlgorithm_SelectionChanged" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin=" 0 0 5 5">
+                                    <Label Content="Is Enabled"
+                                           Margin=" 0 0 5 0" />
+                                    <CheckBox  x:Name="ckbIEnableSMD"
+                                        IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Width="150"
+                                              Content=""
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <DockPanel Margin="0,2,0,7">
+                                    <DockPanel HorizontalAlignment="Right"
+                                               Margin="0 0 5 0">
+                                        <TextBlock Text="ROI"
+                                                   Foreground="{StaticResource Text1Brush}"
+                                                   Margin="0,0,5,0" />
+                                        <Border CornerRadius="3"
+                                                Background="#222222"
+                                                Width="75"
+                                                Margin="0,0,2,0">
+                                            <DockPanel>
+                                                <Border BorderThickness="1"
+                                                        Height="19"
+                                                        Margin="0,0,0,0">
+                                                    <TextBlock Text="X"
+                                                               Width="18"
+                                                               TextAlignment="Center" />
+                                                </Border>
+                                                <TextBox x:Name="txtROIX" 
+                                                         Text="{Binding ROI.X, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DockPanel>
+                                        </Border>
+                                        <Border CornerRadius="3"
+                                                Background="#222222"
+                                                Width="75"
+                                                Margin="0,0,0,0">
+                                            <DockPanel>
+                                                <Border BorderThickness="1"
+                                                        Height="19"
+                                                        Margin="0,0,0,0">
+                                                    <TextBlock Text="Y"
+                                                               Width="18"
+                                                               TextAlignment="Center" />
+                                                </Border>
+                                                <TextBox x:Name="txtROIY" 
+                                                         Text="{Binding ROI.Y, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DockPanel>
+                                        </Border>
+                                    </DockPanel>
+                                </DockPanel>
+
+                                <DockPanel Margin="0,2,0,2">
+                                    <DockPanel HorizontalAlignment="Right"
+                                               Margin="0 0 5 0">
+                                        <Button x:Name="btnReloadROI"
+                                                Margin="0 0 3 0"
+                                                ToolTip="Reload ROI"
+                                                MinHeight="0"
+                                                MinWidth="0"
+                                                Height="20"
+                                                Width="20"
+                                                BorderThickness="0"
+                                                Click="btnReloadROI_Click">
+                                            <Image Source="Resources\Icons\refresh_26px.png"
+                                                   />
+                                        </Button>
+                                        <Border CornerRadius="3"
+                                                Background="#222222"
+                                                Width="75"
+                                                Margin="0,0,2,0">
+                                            <DockPanel>
+                                                <Border BorderThickness="1"
+                                                        Height="19"
+                                                        Margin="0,0,0,0">
+                                                    <TextBlock Text="W"
+                                                               Width="18"
+                                                               TextAlignment="Center" />
+                                                </Border>
+                                                <TextBox x:Name="txtROIW"
+                                                         Text="{Binding ROI.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DockPanel>
+                                        </Border>
+                                        <Border CornerRadius="3"
+                                                Background="#222222"
+                                                Width="75"
+                                                Margin="0,0,0,0">
+                                            <DockPanel>
+                                                <Border BorderThickness="1"
+                                                        Height="19"
+                                                        Margin="0,0,0,0">
+                                                    <TextBlock Text="H"
+                                                               Width="18"
+                                                               TextAlignment="Center" />
+                                                </Border>
+                                                <TextBox x:Name="txtROIH"
+                                                         Text="{Binding ROI.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DockPanel>
+                                        </Border>
+                                    </DockPanel>
+                                </DockPanel>
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+
+                    <Grid Grid.Row="4">
+                        <GroupBox Header="Algorithm"
+                                  BorderBrush="White"
+                                  Margin="3 0 3 0">
+                            <TabControl>
+                                <TabItem Header="CodeRecognition"
+                                         ToolTip="CodeRecognition"
+                                         x:Name="tbiCodeRecognition">
+                                    <Grid Background="{DynamicResource PaletteBrush}">
+                                        <StackPanel Orientation="Vertical"
+                                                    Grid.ColumnSpan="2">
+                                            <DockPanel Margin="0,5,5,5">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Mode"
+                                                               Margin="0,0,4,0" />
+                                                    <ComboBox x:Name="cmbMode"
+                                                              SelectedItem="{Binding CodeRecognition.Mode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                              Width="150" />
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,2,5,5">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Format"
+                                                               Margin="0,0,4,0" />
+                                                    <ComboBox x:Name="cmbFormat"
+                                                              SelectedItem="{Binding CodeRecognition.Format, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                              Width="150" />
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,2,5,5">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Prefix"
+                                                               Margin="0,0,4,0" />
+                                                    <TextBox Text="{Binding CodeRecognition.Prefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                             Width="150" />
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,2,5,5">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Length"
+                                                               Margin="0,0,4,0" />
+                                                    <TextBox Text="{Binding CodeRecognition.Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                             Width="150" />
+                                                </DockPanel>
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </Grid>
+
+
+                                </TabItem>
+                                <TabItem Header="HSVExtraction"
+                                         ToolTip="HSVExtraction"
+                                         x:Name="tbiHSV">
+                                    <Grid Background="{DynamicResource PaletteBrush}">
+                                        <StackPanel Orientation="Vertical">
+
+                                            <DockPanel Margin="0,5,5,2">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text=""
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Button x:Name="btnGetHSVColorButton"
+                                                            Content="Get HSV Color"
+                                                            Width="150"
+                                                            Click="btnGetHSVColorButton_Click" />
+                                                </DockPanel>
+                                            </DockPanel>
+
+                                            <DockPanel Margin="0 2 5 2">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <Button x:Name="btnCopyHSV"
+                                                            Content="Copy" 
+                                                            Margin="0 0 1 0" 
+                                                            Width="74" Click="btnCopyHSV_Click"
+                                                            />
+                                                    <Button x:Name="btnPasteHSV"
+                                                            Content="Paste" 
+                                                            Margin="1 0 0 0" 
+                                                            Width="74" Click="btnPasteHSV_Click" ></Button>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,2,5,2">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Hue"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,2,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="L"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding HSVExtraction.Hue.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,0,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="U"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding HSVExtraction.Hue.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+
+                                            <DockPanel Margin="0,2,5,2">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Saturation"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,2,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="L"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding HSVExtraction.Saturation.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,0,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="U"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding HSVExtraction.Saturation.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,2,5,2">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Value"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,2,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="L"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding HSVExtraction.Value.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,0,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="U"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding HSVExtraction.Value.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,2,5,2">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="OK Range"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,2,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="L"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding HSVExtraction.OKRange.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,0,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="U"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding HSVExtraction.OKRange.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,2,5,2">
+                                                <DockPanel Margin="0,2,0,2">
+                                                    <DockPanel HorizontalAlignment="Right">
+                                                        <TextBlock Text=""
+                                                                   Margin="0,0,5,0" />
+                                                        <DockPanel Width="150">
+                                                            <CheckBox IsChecked="{Binding HSVExtraction.IsEnabledReserveSearch}"
+                                                                      Content="Reverse Search" />
+                                                        </DockPanel>
+                                                    </DockPanel>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,2,5,2">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Score"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="150"
+                                                            Margin="0,0,0,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="S"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding HSVExtraction.Score, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                     IsReadOnly="True" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+
+
+                                        </StackPanel>
+                                    </Grid>
+
+
+                                </TabItem>
+                                <TabItem Header="Template Matching"
+                                         ToolTip="Template Matching"
+                                         x:Name="tbiTemplateMatching">
+                                    <Grid Background="{DynamicResource PaletteBrush}">
+                                        <StackPanel Orientation="Vertical">
+                                            <DockPanel Margin="0,5,5,5">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text=""
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Button x:Name="btnUpdateTemplateButton"
+                                                            Content="Update Template"
+                                                            Width="150"
+                                                            Click="btnUpdateTemplateButton_Click" />
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,0,5,5">
+                                                <DockPanel HorizontalAlignment="Right"
+                                                           Margin=" 0 0 0 0">
+                                                    <TextBlock Text="Image"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0,0,4,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="{StaticResource MainWindowBackgroundBrush}"
+                                                            BorderBrush="Gray"
+                                                            BorderThickness="1"
+                                                            Width="120"
+                                                            Height="100"
+                                                            Margin="5 0 30 0">
+                                                        <WindowsFormsHost>
+                                                            <CV:ImageBox x:Name="imbTemplateImage"
+                                                                         SizeMode="Zoom"
+                                                                         FunctionalMode="RightClickMenu" />
+                                                        </WindowsFormsHost>
+                                                        <!--<Image x:Name="imgTemplateImage" Source="{Binding TemplateMatchingTemplateImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,0,5,5">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="OK Range"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,5,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,2,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="L"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding TemplateMatching.OKRange.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,0,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="U"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding TemplateMatching.OKRange.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,0,5,5">
+                                                <DockPanel>
+                                                    <DockPanel HorizontalAlignment="Right">
+                                                        <DockPanel Width="150">
+                                                            <CheckBox IsChecked="{Binding TemplateMatching.IsEnableReverseSearch}"
+                                                                      Content="Reverse Search"
+                                                                      HorizontalAlignment="Left"
+                                                                      VerticalAlignment="Center" />
+                                                        </DockPanel>
+                                                    </DockPanel>
+                                                </DockPanel>
+                                            </DockPanel>
+
+                                            <DockPanel Margin="0,0,5,5">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Score"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="150"
+                                                            Margin="0,0,0,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="S"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding TemplateMatching.Score, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                     IsReadOnly="True" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,0,5,5">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Center"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,2,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="X"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding TemplateMatching.Center.X, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                     IsReadOnly="True" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,0,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="Y"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding TemplateMatching.Center.Y, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                     IsReadOnly="True" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+
+
+                                        </StackPanel>
+                                    </Grid>
+                                </TabItem>
+
+                                <TabItem Header="LuminanceExtraction"
+                                         ToolTip="LuminanceExtraction"
+                                         x:Name="tbiLuminanceExtraction" >
+                                    <Grid Background="{DynamicResource PaletteBrush}">
+                                        <StackPanel Orientation="Vertical">
+                                            <DockPanel Margin="0,5,5,2">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Threshold"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,2,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="L"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding LuminanceExtraction.Threshold.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,0,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="U"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding LuminanceExtraction.Threshold.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,2,5,2">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="OK Range"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,2,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="L"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding LuminanceExtraction.OKRange.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="74"
+                                                            Margin="0,0,0,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="U"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding LuminanceExtraction.OKRange.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,2,5,2">
+                                                <DockPanel Margin="0,2,0,2">
+                                                    <DockPanel HorizontalAlignment="Right">
+                                                        <TextBlock Text=""
+                                                                   Margin="0,0,5,0" />
+                                                        <DockPanel Width="150">
+                                                            <CheckBox IsChecked="{Binding LuminanceExtraction.IsEnabledReverseSearch}"
+                                                                      Content="Reverse Search" />
+                                                        </DockPanel>
+                                                    </DockPanel>
+                                                </DockPanel>
+                                            </DockPanel>
+                                            <DockPanel Margin="0,2,5,2">
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <TextBlock Text="Score"
+                                                               Foreground="{StaticResource Text1Brush}"
+                                                               Margin="0,0,4,0" />
+                                                    <Border CornerRadius="3"
+                                                            Background="#222222"
+                                                            Width="150"
+                                                            Margin="0,0,0,0">
+                                                        <DockPanel>
+                                                            <Border BorderThickness="1"
+                                                                    Height="19"
+                                                                    Margin="0,0,0,0">
+                                                                <TextBlock Text="S"
+                                                                           Foreground="{StaticResource Text1Brush}"
+                                                                           Width="18"
+                                                                           TextAlignment="Center" />
+                                                            </Border>
+                                                            <TextBox Text="{Binding LuminanceExtraction.Score, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                     IsReadOnly="True" />
+                                                        </DockPanel>
+                                                    </Border>
+                                                </DockPanel>
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </TabItem>
+                            </TabControl>
+                        </GroupBox>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+
+        <Grid Grid.Row="3"
+              Margin="0,2,0,0">
+            <Border Background="{DynamicResource PaletteBrush}"
+                    CornerRadius="4">
+                <StatusBar Margin="0 0 0 0">
+                    <Label x:Name="ssStatus"
+                       Content="Status..."
+                       Width="100" />
+                </StatusBar>
+            </Border>
+        </Grid>
+
+    </Grid>
+</Window>
