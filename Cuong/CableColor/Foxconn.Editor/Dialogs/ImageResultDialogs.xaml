@@ -10,7 +10,8 @@
         Height="450" 
         Width="800"
         WindowStartupLocation="CenterScreen"
-        Background="{DynamicResource BackgroundBrush}" Loaded="Window_Loaded"
+        Background="{DynamicResource BackgroundBrush}" 
+        Loaded="Window_Loaded" 
         >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,7 +26,8 @@
                     <WindowsFormsHost>
                         <CV:ImageBox x:Name="imbImageResult"
                              SizeMode="Zoom"
-                             FunctionalMode="Minimum"
+                             FunctionalMode="Minimum" MouseWheel="imbImageResult_MouseWheel"
+                                     
                              >
                         </CV:ImageBox>
                     </WindowsFormsHost>
@@ -34,12 +36,17 @@
         </Grid>
         <Grid Grid.Column="1">
             <GroupBox Header="Infomation" 
-                      BorderBrush="White" Margin="3 0 3 3"></GroupBox>
+                      BorderBrush="White" Margin="3 0 3 3">
+                <Grid>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                        <TextBlock x:Name="txbFOVName" Margin="0 5 0 0"></TextBlock>
+                        <Label x:Name="lblInfomation" 
+                             VerticalAlignment="Top">
+                        </Label>
+                    </StackPanel>
+                    
+                </Grid>
+            </GroupBox>
         </Grid>
-       
-        
-        
     </Grid>
-
-    
 </Window>

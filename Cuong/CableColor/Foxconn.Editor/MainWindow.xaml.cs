@@ -1325,13 +1325,13 @@ namespace Foxconn.Editor
                 int smdindex = cmbSMDs.SelectedIndex;
                 if (fovindex > -1 && smdindex > -1)
                 {
-                    var item = _program.FOVs[fovindex].SMDs[smdindex];
-                    if (item != null && cmbSMDAlgorithm.SelectedIndex == (int)SMDAlgorithm.HSVExtraction)
+                    var smd = _program.FOVs[fovindex].SMDs[smdindex];
+                    if (smd != null && cmbSMDAlgorithm.SelectedIndex == (int)SMDAlgorithm.HSVExtraction)
                     {
-                        HSVExtraction.Hue = item.HSVExtraction.Hue;
-                        HSVExtraction.Saturation = item.HSVExtraction.Saturation;
-                        HSVExtraction.Value = item.HSVExtraction.Value;
-                        HSVExtraction.OKRange = item.HSVExtraction.OKRange;
+                        HSVExtraction.Hue = smd.HSVExtraction.Hue;
+                        HSVExtraction.Saturation = smd.HSVExtraction.Saturation;
+                        HSVExtraction.Value = smd.HSVExtraction.Value;
+                        HSVExtraction.OKRange = smd.HSVExtraction.OKRange;
                     }
                 }
             }
@@ -1349,13 +1349,13 @@ namespace Foxconn.Editor
                 int smdindex = cmbSMDs.SelectedIndex;
                 if (fovindex > -1 && smdindex > -1)
                 {
-                    var item = _program.FOVs[fovindex].SMDs[smdindex];
-                    if (item != null && cmbSMDAlgorithm.SelectedIndex == (int)SMDAlgorithm.HSVExtraction)
+                    var smd = _program.FOVs[fovindex].SMDs[smdindex];
+                    if (smd != null && cmbSMDAlgorithm.SelectedIndex == (int)SMDAlgorithm.HSVExtraction)
                     {
-                        item.HSVExtraction.Hue = HSVExtraction.Hue;
-                        item.HSVExtraction.Saturation = HSVExtraction.Saturation;
-                        item.HSVExtraction.Value = HSVExtraction.Value;
-                        item.HSVExtraction.OKRange = HSVExtraction.OKRange;
+                        smd.HSVExtraction.Hue = HSVExtraction.Hue;
+                        smd.HSVExtraction.Saturation = HSVExtraction.Saturation;
+                        smd.HSVExtraction.Value = HSVExtraction.Value;
+                        smd.HSVExtraction.OKRange = HSVExtraction.OKRange;
                     }
                 }
             }

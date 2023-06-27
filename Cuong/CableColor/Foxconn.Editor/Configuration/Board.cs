@@ -76,9 +76,6 @@ namespace Foxconn.Editor.Configuration
             }
         }
 
-
-
-
         public void SaveProgram()
         {
             try
@@ -107,8 +104,6 @@ namespace Foxconn.Editor.Configuration
                 Console.WriteLine(ex.Message);
             }
         }
-
-
 
         public void AddFOV()
         {

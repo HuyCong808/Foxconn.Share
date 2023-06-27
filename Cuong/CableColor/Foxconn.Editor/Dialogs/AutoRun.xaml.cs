@@ -41,12 +41,18 @@ namespace Foxconn.Editor.Dialogs
         private MachineParams _param = MachineParams.Current;
         private DeviceManager _device = DeviceManager.Current;
         private List<FOVResult> _FOVResults = new List<FOVResult>();
+        private List<SMDResult> _SMDResults = new List<SMDResult>();
+        private List<SMDResult> _SMDResultsCopy = new List<SMDResult>();
+
         FOVResult fovResult = new FOVResult();
 
-        private Image<Bgr, byte> _image { get; set; }
         private VideoCapture _capture = null;
         private Mat _frame;
 
+        private FOVType _FOVTypeImb1_L1 = FOVType.Unknow;
+        private FOVType _FOVTypeImb2_L1 = FOVType.Unknow;
+        private FOVType _FOVTypeImb1_L2 = FOVType.Unknow;
+        private FOVType _FOVTypeImb2_L2 = FOVType.Unknow;
         private string _SN { get; set; }
         public string CycleTime { get; set; }
         public string BoardName { get; set; }
@@ -127,6 +133,7 @@ namespace Foxconn.Editor.Dialogs
             UpdateStatusControl("Running...", 0);
         }
 
+
         private void Window_Closed(object sender, EventArgs e)
         {
             _database.Save();
@@ -162,7 +169,7 @@ namespace Foxconn.Editor.Dialogs
                 {
                     bRet = false;
                 }
-               // OpenWebcam();
+                // OpenWebcam();
                 CvImage.Clear("", maxDayCount: 7);
             }
             catch (Exception ex)
@@ -179,7 +186,7 @@ namespace Foxconn.Editor.Dialogs
             {
                 _capture.Dispose();
             }
-
+            _loopWorker.Stop();
             MainWindow.Current.Show();
         }
 
@@ -407,7 +414,7 @@ namespace Foxconn.Editor.Dialogs
             {
                 try
                 {
-                   //    StatusMachine();
+                    //    StatusMachine();
                     //    StatusDoor();
                     UpdateNewStatistic();
                 }
@@ -1006,19 +1013,37 @@ namespace Foxconn.Editor.Dialogs
         }
 
         #region Mouse Event
-        private void imbImageBox1_L1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (imbImageBox1_L1.Image != null)
-            {
-                double newZoom = imbImageBox1_L1.ZoomScale * (e.Delta > 0 ? 1.2 : 0.8);
-                newZoom = Math.Max(0.5, Math.Min(5, newZoom)); // gioi han ti le zoom
-                imbImageBox1_L1.SetZoomScale(newZoom, e.Location);
-            }
-        }
-
 
         private void imbImageBox1_L1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                if (imbImageBox1_L1.Image != null)
+                {
+                    Image<Bgr, byte> sourceImage = imbImageBox1_L1.Image as Image<Bgr, byte>;
+                    ImageResultDialogs imageResult = new ImageResultDialogs();
+
+                    imageResult.imbImageResult.Image = sourceImage;
+
+                    List<string> list = new List<string>();
+
+                    FOV fOV = _program.FOVs.Find(x => x.FOVType == _FOVTypeImb1_L1);
+                    if (fOV != null)
+                    {
+                        imageResult.txbFOVName.Text = $"FOVType: {_FOVTypeImb1_L1}";
+
+                        foreach (var rsmd in _SMDResultsCopy)
+                        {
+                            string message = $"\r\n Name: {rsmd.SMD.name} \r Score: {Math.Round(rsmd.Result.Score, 2)}\r\n ==> Result: {rsmd.Result.Result}";
+                            list.Add(message);
+                        }
+                        imageResult.lblInfomation.Content = string.Join(Environment.NewLine, list);
+
+                    }
+                    imageResult.Show();
+                }
+            }
+
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 imbImageBox1_L1.SetZoomScale(1, e.Location);
@@ -1026,18 +1051,36 @@ namespace Foxconn.Editor.Dialogs
             }
         }
 
-        private void imbImageBox2_L1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (imbImageBox2_L1.Image != null)
-            {
-                double newZoom = imbImageBox2_L1.ZoomScale * (e.Delta > 0 ? 1.2 : 0.8);
-                newZoom = Math.Max(0.5, Math.Min(5, newZoom)); // gioi han ti le zoom
-                imbImageBox1_L1.SetZoomScale(newZoom, e.Location);
-            }
-        }
-
         private void imbImageBox2_L1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                if (imbImageBox2_L1.Image != null)
+                {
+                    Image<Bgr, byte> sourceImage = imbImageBox2_L1.Image as Image<Bgr, byte>;
+                    ImageResultDialogs imageResult = new ImageResultDialogs();
+
+                    imageResult.imbImageResult.Image = sourceImage;
+
+                    List<string> list = new List<string>();
+
+                    FOV fOV = _program.FOVs.Find(x => x.FOVType == _FOVTypeImb2_L1);
+                    if (fOV != null)
+                    {
+                        imageResult.txbFOVName.Text = $"FOVType: {_FOVTypeImb2_L1}";
+
+                        foreach (var rsmd in _SMDResultsCopy)
+                        {
+                            string message = $"\r\n Name: {rsmd.SMD.name} \r Score: {Math.Round(rsmd.Result.Score, 2)}\r\n ==> Result: {rsmd.Result.Result}";
+                            list.Add(message);
+                        }
+                        imageResult.lblInfomation.Content = string.Join(Environment.NewLine, list);
+
+                    }
+                    imageResult.Show();
+                }
+            }
+
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 imbImageBox2_L1.SetZoomScale(1, e.Location);
@@ -1047,6 +1090,34 @@ namespace Foxconn.Editor.Dialogs
 
         private void imbImageBox1_L2_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                if (imbImageBox1_L2.Image != null)
+                {
+                    Image<Bgr, byte> sourceImage = imbImageBox1_L2.Image as Image<Bgr, byte>;
+                    ImageResultDialogs imageResult = new ImageResultDialogs();
+
+                    imageResult.imbImageResult.Image = sourceImage;
+
+                    List<string> list = new List<string>();
+
+                    FOV fOV = _program.FOVs.Find(x => x.FOVType == _FOVTypeImb1_L2);
+                    if (fOV != null)
+                    {
+                        imageResult.txbFOVName.Text = $"FOVType: {_FOVTypeImb1_L2}";
+
+                        foreach (var rsmd in _SMDResultsCopy)
+                        {
+                            string message = $"\r\n Name: {rsmd.SMD.name} \r Score: {Math.Round(rsmd.Result.Score, 2)}\r\n ==> Result: {rsmd.Result.Result}";
+                            list.Add(message);
+                        }
+                        imageResult.lblInfomation.Content = string.Join(Environment.NewLine, list);
+
+                    }
+                    imageResult.Show();
+                }
+            }
+
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 imbImageBox1_L2.SetZoomScale(1, e.Location);
@@ -1054,42 +1125,50 @@ namespace Foxconn.Editor.Dialogs
             }
         }
 
-        private void imbImageBox1_L2_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (imbImageBox1_L2.Image != null)
-            {
-                double newZoom = imbImageBox1_L2.ZoomScale * (e.Delta > 0 ? 1.2 : 0.8);
-                newZoom = Math.Max(0.5, Math.Min(5, newZoom)); // gioi han ti le zoom
-                imbImageBox1_L2.SetZoomScale(newZoom, e.Location);
-            }
-        }
-
         private void imbImageBox2_L2_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                Image<Bgr, byte> sourceImage = imbImageBox2_L2.Image as Image<Bgr, byte>;
-                ImageResultDialogs imageResult = new ImageResultDialogs();
+                if (imbImageBox2_L2.Image != null)
+                {
 
-                imageResult.imbImageResult.Image = sourceImage;
-                imageResult.Show();
+                    Image<Bgr, byte> sourceImage = imbImageBox2_L2.Image as Image<Bgr, byte>;
+                    ImageResultDialogs imageResult = new ImageResultDialogs();
+
+                    imageResult.imbImageResult.Image = sourceImage;
+
+                    List<string> list = new List<string>();
+
+                    //FOV fOV = _program.FOVs.Find(x => x.FOVType == _FOVTypeImb2_L2);
+                    //if (fOV != null)
+                    //{
+                        var fResult = _FOVResults.Find(x => x.FOVType == _FOVTypeImb2_L2);
+                        if (fResult != null)
+                        {
+                            imageResult.txbFOVName.Text = $"FOVType: {_FOVTypeImb2_L2}";
+
+                            foreach (var rsmd in _SMDResultsCopy)
+                            {
+                                var s = _SMDResultsCopy.Find(x => x.Result == rsmd.Result);
+
+                                if (s != null)
+                                {
+                                    string message = $"\r\n Name: {rsmd.SMD.name} \r Score: {Math.Round(rsmd.Result.Score, 2)}\r\n ==> Result: {rsmd.Result.Result}";
+                                    list.Add(message);
+                                }
+                            }
+                            imageResult.lblInfomation.Content = string.Join(Environment.NewLine, list);
+                        }
+                 //   }
+                    imageResult.Show();
+
+                }
             }
 
-                if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 imbImageBox2_L2.SetZoomScale(1, e.Location);
                 imbImageBox2_L2.AutoScrollOffset = new System.Drawing.Point(0, 0);
-            }
-
-        }
-
-        private void imbImageBox2_L2_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (imbImageBox2_L2.Image != null)
-            {
-                double newZoom = imbImageBox2_L2.ZoomScale * (e.Delta > 0 ? 1.2 : 0.8);
-                newZoom = Math.Max(0.5, Math.Min(5, newZoom)); // gioi han ti le zoom
-                imbImageBox2_L2.SetZoomScale(newZoom, e.Location);
             }
 
         }
@@ -1181,10 +1260,26 @@ namespace Foxconn.Editor.Dialogs
                 }
                 else
                 {
-                    int nRet = CheckFOV(pFOV);
+                    _SMDResults.Clear();
+                    //  int nRet = CheckFOV(pFOV);
+                    int nRet = CheckFOV0(pFOV);
                     if (nRet != 1)
                     {
                         fRet = -1;
+                    }
+                    _FOVResults.Add(new FOVResult { SMDs = _SMDResults });
+                    if (_FOVResults.Count > 0)
+                    {
+                        foreach (SMDResult rSMDs in _SMDResults)
+                        {
+                            if (rSMDs != null)
+                            {
+                                _SMDResultsCopy.Add(rSMDs);
+                                Console.WriteLine(rSMDs.SMD.name);
+                                string message = $"Score: {Math.Round(rSMDs.Result.Score, 2)}";
+                                Console.WriteLine(message);
+                            }
+                        }
                     }
                 }
                 return fRet;
@@ -1236,11 +1331,7 @@ namespace Foxconn.Editor.Dialogs
                                     {
                                         fRet = -1;
                                     }
-                                    else
-                                    {
-                                        fRet = 1;
-                                    }
-
+                                    _SMDResults.Add(new SMDResult { SMD = SMD, Result = cvRet });
                                     src.ROI = new Rectangle();
                                     dst.ROI = new Rectangle();
                                 }
@@ -1261,7 +1352,7 @@ namespace Foxconn.Editor.Dialogs
             else
             {
                 fRet = -1;
-                string message = $"CheckFOV: No Data ({pFOV.CameraMode}, {pFOV.FOVType})";
+                string message = $"CheckFOV: No Camera ({pFOV.CameraMode}, {pFOV.FOVType})";
                 LogError(message);
                 MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
             }
@@ -1386,18 +1477,102 @@ namespace Foxconn.Editor.Dialogs
                     if (fovtype == FOVType.L1_LABEL1 || fovtype == FOVType.L1_COLOR1 || fovtype == FOVType.L1_SOLDER_CAP1)
                     {
                         imbImageBox1_L1.Image = image;
+
+                        switch (fovtype)
+                        {
+                            case FOVType.L1_LABEL1:
+                                {
+                                    _FOVTypeImb1_L1 = FOVType.L1_LABEL1;
+                                    break;
+                                }
+
+                            case FOVType.L1_COLOR1:
+                                {
+                                    _FOVTypeImb1_L1 = FOVType.L1_COLOR1;
+                                    break;
+                                }
+
+                            case FOVType.L1_SOLDER_CAP1:
+                                {
+                                    _FOVTypeImb1_L1 = FOVType.L1_SOLDER_CAP1;
+                                    break;
+                                }
+                        }
                     }
                     else if (fovtype == FOVType.L1_LABEL2 || fovtype == FOVType.L1_COLOR2 || fovtype == FOVType.L1_SOLDER_CAP2)
                     {
                         imbImageBox2_L1.Image = image;
+
+                        switch (fovtype)
+                        {
+                            case FOVType.L1_LABEL2:
+                                {
+                                    _FOVTypeImb2_L1 = FOVType.L1_LABEL2;
+                                    break;
+                                }
+
+                            case FOVType.L1_COLOR2:
+                                {
+                                    _FOVTypeImb2_L1 = FOVType.L1_COLOR2;
+                                    break;
+                                }
+
+                            case FOVType.L1_SOLDER_CAP2:
+                                {
+                                    _FOVTypeImb2_L1 = FOVType.L1_SOLDER_CAP2;
+                                    break;
+                                }
+                        }
                     }
+
                     else if (fovtype == FOVType.L2_LABEL1 || fovtype == FOVType.L2_COLOR1 || fovtype == FOVType.L2_SOLDER_CAP1)
                     {
                         imbImageBox1_L2.Image = image;
+
+                        switch (fovtype)
+                        {
+                            case FOVType.L2_LABEL1:
+                                {
+                                    _FOVTypeImb1_L2 = FOVType.L2_LABEL1;
+                                    break;
+                                }
+
+                            case FOVType.L2_COLOR1:
+                                {
+                                    _FOVTypeImb1_L2 = FOVType.L2_COLOR1;
+                                    break;
+                                }
+
+                            case FOVType.L2_SOLDER_CAP1:
+                                {
+                                    _FOVTypeImb1_L2 = FOVType.L2_SOLDER_CAP1;
+                                    break;
+                                }
+                        }
                     }
                     else
                     {
                         imbImageBox2_L2.Image = image;
+                        switch (fovtype)
+                        {
+                            case FOVType.L2_LABEL2:
+                                {
+                                    _FOVTypeImb2_L2 = FOVType.L2_LABEL2;
+                                    break;
+                                }
+
+                            case FOVType.L2_COLOR2:
+                                {
+                                    _FOVTypeImb2_L2 = FOVType.L2_COLOR2;
+                                    break;
+                                }
+
+                            case FOVType.L2_SOLDER_CAP2:
+                                {
+                                    _FOVTypeImb2_L2 = FOVType.L2_SOLDER_CAP2;
+                                    break;
+                                }
+                        }
                     }
                 }
             }
@@ -1464,7 +1639,7 @@ namespace Foxconn.Editor.Dialogs
             {
                 if (value == 1)
                 {
-                    brdStatusMachine.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFBDAD01"); 
+                    brdStatusMachine.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFBDAD01");
                     lblStatusMachine.Content = "RESETTING";
                 }
 
@@ -1473,7 +1648,7 @@ namespace Foxconn.Editor.Dialogs
             {
                 if (value == 1)
                 {
-                    brdStatusMachine.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFBDAD01"); 
+                    brdStatusMachine.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFBDAD01");
                     lblStatusMachine.Content = "RESETED";
                 }
             }
@@ -1549,22 +1724,37 @@ namespace Foxconn.Editor.Dialogs
 
 
         #endregion
-        //=======================================================================================
+        //=============================================================================================================================
         private void mnuiTest_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+
                 FOV pFOV = _program.FOVs[0];
-                int nRet = CheckFOV0(pFOV);
+                int nRet = CheckType(pFOV.FOVType);
+                //int nRet = CheckFOV0(pFOV);
                 FOVType pCheck = pFOV.FOVType;
                 string text = nRet == 1 ? "PASS" : "FAIL";
                 SolidColorBrush color = nRet == 1 ? System.Windows.Media.Brushes.LimeGreen : System.Windows.Media.Brushes.Red;
 
                 ShowCellResult(pCheck, text, color);
-                UpdateRate();
+                //  UpdateRate();
                 NotifyPropertyChanged();
                 UpdateStatusControl("Complete!", 100);
 
+                Thread.Sleep(1000);
+
+                FOV pFOV1 = _program.FOVs[1];
+                int nRet1 = CheckType1(pFOV1.FOVType);
+                FOVType pCheck1 = pFOV1.FOVType;
+
+                string text1 = nRet1 == 1 ? "PASS" : "FAIL";
+                SolidColorBrush color1 = nRet1 == 1 ? System.Windows.Media.Brushes.LimeGreen : System.Windows.Media.Brushes.Red;
+
+                ShowCellResult(pCheck1, text1, color1);
+                //UpdateRate();
+                NotifyPropertyChanged();
+                UpdateStatusControl("Complete!", 100);
             }
             catch (Exception ex)
             {
@@ -1590,7 +1780,6 @@ namespace Foxconn.Editor.Dialogs
                     {
                         fRet = -1;
                     }
-
                     else
                     {
                         System.Windows.Point offset = GetOffsetROI(pFOV, src);
@@ -1610,21 +1799,16 @@ namespace Foxconn.Editor.Dialogs
                             if (cvRet.Result)
                             {
                                 Console.WriteLine($"Check SMD_{SMD.Id} : OK");
-                                // LogsAutoRun($"Check SMD_{SMD.Id} : OK");
-                                fRet = 1;
                             }
                             else
                             {
                                 Console.WriteLine($"Check SMD_{SMD.Id} : FAIL");
-                                // LogsAutoRun($"Check SMD_{SMD.Id} : FAIL");
                                 fRet = -1;
                             }
-
-                            Console.WriteLine(fRet.ToString());
+                            _SMDResults.Add(new SMDResult { SMD = SMD, Result = cvRet });
+                            //  Console.WriteLine(fRet.ToString());
                             src.ROI = new Rectangle();
                             dst.ROI = new Rectangle();
-
-
                         }
                         stopwatch.Stop();
                         TimeSpan elapsedTime = stopwatch.Elapsed;
@@ -1632,11 +1816,120 @@ namespace Foxconn.Editor.Dialogs
                     }
                     Result(pFOV.FOVType, fRet, _SN, dst.Clone());
                     ShowFOVImage(pFOV.CameraMode, dst.Clone(), pFOV.FOVType);
-                   // imbCamera.Image = dst;
-                    //===================================TEST==============================
+
                     _database.AddData(_SN);
+
                     // _database.Data.Remove(_database.Data.Find(x => x.SN == _SN));
-                    //_database.RemoveData(_database.Data.First(x => x.SN == _SN));
+                    NotifyPropertyChanged();
+                }
+            }
+            return fRet;
+        }
+
+        private int CheckType1(FOVType type, FOVType targetType = FOVType.Unknow)
+        {
+            try
+            {
+                FOVType tempType = targetType != FOVType.Unknow ? targetType : type;
+                LogInfo($"CheckType: {tempType}");
+                int fRet = 1;
+                FOV pFOV = _program.FOVs.FirstOrDefault(x => x.IsEnable == true && x.FOVType == type);
+                if (pFOV == null)
+                {
+                    fRet = -1;
+                }
+                else
+                {
+                    _SMDResults.Clear();
+                    //  int nRet = CheckFOV(pFOV);
+                    int nRet = CheckFOV1(pFOV);
+                    if (nRet != 1)
+                    {
+                        fRet = -1;
+                    }
+                    _FOVResults.Add(new FOVResult { SMDs = _SMDResults });
+                    if (_FOVResults.Count > 0)
+                    {
+                        foreach (SMDResult rSMDs in _SMDResults)
+                        {
+                            if (rSMDs != null)
+                            {
+                                _SMDResultsCopy.Add(rSMDs);
+                                Console.WriteLine(rSMDs.SMD.name);
+                                string message = $"Score: {Math.Round(rSMDs.Result.Score, 2)}";
+                                Console.WriteLine(message);
+                            }
+                        }
+                    }
+                }
+                return fRet;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                return -1;
+            }
+        }
+
+
+        public int CheckFOV1(FOV pFOV)
+        {
+            int fRet = 1;
+            string filepath = _program.ImageBoard.Blocks[1].Filename;
+            Bitmap bmp = new Bitmap(filepath);
+            if (bmp != null)
+            {
+                // Stopwatch stopwatch = new Stopwatch();
+                //  stopwatch.Start();
+
+                using (Image<Bgr, byte> src = bmp.ToImage<Bgr, byte>())
+                using (Image<Bgr, byte> dst = bmp.ToImage<Bgr, byte>())
+                {
+                    IEnumerable<SMD> pSMDs = pFOV.SMDs.Where(x => x.IsEnabled == true);
+                    if (pSMDs == null)
+                    {
+                        fRet = -1;
+                    }
+                    else
+                    {
+                        System.Windows.Point offset = GetOffsetROI(pFOV, src);
+                        foreach (var SMD in pSMDs)
+                        {
+                            Rectangle offsetROI = new Rectangle
+                            {
+                                X = (int)(SMD.ROI.Rectangle.X + offset.X),
+                                Y = (int)(SMD.ROI.Rectangle.Y + offset.Y),
+                                Width = SMD.ROI.Rectangle.Width,
+                                Height = SMD.ROI.Rectangle.Height
+                            };
+
+                            src.ROI = offsetROI;
+                            dst.ROI = offsetROI;
+                            CvResult cvRet = CheckSMD(SMD, src.Copy(), dst);
+                            if (cvRet.Result)
+                            {
+                                Console.WriteLine($"Check SMD_{SMD.Id} : OK");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Check SMD_{SMD.Id} : FAIL");
+                                fRet = -1;
+                            }
+                            _SMDResults.Add(new SMDResult { SMD = SMD, Result = cvRet });
+                            //  Console.WriteLine(fRet.ToString());
+                            src.ROI = new Rectangle();
+                            dst.ROI = new Rectangle();
+                        }
+                        //  stopwatch.Stop();
+                        //   TimeSpan elapsedTime = stopwatch.Elapsed;
+                        // CycleTime = string.Format("{0}:{1:00} {2}", (int)elapsedTime.TotalSeconds, elapsedTime.Milliseconds / 10.0, "(s)");
+                    }
+                    Result(pFOV.FOVType, fRet, _SN, dst.Clone());
+                    ShowFOVImage(pFOV.CameraMode, dst.Clone(), pFOV.FOVType);
+
+                    _database.AddData(_SN);
+
+                    // _database.Data.Remove(_database.Data.Find(x => x.SN == _SN));
                     NotifyPropertyChanged();
                 }
             }
@@ -1644,7 +1937,7 @@ namespace Foxconn.Editor.Dialogs
         }
 
 
-        // ===============================================================================
+        // ====================================================================================================================================
 
         #region logs
         public void LogInfo(string message)
@@ -1687,6 +1980,35 @@ namespace Foxconn.Editor.Dialogs
                 _FOVResults.Add(temp);
             }
         }
+
+        public void UpdateSMDResult(SMD smd, CvResult cvRet)
+        {
+            SMDResult item = _SMDResults.Find(x => x.SMD == smd);
+            if (item != null)
+            {
+                item.SMD = smd;
+                item.Result = cvRet;
+            }
+            else
+            {
+                SMDResult temp = new SMDResult
+                {
+                    SMD = smd,
+                    Result = cvRet
+                };
+                _SMDResults.Add(temp);
+            }
+        }
+
+        public void ShowInfomation()
+        {
+            List<string> list = new List<string>()
+            {
+                "Name:",
+                "Score: "
+            };
+        }
+
 
         //public void LogsAutoRun(string message)
         //{
@@ -1731,6 +2053,7 @@ namespace Foxconn.Editor.Dialogs
             if ((now - dateCreated).Days > 0)
             {
                 dateCreated = DateTime.Now.Date;
+                Properties.Settings.Default.DateCreated = dateCreated;
                 return true;
             }
             else
@@ -1751,7 +2074,7 @@ namespace Foxconn.Editor.Dialogs
                 TotalPass = p.PASS;
                 TotalFail = p.FAIL;
                 TotalChecked = p.TotalChecked;
-                YeildRate = p.YeildRate;
+                YeildRate = (float)Math.Round(p.YeildRate, 2);
                 p.Save();
                 NotifyPropertyChanged();
             }
@@ -1775,7 +2098,7 @@ namespace Foxconn.Editor.Dialogs
             TotalChecked = p.TotalChecked;
 
             p.YeildRate = (float)p.PASS / p.TotalChecked * 100;
-            YeildRate = p.YeildRate;
+            YeildRate = (float)Math.Round(p.YeildRate, 2);
 
             p.Save();
             NotifyPropertyChanged();
@@ -1788,7 +2111,7 @@ namespace Foxconn.Editor.Dialogs
             TotalPass = p.PASS;
             TotalFail = p.FAIL;
             TotalChecked = p.TotalChecked;
-            YeildRate = p.YeildRate;
+            YeildRate = (float)Math.Round(p.YeildRate, 2);
             MessageBox.Show("Reseted Rate", "Reset", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
         }
 
@@ -1802,7 +2125,7 @@ namespace Foxconn.Editor.Dialogs
             TotalChecked = p.TotalChecked;
 
             p.YeildRate = (float)p.PASS / p.TotalChecked * 100;
-            YeildRate = p.YeildRate;
+            YeildRate = (float)Math.Round(p.YeildRate, 2);
             MessageBox.Show("Reseted FailRate", "Reset", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
         }
 
@@ -2013,7 +2336,6 @@ namespace Foxconn.Editor.Dialogs
                         {
                             CvImage.Save(localFolder, filename, fResultL2_SOLDER_CAP2.Image.Mat, 50);
                         }
-
                     }
                 }
             }
@@ -2027,6 +2349,7 @@ namespace Foxconn.Editor.Dialogs
         public string SN { get; set; }
         public Image<Bgr, byte> Image { get; set; }
         public string WorkerConfirm { get; set; }
+        public List<SMDResult> SMDs { get; set; }
 
 
         public FOVResult()
@@ -2036,8 +2359,32 @@ namespace Foxconn.Editor.Dialogs
             SN = string.Empty;
             Image = null;
             WorkerConfirm = string.Empty;
+            SMDs = new List<SMDResult>();
         }
     }
+
+    public class SMDResult
+    {
+        public SMD SMD { get; set; }
+        public CvResult Result { get; set; }
+
+        public SMDResult()
+        {
+            SMD = new SMD();
+            Result = new CvResult();
+        }
+
+        public SMDResult SMDResultClone()
+        {
+            return new SMDResult()
+            {
+                SMD = SMD,
+                Result = Result
+            };
+        }
+    }
+
+
 }
 
 

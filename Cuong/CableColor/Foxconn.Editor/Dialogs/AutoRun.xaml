@@ -98,7 +98,6 @@
                             <CV:ImageBox x:Name="imbImageBox1_L1"
                                          SizeMode="Zoom"
                                          FunctionalMode="Minimum"
-                                         MouseWheel="imbImageBox1_L1_MouseWheel"
                                          MouseDown="imbImageBox1_L1_MouseDown">
                             </CV:ImageBox>
                         </WindowsFormsHost>
@@ -114,7 +113,6 @@
                             <CV:ImageBox x:Name="imbImageBox2_L1"
                                          SizeMode="Zoom"
                                          FunctionalMode="Minimum" 
-                                         MouseWheel="imbImageBox2_L1_MouseWheel" 
                                          MouseDown="imbImageBox2_L1_MouseDown" >
                             </CV:ImageBox>
                         </WindowsFormsHost>
@@ -131,7 +129,6 @@
                                          SizeMode="Zoom"
                                          FunctionalMode="Minimum" 
                                          MouseDown="imbImageBox1_L2_MouseDown" 
-                                         MouseWheel="imbImageBox1_L2_MouseWheel" 
                                          >
                             </CV:ImageBox>
                         </WindowsFormsHost>
@@ -148,7 +145,6 @@
                                          SizeMode="Zoom"
                                          FunctionalMode="Minimum" 
                                          MouseDown="imbImageBox2_L2_MouseDown" 
-                                         MouseWheel="imbImageBox2_L2_MouseWheel" 
                                          >
                             </CV:ImageBox>
                         </WindowsFormsHost>
@@ -183,10 +179,8 @@
                                       Height="50"
                                       Margin="0 0 5 0">
                                 <Border CornerRadius="3" 
-                                        x:Name="brdStatusMachine"
-                                         >
+                                        x:Name="brdStatusMachine" >
                                     <Label x:Name="lblStatusMachine" 
-                                          
                                            HorizontalContentAlignment="Center"
                                            FontWeight="DemiBold"
                                            FontSize="15"></Label>
