@@ -498,7 +498,8 @@
                                                                TextAlignment="Center" />
                                                 </Border>
                                                 <TextBox x:Name="txtROIX" 
-                                                         Text="{Binding ROI.X, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                         Text="{Binding ROI.X, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MouseWheel="txtROIX_MouseWheel"
+                                                         />
                                             </DockPanel>
                                         </Border>
                                         <Border CornerRadius="3"
@@ -514,7 +515,8 @@
                                                                TextAlignment="Center" />
                                                 </Border>
                                                 <TextBox x:Name="txtROIY" 
-                                                         Text="{Binding ROI.Y, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                         Text="{Binding ROI.Y, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MouseWheel="txtROIY_MouseWheel"
+                                                         />
                                             </DockPanel>
                                         </Border>
                                     </DockPanel>
@@ -548,7 +550,8 @@
                                                                TextAlignment="Center" />
                                                 </Border>
                                                 <TextBox x:Name="txtROIW"
-                                                         Text="{Binding ROI.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                         Text="{Binding ROI.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MouseWheel="txtROIW_MouseWheel"
+                                                         />
                                             </DockPanel>
                                         </Border>
                                         <Border CornerRadius="3"
@@ -564,7 +567,8 @@
                                                                TextAlignment="Center" />
                                                 </Border>
                                                 <TextBox x:Name="txtROIH"
-                                                         Text="{Binding ROI.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                         Text="{Binding ROI.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MouseWheel="txtROIH_MouseWheel"
+                                                         />
                                             </DockPanel>
                                         </Border>
                                     </DockPanel>

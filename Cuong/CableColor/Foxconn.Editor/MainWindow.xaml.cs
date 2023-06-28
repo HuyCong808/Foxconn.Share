@@ -147,7 +147,7 @@ namespace Foxconn.Editor
             {
                 e.Handled = true;
                 MoveROIRight(1);
-            }   
+            }
             else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S)
             {
                 mnuiSaveProgram_Click(null, null);
@@ -922,6 +922,73 @@ namespace Foxconn.Editor
             }
         }
 
+        private void txtROIX_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                MoveROIRight(1);
+            }
+            else
+            {
+                MoveROILeft(1);
+            }
+        }
+
+        private void txtROIY_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                MoveROIUp(1);
+            }
+            else
+            {
+                MoveROIDown(1);
+            }
+        }
+
+        private void txtROIW_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            int fovindex = cmbFOVs.SelectedIndex;
+            int smdindex = cmbSMDs.SelectedIndex;
+            if (isMoveROI)
+            {
+                if (smdindex > -1 && fovindex > -1)
+                {
+                    SMD smd = _program.FOVs[fovindex].SMDs[smdindex];
+                    if (e.Delta > 0)
+                    {
+                        smd.ROI.Width += 1;
+                    }
+                    else
+                    {
+                        smd.ROI.Width -= 1;
+                    }
+                    GetRect(Color.Yellow, smd);
+                }
+            }
+        }
+
+        private void txtROIH_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            int fovindex = cmbFOVs.SelectedIndex;
+            int smdindex = cmbSMDs.SelectedIndex;
+            if (isMoveROI)
+            {
+                if (smdindex > -1 && fovindex > -1)
+                {
+                    SMD smd = _program.FOVs[fovindex].SMDs[smdindex];
+                    if (e.Delta > 0)
+                    {
+                        smd.ROI.Height += 1;
+                    }
+                    else
+                    {
+                        smd.ROI.Height -= 1;
+                    }
+                    GetRect(Color.Yellow, smd);
+                }
+            }
+        }
         #endregion
 
         #region Logs
@@ -1365,6 +1432,8 @@ namespace Foxconn.Editor
             }
 
         }
+
+       
     }
 }
 

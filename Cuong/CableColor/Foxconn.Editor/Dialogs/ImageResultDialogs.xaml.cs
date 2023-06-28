@@ -14,15 +14,8 @@ namespace Foxconn.Editor.Dialogs
     /// </summary>
     public partial class ImageResultDialogs : Window, INotifyPropertyChanged
     {
-        private Board _program
-        {
-            get => ProgramManager.Current.Program;
-            set => ProgramManager.Current.Program = value;
-        }
-        private SelectionMouse _mouse { get; set; }
-        private Image<Bgr, byte> _image { get; set; }
+       
 
-        AutoRun autoRun = new AutoRun();
         public ImageResultDialogs()
         {
             InitializeComponent();
@@ -44,6 +37,13 @@ namespace Foxconn.Editor.Dialogs
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
+
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            AutoRun autoRun = AutoRun.Current;
+            autoRun.IsOpenResultDialog = false;
         }
 
         private void imbImageResult_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -55,8 +55,6 @@ namespace Foxconn.Editor.Dialogs
                 imbImageResult.SetZoomScale(newZoom, e.Location);
             }
         }
-
-
 
     }
 }
