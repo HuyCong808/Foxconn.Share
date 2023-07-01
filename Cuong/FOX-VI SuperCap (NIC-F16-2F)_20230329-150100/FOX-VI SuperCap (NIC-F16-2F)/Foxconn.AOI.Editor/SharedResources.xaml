@@ -1,0 +1,603 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:Converter="clr-namespace:Foxconn.AOI.Editor.Converters"
+                    xmlns:Controls="clr-namespace:Foxconn.AOI.Editor.Controls"
+                    xmlns:Markup="clr-namespace:Holly.AOI.Editor.MarkupExtensions"
+                    xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    PresentationOptions:Freeze="true">
+    <Converter:BoolToVisibilityCollapsedConverter x:Key="BoolToVisibilityCollapsedConverter" />
+    <Converter:StringNotNullToNextConverter x:Key="StringNotNullToNextConverter" />
+    <Converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+    <Converter:BoolToTextColorConverter x:Key="BoolToTextColorConverter" />
+    <Converter:BoolToShapeColorConverter x:Key="BoolToShapeColorConverter" />
+    <Converter:ByteToStringConverter x:Key="ByteToStringConverter" />
+    <Converter:ZoomScaleToPercentConverter x:Key="ZoomScaleToPercentConverter" />
+    <SolidColorBrush x:Key="SelectableInvisibleBrush"
+                     PresentationOptions:Freeze="True"
+                     Color="#00000000" />
+    <LinearGradientBrush x:Key="HorizontalBlackToWhiteBrush"
+                         PresentationOptions:Freeze="True"
+                         StartPoint="0,0.5"
+                         EndPoint="1,0.5">
+        <GradientStop Color="Black"
+                      Offset="0.0" />
+        <GradientStop Color="White"
+                      Offset="1.0" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="HorizontalBlackToRedBrush"
+                         PresentationOptions:Freeze="True"
+                         StartPoint="0,0.5"
+                         EndPoint="1,0.5">
+        <GradientStop Color="#FF000000"
+                      Offset="0.0" />
+        <GradientStop Color="#FFFF0000"
+                      Offset="1.0" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="HorizontalBlackToGreenBrush"
+                         PresentationOptions:Freeze="True"
+                         StartPoint="0,0.5"
+                         EndPoint="1,0.5">
+        <GradientStop Color="#FF000000"
+                      Offset="0.0" />
+        <GradientStop Color="#FF00FF00"
+                      Offset="1.0" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="HorizontalBlackToBlueBrush"
+                         PresentationOptions:Freeze="True"
+                         StartPoint="0,0.5"
+                         EndPoint="1,0.5">
+        <GradientStop Color="#FF000000"
+                      Offset="0.0" />
+        <GradientStop Color="#FF0000FF"
+                      Offset="1.0" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="HorizontalRainbowBrush"
+                         PresentationOptions:Freeze="True"
+                         StartPoint="0,0.5"
+                         EndPoint="1,0.5">
+        <GradientStop Offset="0.000"
+                      Color="#FFFF0000" />
+        <GradientStop Offset="0.167"
+                      Color="#FFFFFF00" />
+        <GradientStop Offset="0.333"
+                      Color="#FF00FF00" />
+        <GradientStop Offset="0.500"
+                      Color="#FF00FFFF" />
+        <GradientStop Offset="0.667"
+                      Color="#FF0000FF" />
+        <GradientStop Offset="0.833"
+                      Color="#FFFF00FF" />
+        <GradientStop Offset="1.000"
+                      Color="#FFFF0000" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="HorizontalWhiteSeparatorBrush"
+                         PresentationOptions:Freeze="True"
+                         StartPoint="0.0, 0.5"
+                         EndPoint="1.0, 0.5">
+        <GradientStop Offset="0"
+                      Color="#00FFFFFF" />
+        <GradientStop Offset="0.5"
+                      Color="#FFFFFFFF" />
+        <GradientStop Offset="1.0"
+                      Color="#00FFFFFF" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="VerticalWhiteSeparatorBrush"
+                         PresentationOptions:Freeze="True"
+                         StartPoint="0.5, 0.0"
+                         EndPoint="0.5, 1.0">
+        <GradientStop Offset="0"
+                      Color="#00FFFFFF" />
+        <GradientStop Offset="0.5"
+                      Color="#FFFFFFFF" />
+        <GradientStop Offset="1.0"
+                      Color="#00FFFFFF" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="IconColorBrush"
+                         EndPoint="1,1"
+                         StartPoint="0,0">
+        <GradientStop Color="#FFFFFFFF"
+                      Offset="0" />
+        <GradientStop Color="#FF7F7F7F"
+                      Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="RedIconColorBrush"
+                         EndPoint="1,1"
+                         StartPoint="0,0">
+        <GradientStop Color="#FFFFFFFF"
+                      Offset="0" />
+        <GradientStop Color="#FFFF0000"
+                      Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="GreenIconColorBrush"
+                         EndPoint="1,1"
+                         StartPoint="0,0">
+        <GradientStop Color="#FFFFFFFF"
+                      Offset="0" />
+        <GradientStop Color="#FF00FF00"
+                      Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="BlueIconColorBrush"
+                         EndPoint="1,1"
+                         StartPoint="0,0">
+        <GradientStop Color="#FFFFFFFF"
+                      Offset="0" />
+        <GradientStop Color="#FF0000FF"
+                      Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="YellowIconColorBrush"
+                         EndPoint="1,1"
+                         StartPoint="0,0">
+        <GradientStop Color="#FFFFFFFF"
+                      Offset="0" />
+        <GradientStop Color="Yellow"
+                      Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="GrayIconColorBrush"
+                         EndPoint="1,1"
+                         StartPoint="0,0">
+        <GradientStop Color="#FF7F7F7F"
+                      Offset="0" />
+        <GradientStop Color="#FF6F6F6F"
+                      Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="WhiteIconColorBrush"
+                         EndPoint="1,1"
+                         StartPoint="0,0">
+        <GradientStop Color="#FFFFFFFF"
+                      Offset="0" />
+        <GradientStop Color="#FF7F7F7F"
+                      Offset="1" />
+    </LinearGradientBrush>
+    <DrawingBrush x:Key="NullImageBrush"
+                  PresentationOptions:Freeze="True"
+                  Stretch="Fill"
+                  TileMode="Tile"
+                  Viewport="0,0,16,16"
+                  ViewportUnits="Absolute"
+                  Viewbox="0,0,16,16"
+                  ViewboxUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#FF2F2F2F">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,0,16,16" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#FF2D2D2D">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,0,8,8" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#FF2D2D2D">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="8,8,8,8" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+    <DrawingBrush x:Key="ExpanderIconBrush"
+                  PresentationOptions:Freeze="True">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#00000000">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,0,12,10" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <DrawingGroup Transform="1,0,0,1,0,3">
+                    <GeometryDrawing>
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry Figures="M1,4L6,9 11,4"
+                                          Transform="1,0,0,1,0,-3" />
+                        </GeometryDrawing.Geometry>
+                        <GeometryDrawing.Pen>
+                            <Pen LineJoin="Round"
+                                 StartLineCap="Round"
+                                 EndLineCap="Round"
+                                 Thickness="2"
+                                 Brush="#FFFF0000"
+                                 DashCap="Flat"
+                                 MiterLimit="10" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                </DrawingGroup>
+                <DrawingGroup Transform="1,0,0,1,4.515625,2">
+                    <GeometryDrawing Brush="#FFFFFFFF">
+                        <GeometryDrawing.Geometry>
+                            <EllipseGeometry Center="1.5,1.5"
+                                             RadiusX="0.5"
+                                             RadiusY="0.5" />
+                        </GeometryDrawing.Geometry>
+                        <GeometryDrawing.Pen>
+                            <Pen LineJoin="Round"
+                                 StartLineCap="Round"
+                                 EndLineCap="Round"
+                                 Thickness="2"
+                                 Brush="#FFFF0000"
+                                 DashCap="Flat"
+                                 MiterLimit="10" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+    <ScaleTransform x:Key="HorizontalFlipTransform"
+                    ScaleX="-1" />
+    <ScaleTransform x:Key="VerticalFlipTransform"
+                    ScaleY="-1" />
+    <ScaleTransform x:Key="FlipTransform"
+                    ScaleX="-1"
+                    ScaleY="-1" />
+    <RotateTransform x:Key="Rotate90Transform"
+                     Angle="90" />
+    <RotateTransform x:Key="Rotate180Transform"
+                     Angle="180" />
+    <RotateTransform x:Key="Rotate270Transform"
+                     Angle="270" />
+    <DropShadowEffect x:Key="IconShadowEffect"
+                      PresentationOptions:Freeze="True"
+                      ShadowDepth="1" />
+    <Style x:Key="ShadowIconStyle"
+           TargetType="{x:Type Control}">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Control}">
+                    <Controls:Icon x:Name="IconRect"
+                                   IconBrush="{TemplateBinding Control.Foreground}"
+                                   Fill="{TemplateBinding Control.Background}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Control.Background"
+                Value="{StaticResource WhiteIconColorBrush}" />
+        <Setter Property="UIElement.Effect"
+                Value="{StaticResource IconShadowEffect}" />
+    </Style>
+    <Style x:Key="IconButtonStyle"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource IconButton}">
+        <Setter Property="FrameworkElement.Height"
+                Value="20" />
+        <Setter Property="FrameworkElement.Width"
+                Value="20" />
+        <Setter Property="FrameworkElement.MinHeight"
+                Value="0" />
+        <Setter Property="FrameworkElement.MinWidth"
+                Value="0" />
+        <Setter Property="Control.BorderThickness"
+                Value="0" />
+        <Setter Property="Control.Background"
+                Value="{x:Null}" />
+        <Setter Property="UIElement.Focusable"
+                Value="false" />
+    </Style>
+    <Style x:Key="IconButtonStyle2"
+           TargetType="{x:Type ButtonBase}">
+        <Setter Property="UIElement.RenderTransformOrigin"
+                Value="0.5,0.5" />
+        <Setter Property="FrameworkElement.MinWidth"
+                Value="16" />
+        <Setter Property="FrameworkElement.MinHeight"
+                Value="16" />
+        <Setter Property="FrameworkElement.Width"
+                Value="16" />
+        <Setter Property="FrameworkElement.Height"
+                Value="16" />
+        <Setter Property="UIElement.SnapsToDevicePixels"
+                Value="true" />
+        <Setter Property="Control.Background"
+                Value="{StaticResource WhiteIconColorBrush}" />
+        <Setter Property="UIElement.Effect"
+                Value="{StaticResource IconShadowEffect}" />
+        <Setter Property="Controls:IconControl.Icon"
+                Value="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Controls:IconControl.DisabledBrush"
+                Value="{StaticResource GrayIconColorBrush}" />
+        <Setter Property="Controls:IconControl.Fill"
+                Value="{StaticResource WhiteIconColorBrush}" />
+        <Setter Property="Controls:IconControl.PressedBrush"
+                Value="{Binding Path=Background, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Controls:IconControl.MouseOverBrush"
+                Value="{Binding Path=(Controls:IconControl.Fill), Mode=OneWay, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Border x:Name="HitTestRect"
+                            RenderTransformOrigin="0.5,0.5">
+                        <Controls:Icon x:Name="IconRect"
+                                       SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+                                       IconBrush="{TemplateBinding Controls:IconControl.Icon}"
+                                       Fill="{TemplateBinding Controls:IconControl.Fill}"
+                                       RenderTransformOrigin="1,1" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="UIElement.IsMouseOver"
+                                 Value="true">
+                            <Setter TargetName="HitTestRect"
+                                    Property="UIElement.RenderTransform">
+                                <Setter.Value>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1.5"
+                                                        ScaleY="1.5" />
+                                        <TranslateTransform X="-1"
+                                                            Y="-1" />
+                                    </TransformGroup>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="IconRect"
+                                    Value="{Binding Path=(Controls:IconControl.MouseOverBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                                    Property="Controls:Icon.Fill" />
+                        </Trigger>
+                        <Trigger Property="ButtonBase.IsPressed"
+                                 Value="true">
+                            <Setter TargetName="IconRect"
+                                    Property="UIElement.RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="0.9"
+                                                    ScaleY="0.9" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="IconRect"
+                                    Value="{Binding Path=(Controls:IconControl.PressedBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                                    Property="Controls:Icon.Fill" />
+                        </Trigger>
+                        <Trigger Property="UIElement.IsEnabled"
+                                 Value="false">
+                            <Setter TargetName="IconRect"
+                                    Value="{Binding Path=(Controls:IconControl.DisabledBrush), RelativeSource={RelativeSource TemplatedParent}}"
+                                    Property="Controls:Icon.Fill" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type Controls:Icon}">
+        <Setter Property="FrameworkElement.HorizontalAlignment"
+                Value="Stretch" />
+        <Setter Property="FrameworkElement.VerticalAlignment"
+                Value="Stretch" />
+        <Setter Property="Controls:Icon.Fill"
+                Value="{StaticResource WhiteIconColorBrush}" />
+    </Style>
+    <Style x:Key="WarningIconButtonStyle"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource IconButtonStyle2}">
+        <Setter Property="Controls:IconControl.MouseOverBrush"
+                Value="{StaticResource RedIconColorBrush}" />
+    </Style>
+    <Style x:Key="IconToggleButtonStyle2"
+           TargetType="{x:Type ToggleButton}"
+           BasedOn="{StaticResource IconButtonStyle2}">
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="ToggleButton.IsChecked"
+                               Value="True" />
+                    <Condition Property="UIElement.IsEnabled"
+                               Value="true" />
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="Controls:IconControl.Fill"
+                            Value="{StaticResource GreenIconColorBrush}" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="IconToggleButtonStyle3"
+           TargetType="{x:Type ToggleButton}"
+           BasedOn="{StaticResource IconButtonStyle2}">
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="ToggleButton.IsChecked"
+                               Value="True" />
+                    <Condition Property="UIElement.IsEnabled"
+                               Value="true" />
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="Controls:IconControl.Fill"
+                            Value="{StaticResource RedIconColorBrush}" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="IconCheckBoxStyle"
+           TargetType="{x:Type CheckBox}">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Grid>
+                        <Ellipse Stroke="Gray"
+                                 StrokeThickness="1"
+                                 Width="8"
+                                 Height="8"
+                                 Visibility="{Binding Path=IsChecked, Converter={StaticResource InverseBoolToVisibilityHiddenConverter}, RelativeSource={x:Static RelativeSource.TemplatedParent}}" />
+                        <Rectangle Fill="{TemplateBinding Control.Background}"
+                                   OpacityMask="{TemplateBinding Control.Foreground}"
+                                   Effect="{StaticResource IconShadowEffect}"
+                                   Visibility="{Binding Path=IsChecked, Converter={StaticResource BoolToVisibilityHiddenConverter}, RelativeSource={x:Static RelativeSource.TemplatedParent}}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Control.Background"
+                Value="{StaticResource WhiteIconColorBrush}" />
+        <Setter Property="FrameworkElement.Width"
+                Value="16" />
+        <Setter Property="FrameworkElement.Height"
+                Value="16" />
+    </Style>
+    <Style x:Key="IconToggleButtonStyle"
+           TargetType="{x:Type ToggleButton}">
+        <Setter Property="Controls:IconControl.Icon2"
+                Value="{Markup:Icon Icon=RingIconBrush, Color=GrayIconColorBrush}" />
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid>
+                        <Image Source="{Binding Path=(Controls:IconControl.Icon3), RelativeSource={x:Static RelativeSource.TemplatedParent}}"
+                               Visibility="{Binding Path=IsChecked, Converter={StaticResource NullToVisibilityHiddenConverter}, RelativeSource={x:Static RelativeSource.TemplatedParent}}" />
+                        <Image Source="{Binding Path=(Controls:IconControl.Icon2), RelativeSource={x:Static RelativeSource.TemplatedParent}}"
+                               Visibility="{Binding Path=IsChecked, Converter={StaticResource InverseBoolToVisibilityHiddenConverter}, RelativeSource={x:Static RelativeSource.TemplatedParent}}" />
+                        <Image Source="{Binding Path=(Controls:IconControl.Icon1), RelativeSource={x:Static RelativeSource.TemplatedParent}}"
+                               Visibility="{Binding Path=IsChecked, Converter={StaticResource BoolToVisibilityHiddenConverter}, RelativeSource={x:Static RelativeSource.TemplatedParent}}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ValueTextStyle"
+           TargetType="{x:Type TextBlock}"
+           BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="TextBlock.TextAlignment"
+                Value="Left" />
+        <Setter Property="TextBlock.TextTrimming"
+                Value="CharacterEllipsis" />
+        <Setter Property="FrameworkElement.VerticalAlignment"
+                Value="Center" />
+        <Setter Property="TextBlock.Foreground"
+                Value="#FF808080" />
+    </Style>
+    <Style x:Key="LabelTextStyle"
+           TargetType="{x:Type TextBlock}"
+           BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="TextBlock.TextAlignment"
+                Value="Right" />
+        <Setter Property="TextBlock.TextTrimming"
+                Value="CharacterEllipsis" />
+        <Setter Property="FrameworkElement.VerticalAlignment"
+                Value="Center" />
+    </Style>
+    <Style x:Key="LabelBorderStyle"
+           TargetType="{x:Type Border}">
+        <Setter Property="FrameworkElement.Margin"
+                Value="0,2,2,2" />
+        <Setter Property="FrameworkElement.MinHeight"
+                Value="20" />
+    </Style>
+    <Style x:Key="ValueBorderStyle"
+           TargetType="{x:Type Border}">
+        <Setter Property="Border.Background"
+                Value="#FF424242" />
+        <Setter Property="FrameworkElement.Margin"
+                Value="2,2,0,2" />
+        <Setter Property="Border.Padding"
+                Value="4,0,4,0" />
+        <Setter Property="Border.CornerRadius"
+                Value="4" />
+        <Setter Property="FrameworkElement.MinHeight"
+                Value="20" />
+    </Style>
+    <Style x:Key="PrefixContentControlStyle"
+           TargetType="{x:Type GroupBox}">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Border Background="{TemplateBinding Control.Background}"
+                            CornerRadius="4">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="PrefixHeader"
+                                                  MinWidth="16" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              ContentSource="Header" />
+                            <ContentPresenter Grid.Column="1"
+                                              ContentSource="Content" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Control.Background"
+                Value="#FF1A1A1A" />
+    </Style>
+    <Style x:Key="BusyIconControlStyle"
+           TargetType="{x:Type Control}">
+        <Setter Property="FrameworkElement.Width"
+                Value="16" />
+        <Setter Property="FrameworkElement.Height"
+                Value="16" />
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Effect="{StaticResource IconShadowEffect}">
+                        <Rectangle Name="Icon"
+                                   Fill="{StaticResource WhiteIconColorBrush}">
+                            <UIElement.OpacityMask>
+                                <DrawingBrush Drawing="{StaticResource GearIconDrawing}">
+                                    <Brush.RelativeTransform>
+                                        <RotateTransform CenterX="0.5"
+                                                         CenterY="0.5" />
+                                    </Brush.RelativeTransform>
+                                </DrawingBrush>
+                            </UIElement.OpacityMask>
+                            <FrameworkElement.Triggers>
+                                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Icon"
+                                                             Storyboard.TargetProperty="OpacityMask.RelativeTransform.Angle"
+                                                             From="0"
+                                                             To="360"
+                                                             Duration="0:0:2"
+                                                             RepeatBehavior="Forever" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </FrameworkElement.Triggers>
+                        </Rectangle>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <XmlDataProvider x:Key="QualityStatisticsData"
+                     XPath="QualityStatistics">
+        <x:XData>
+            <QualityStatistics xmlns="">
+                <Board NG="-"
+                       Total="-"
+                       FalseCall="-"
+                       IPY="-"
+                       FPY="-" />
+                <Comp NG="-"
+                      Total="-"
+                      FalseCall="-"
+                      DefectRate="-"
+                      FalseCallRate="-" />
+            </QualityStatistics>
+        </x:XData>
+    </XmlDataProvider>
+    <x:Array x:Key="InspectionWindowNames"
+             Type="{x:Type System:String}">
+        <System:String>OK</System:String>
+        <System:String>NG</System:String>
+        <System:String>Missing</System:String>
+        <System:String>Shift</System:String>
+        <System:String>Billboard</System:String>
+        <System:String>Tombstone</System:String>
+        <System:String>Flipover</System:String>
+        <System:String>Wrong Part</System:String>
+        <System:String>Polarity</System:String>
+        <System:String>No Solder</System:String>
+        <System:String>Exes Solder</System:String>
+        <System:String>Dry Joint</System:String>
+        <System:String>Lift Lead</System:String>
+        <System:String>Bridge</System:String>
+        <System:String>Broken</System:String>
+        <System:String>Scratch</System:String>
+        <System:String>Peel Off</System:String>
+        <System:String>Exes Comp</System:String>
+        <System:String>Solder Ball</System:String>
+        <System:String>Particle</System:String>
+    </x:Array>
+</ResourceDictionary>

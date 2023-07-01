@@ -1,0 +1,18 @@
+IT Support: Hiep 31531
+
+- Kiem tra tram
+Gui: SN(25) + CHECK(5)
+Nhan: SN(25) + TenTram(10) + PASS
+
+- Gui ket qua
+Gui ket qua pass: SN(25) + OK(2)
+Nhan phan hoi: SN(25) + OK(2) + PASS(4)/ERRO(4)
+
+Gui ket qua fail: SN(25) + MaLoi(10) + NG(2)
+Nhan phan hoi: SN(25) + MaLoi(10) + NG(2) + PASS(4)/ERRO(4)
+
+- Ma loi co ban
+Nguoc chieu: VI0010
+Khong han: PCB001
+
+

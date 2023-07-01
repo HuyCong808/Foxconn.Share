@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Foxconn.AOI.Editor.Controls.CvCodeRecognitionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Foxconn.AOI.Editor.Controls"
+             mc:Ignorable="d">
+    <Grid Margin="2">
+        <StackPanel Orientation="Vertical">
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Mode"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <ComboBox x:Name="cmbMode"
+                              SelectedItem="{Binding Mode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Width="150" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Format"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <ComboBox x:Name="cmbFormat"
+                              SelectedItem="{Binding Format, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Width="150" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Prefix"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding Prefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Length"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150" />
+                </DockPanel>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

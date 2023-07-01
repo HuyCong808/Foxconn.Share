@@ -1,0 +1,70 @@
+﻿<Window x:Class="Foxconn.AOI.Editor.Dialogs.WaitingDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Foxconn.AOI.Editor.Dialogs"
+        mc:Ignorable="d"
+        Title="Please waiting"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+    <Border BorderBrush="White"
+            BorderThickness="1"
+            Background="{DynamicResource PaneBrush}">
+        <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid ColumnSpan="2">
+                <Rectangle Margin="1,1,1,0"
+                           Fill="{DynamicResource PaletteBrush}" />
+                <Rectangle Height="12"
+                           Margin="2,2,2,0"
+                           VerticalAlignment="Top"
+                           Fill="{DynamicResource ButtonSelectionGrad}"
+                           Opacity="0.1"
+                           IsHitTestVisible="false" />
+                <TextBlock Margin="14,6,14,4"
+                           VerticalAlignment="Center"
+                           IsHitTestVisible="false"
+                           Foreground="{DynamicResource Text1Brush}"
+                           FontFamily="{DynamicResource {x:Static SystemFonts.CaptionFontFamilyKey}}"
+                           FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSizeKey}}"
+                           FontWeight="{DynamicResource {x:Static SystemFonts.CaptionFontWeightKey}}"
+                           Text="{Binding Title}" />
+            </Grid>
+            <Border Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="8">
+                <Control Width="24"
+                         Height="24"
+                         Style="{StaticResource BusyIconControlStyle}" />
+            </Border>
+            <Border Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,8,8,8">
+                <TextBlock VerticalAlignment="Center"
+                           Text="{Binding Message}"
+                           Foreground="{DynamicResource Text1Brush}" />
+            </Border>
+            <Border Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center"
+                    Visibility="{Binding Path=IsCancelable, Converter={StaticResource BoolToVisibilityCollapsedConverter}}">
+                <Button Click="CancelButton_Click"
+                        Style="{DynamicResource DialogButton}"
+                        Margin="12"
+                        Content="Cancel" />
+            </Border>
+        </Grid>
+    </Border>
+</Window>

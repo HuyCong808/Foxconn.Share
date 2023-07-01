@@ -1,0 +1,259 @@
+﻿<Window x:Class="Foxconn.AOI.Editor.Dialogs.AutoRunManager"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:Foxconn.AOI.Editor.Controls"
+        xmlns:local="clr-namespace:Foxconn.AOI.Editor.Dialogs"
+        mc:Ignorable="d"
+        Title="AutoRunManager"
+        Width="1280"
+        Height="720"
+        MinWidth="800"
+        MinHeight="450"
+        Background="{DynamicResource BackgroundBrush}"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Closed="Window_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"
+                           MinHeight="16" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Menu x:Name="MainMenu">
+                <MenuItem Header="File">
+                    <MenuItem Header="Export">
+                        <MenuItem Header="Board Image..." />
+                        <MenuItem Header="Libraries..." />
+                        <MenuItem Header="Reference Images..." />
+                        <MenuItem Header="CAD..." />
+                        <MenuItem Header="Foxconn Inspection Data..." />
+                    </MenuItem>
+                    <MenuItem Header="View Summary..." />
+                    <Separator />
+                    <MenuItem Header="Options..." />
+                    <MenuItem Header="PLC Input/Output Status" />
+                    <Separator />
+                    <MenuItem Header="Login..." />
+                    <MenuItem Header="Logout" />
+                    <Separator />
+                    <MenuItem Header="Stop" />
+                </MenuItem>
+                <MenuItem Header="View">
+                    <MenuItem Header="Zoom In"
+                              InputGestureText="Ctrl++" />
+                    <MenuItem Header="Zoom Out"
+                              InputGestureText="Ctrl+-" />
+                    <Separator />
+                    <MenuItem Header="Open File Location" />
+                </MenuItem>
+                <MenuItem Header="Programs">
+                    <MenuItem Header="Programs Change"
+                              InputGestureText="Ctrl+R" />
+                    <MenuItem Header="(Empty)" />
+                </MenuItem>
+                <MenuItem Header="Report">
+                    <MenuItem Header="View Reports" />
+                </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="User Guide" />
+                    <Separator />
+                    <MenuItem Header="About AOI System" />
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition MaxWidth="280"
+                                  MinWidth="200" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0"
+                  x:Name="ImageViewerSpace"
+                  Margin="2,0,1,1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0"
+                        Background="{DynamicResource BackgroundBrush}"
+                        CornerRadius="4">
+                    <Label Grid.Row="0"
+                           Content="Image"
+                           Height="20"
+                           Margin="4,0,0,0" />
+                </Border>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Controls:ImageBox Grid.Row="0"
+                                       Grid.Column="0"
+                                       x:Name="imageBox1"
+                                       PreviewMouseWheel="imageBox1_PreviewMouseWheel" />
+                    <Controls:ImageBox Grid.Row="0"
+                                       Grid.Column="1"
+                                       x:Name="imageBox2"
+                                       PreviewMouseWheel="imageBox2_PreviewMouseWheel" />
+                    <Controls:ImageBox Grid.Row="1"
+                                       Grid.Column="0"
+                                       x:Name="imageBox3"
+                                       PreviewMouseWheel="imageBox3_PreviewMouseWheel" />
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="1"
+                  x:Name="AutoRunSpace"
+                  Margin="1,0,2,1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0"
+                        Background="{DynamicResource BackgroundBrush}"
+                        CornerRadius="4">
+                    <Label Grid.Row="0"
+                           Content="Auto Run"
+                           Height="20"
+                           Margin="4,0,0,0" />
+                </Border>
+                <Border Grid.Row="1"
+                        BorderBrush="{DynamicResource PaletteBrush}"
+                        CornerRadius="4"
+                        Margin="0,0,0,2">
+                    <Expander Header="Machine Monitor"
+                              IsExpanded="False"
+                              BorderThickness="0" />
+                </Border>
+                <Border Grid.Row="2"
+                        BorderBrush="{DynamicResource PaletteBrush}"
+                        CornerRadius="4"
+                        Margin="0,0,0,2">
+                    <Expander Header="Component Alram List"
+                              IsExpanded="False"
+                              BorderThickness="0">
+                    </Expander>
+                </Border>
+                <Border Grid.Row="3"
+                        BorderBrush="{DynamicResource PaletteBrush}"
+                        CornerRadius="4">
+                    <Expander Header="Verification"
+                              IsExpanded="True"
+                              BorderThickness="0">
+                        <Grid Margin="2,0,2,2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <StackPanel Orientation="Vertical">
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Board Name"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBlock Text="{Binding BoardName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Barcode"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBlock Text="{Binding Barcode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Cycle Time"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBlock Text="{Binding CycleTime, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2"
+                                               Visibility="Hidden">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Scanner Data"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBox Text="{Binding ScannerData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Width="161" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="L1_Cell 1"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBox x:Name="txtL1_C1"
+                                                     Width="161"
+                                                     IsReadOnly="True" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="L1_Cell 2"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBox x:Name="txtL1_C2"
+                                                     Width="161"
+                                                     IsReadOnly="True" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <Separator Margin="0,4,0,4" />
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="L2_Cell 1"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBox x:Name="txtL2_C1"
+                                                     Width="161"
+                                                     IsReadOnly="True" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="L2_Cell 2"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBox x:Name="txtL2_C2"
+                                                     Width="161"
+                                                     IsReadOnly="True" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Grid.Row="1" />
+                        </Grid>
+                    </Expander>
+                </Border>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2"
+              Margin="2,0,2,0">
+            <Border Background="{DynamicResource PaletteBrush}"
+                    CornerRadius="4"
+                    Height="22">
+                <Controls:StatusControl x:Name="statusControl" />
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
