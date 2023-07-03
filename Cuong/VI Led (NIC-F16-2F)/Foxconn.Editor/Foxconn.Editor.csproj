@@ -1,0 +1,169 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>disable</Nullable>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+		<AssemblyName>Foxconn.Editor</AssemblyName>
+		<RootNamespace>Foxconn</RootNamespace>
+		<ApplicationIcon>Resources\Icons\FoxconnLogo.ico</ApplicationIcon>
+		<StartupObject></StartupObject>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Folder Include="DB\" />
+		<Folder Include="Effects\" />
+		<Folder Include="Fonts\" />
+		<Folder Include="Foxconn.Licensing.Common\" />
+		<Folder Include="Images\" />
+		<Folder Include="License\" />
+		<Folder Include="Resources\Controls\" />
+		<Folder Include="Resources\Cursors\" />
+		<Folder Include="Resources\Images\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Emgu.CV" Version="4.7.0.5276" />
+		<PackageReference Include="Emgu.CV.Bitmap" Version="4.7.0.5276" />
+		<PackageReference Include="Emgu.CV.runtime.windows" Version="4.7.0.5276" />
+		<PackageReference Include="Emgu.CV.UI" Version="4.7.0.5276" />
+		<PackageReference Include="FluentFTP" Version="46.0.2" />
+		<PackageReference Include="HalconDotNet" Version="18.5.0.2" />
+		<PackageReference Include="McProtocol" Version="1.2.5" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="NLog" Version="5.1.5" />
+		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.117" />
+		<PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
+		<PackageReference Include="System.IO.Ports" Version="7.0.0" />
+		<PackageReference Include="System.Management" Version="7.0.1" />
+		<PackageReference Include="WinSCP" Version="6.1.0" />
+		<PackageReference Include="ZXing.Net" Version="0.16.9" />
+		<PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.12" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Foxconn.Threading\Foxconn.Threading.csproj" />
+		<ProjectReference Include="..\Foxconn.UI\Foxconn.UI.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="Basler.Pylon">
+	    <HintPath>..\Dll\Basler\win64\Basler.Pylon.dll</HintPath>
+	  </Reference>
+	  <Reference Include="bgapi2_genicam_dotnet">
+	    <HintPath>..\Dll\Baumer\win64\bgapi2_genicam_dotnet.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DirectShowLib">
+	    <HintPath>..\Dll\Webcam\AnyCpu\DirectShowLib.dll</HintPath>
+	  </Reference>
+	  <Reference Include="MvCameraControl.Net">
+	    <HintPath>..\Dll\Hikvision\AnyCpu\MvCameraControl.Net.dll</HintPath>
+	  </Reference>
+	  <Reference Include="MVSDK">
+	    <HintPath>..\Dll\Mindvision\AnyCpu\MVSDK.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Resources\Icons\abscissa_32px.png" />
+	  <Resource Include="Resources\Icons\add_list_32px.png" />
+	  <Resource Include="Resources\Icons\alarm_32px.png" />
+	  <Resource Include="Resources\Icons\available_updates_32px.png" />
+	  <Resource Include="Resources\Icons\camera_32px.png" />
+	  <Resource Include="Resources\Icons\center_of_gravity_32px.png" />
+	  <Resource Include="Resources\Icons\clone_figure_32px.png" />
+	  <Resource Include="Resources\Icons\close_32px.png" />
+	  <Resource Include="Resources\Icons\color-wheel.png" />
+	  <Resource Include="Resources\Icons\copy_32px.png" />
+	  <Resource Include="Resources\Icons\cursor_32px.png" />
+	  <Resource Include="Resources\Icons\cut_32px.png" />
+	  <Resource Include="Resources\Icons\dark_to_light.png" />
+	  <Resource Include="Resources\Icons\duplication_32px.png" />
+	  <Resource Include="Resources\Icons\end_32px.png" />
+	  <Resource Include="Resources\Icons\expand_32px.png" />
+	  <Resource Include="Resources\Icons\eye_32px.png" />
+	  <Resource Include="Resources\Icons\folder_32px.png" />
+	  <Resource Include="Resources\Icons\FoxconnLogo.ico" />
+	  <Resource Include="Resources\Icons\FoxconnLogo.png" />
+	  <Resource Include="Resources\Icons\FoxconnTitle.png" />
+	  <Resource Include="Resources\Icons\full_image_32px.png" />
+	  <Resource Include="Resources\Icons\full_screen_32px.png" />
+	  <Resource Include="Resources\Icons\gear_128px.png" />
+	  <Resource Include="Resources\Icons\green_circle_32px.png" />
+	  <Resource Include="Resources\Icons\help_32px.png" />
+	  <Resource Include="Resources\Icons\hospital_folder_32px.png" />
+	  <Resource Include="Resources\Icons\hsv.png" />
+	  <Resource Include="Resources\Icons\idea_32px.png" />
+	  <Resource Include="Resources\Icons\image_32px.png" />
+	  <Resource Include="Resources\Icons\infinite_32px.png" />
+	  <Resource Include="Resources\Icons\keyboard_128px.png" />
+	  <Resource Include="Resources\Icons\mute_32px.png" />
+	  <Resource Include="Resources\Icons\my_location_32px.png" />
+	  <Resource Include="Resources\Icons\notification_32px.png" />
+	  <Resource Include="Resources\Icons\ophthalmology_32px.png" />
+	  <Resource Include="Resources\Icons\paste_32px.png" />
+	  <Resource Include="Resources\Icons\pause_32px.png" />
+	  <Resource Include="Resources\Icons\play_32px.png" />
+	  <Resource Include="Resources\Icons\plus_math_32px.png" />
+	  <Resource Include="Resources\Icons\processor_32px.png" />
+	  <Resource Include="Resources\Icons\redo_32px.png" />
+	  <Resource Include="Resources\Icons\red_circle_32px.png" />
+	  <Resource Include="Resources\Icons\remove_32px.png" />
+	  <Resource Include="Resources\Icons\reset_32px.png" />
+	  <Resource Include="Resources\Icons\save_32px.png" />
+	  <Resource Include="Resources\Icons\save_all_32px.png" />
+	  <Resource Include="Resources\Icons\save_as_32px.png" />
+	  <Resource Include="Resources\Icons\save_close_32px.png" />
+	  <Resource Include="Resources\Icons\screenshot_32px.png" />
+	  <Resource Include="Resources\Icons\search_32px.png" />
+	  <Resource Include="Resources\Icons\settings_32px.png" />
+	  <Resource Include="Resources\Icons\shipping_container_32px.png" />
+	  <Resource Include="Resources\Icons\skip_to_start_32px.png" />
+	  <Resource Include="Resources\Icons\sort_down_32px.png" />
+	  <Resource Include="Resources\Icons\sort_left_32px.png" />
+	  <Resource Include="Resources\Icons\sort_right_32px.png" />
+	  <Resource Include="Resources\Icons\sort_up_32px.png" />
+	  <Resource Include="Resources\Icons\sound_32px.png" />
+	  <Resource Include="Resources\Icons\stop_32px.png" />
+	  <Resource Include="Resources\Icons\subtract_32px.png" />
+	  <Resource Include="Resources\Icons\undo_32px.png" />
+	  <Resource Include="Resources\Icons\user_128px.png" />
+	  <Resource Include="Resources\Icons\video_call_32px_off.png" />
+	  <Resource Include="Resources\Icons\video_call_32px_on.png" />
+	  <Resource Include="Resources\Icons\white_close_32px.png" />
+	  <Resource Include="Resources\Icons\zoom_in_32px.png" />
+	  <Resource Include="Resources\Icons\zoom_out_32px.png" />
+	  <Resource Include="Resources\Icons\zoom_to_actual_size_32px.png" />
+	  <Resource Include="Resources\Icons\zoom_to_extents_32px.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+</Project>

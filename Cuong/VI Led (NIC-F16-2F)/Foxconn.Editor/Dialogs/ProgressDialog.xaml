@@ -1,0 +1,66 @@
+﻿<Window x:Class="Foxconn.Editor.Dialogs.ProgressDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Foxconn.Editor.Dialogs"
+        mc:Ignorable="d"
+        Title="ProgressDialog"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+    <Border Width="470"
+            Height="145"
+            BorderBrush="White"
+            BorderThickness="1"
+            Background="{DynamicResource MainWindowBackgroundBrush}">
+        <Grid Margin="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock TextWrapping="Wrap"
+                           Text="{Binding Path=TitleText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           Foreground="{DynamicResource Text1Brush}"
+                           FontFamily="{DynamicResource {x:Static SystemFonts.CaptionFontFamilyKey}}"
+                           FontSize="{DynamicResource {x:Static SystemFonts.CaptionFontSizeKey}}"
+                           FontWeight="{DynamicResource {x:Static SystemFonts.CaptionFontWeightKey}}" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <TextBlock TextWrapping="Wrap"
+                           Text="{Binding Path=StateText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           Foreground="{StaticResource Text1Brush}"
+                           Margin="0,10,0,0" />
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ProgressBar Value="{Binding Path=Progress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="360"
+                             Height="18"
+                             Minimum="0"
+                             Maximum="100"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center" />
+                <Button Grid.Column="1"
+                        x:Name="CancelButton"
+                        Click="CancelButton_Click"
+                        Width="80"
+                        Height="23"
+                        Content="Cancel"
+                        IsCancel="False"
+                        HorizontalAlignment="Right"
+                        Visibility="Visible"
+                        Margin="12,0,0,0" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="Foxconn.Editor.Controls.ServerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Foxconn.Editor.Controls"
+             mc:Ignorable="d">
+    <Grid Margin="2">
+        <StackPanel Orientation="Vertical">
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="F?"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <ComboBox x:Name="cmbFixtures"
+                              SelectionChanged="cmbServerArray_SelectionChanged"
+                              SelectedItem="{Binding ServerArray, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Width="150" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="CMD"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <DockPanel Width="150"
+                               HorizontalAlignment="Right">
+                        <Button x:Name="btnAddServerButton"
+                                Click="btnAddServerButton_Click"
+                                Content="Add"
+                                Width="73" />
+                        <Button x:Name="btnRemoveServerButton"
+                                Click="btnRemoveServerButton_Click"
+                                Content="Remove"
+                                Width="73"
+                                Margin="4,0,0,0" />
+                    </DockPanel>
+                </DockPanel>
+            </DockPanel>
+            <Separator />
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Id"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150"
+                             IsReadOnly="True" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Name"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150"
+                             IsReadOnly="True" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Is Enabled"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Width="150"
+                              Content=""
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Local Host"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding LocalHost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Local Port"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding LocalPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="VNC Host"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding VNCHost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="VNC Password"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding VNCPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150" />
+                </DockPanel>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
