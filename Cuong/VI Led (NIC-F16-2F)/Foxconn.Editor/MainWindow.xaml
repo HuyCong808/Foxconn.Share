@@ -1,0 +1,832 @@
+﻿<Window x:Class="Foxconn.Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:Foxconn.Editor.Controls"
+        xmlns:Configuration="clr-namespace:Foxconn.Editor.Configuration"
+        xmlns:local="clr-namespace:Foxconn.Editor"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Width="1280"
+        Height="720"
+        MinWidth="800"
+        MinHeight="450"
+        Background="{DynamicResource BackgroundBrush}"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        Closed="Window_Closed"
+        KeyDown="Window_KeyDown">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"
+                           MinHeight="16" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Menu x:Name="MainMenu">
+                <MenuItem Header="File">
+                    <MenuItem Header="New"
+                              x:Name="mnuiNew"
+                              Click="mnuiNew_Click"
+                              InputGestureText="Ctrl+N" />
+                    <MenuItem Header="Open"
+                              x:Name="mnuiOpen"
+                              Click="mnuiOpen_Click"
+                              InputGestureText="Ctrl+O" />
+                    <Separator />
+                    <MenuItem Header="Save"
+                              x:Name="mnuiSave"
+                              Click="mnuiSave_Click"
+                              InputGestureText="Ctrl+S" />
+                    <MenuItem Header="Save As"
+                              x:Name="mnuiSaveAs">
+                        <MenuItem Header="Params"
+                                  x:Name="mnuiSaveAsParams"
+                                  Click="mnuiSaveAsParams_Click" />
+                    </MenuItem>
+                    <MenuItem Header="Save All"
+                              x:Name="mnuiSaveAll"
+                              Click="mnuiSaveAll_Click"
+                              InputGestureText="Ctrl+Shift+S" />
+                    <Separator />
+                    <MenuItem Header="Import"
+                              x:Name="mnuiImport"
+                              Click="mnuiImport_Click" />
+                    <MenuItem Header="Export"
+                              x:Name="mnuiExport"
+                              Click="mnuiExport_Click" />
+                    <Separator />
+                    <MenuItem Header="Exit"
+                              x:Name="mnuiExit"
+                              Click="mnuiExit_Click"
+                              InputGestureText="Alt+F4" />
+                </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Undo"
+                              x:Name="mnuiUndo"
+                              Click="mnuiUndo_Click"
+                              InputGestureText="Ctrl+Z" />
+                    <MenuItem Header="Redo"
+                              x:Name="mnuiRedo"
+                              Click="mnuiRedo_Click"
+                              InputGestureText="Ctrl+Y" />
+                    <Separator />
+                    <MenuItem Header="Cut"
+                              x:Name="mnuiCut"
+                              Click="mnuiCut_Click"
+                              InputGestureText="Ctrl+X" />
+                    <MenuItem Header="Copy"
+                              x:Name="mnuiCopy"
+                              Click="mnuiCopy_Click"
+                              InputGestureText="Ctrl+C" />
+                    <MenuItem Header="Paste"
+                              x:Name="mnuiPaste"
+                              Click="mnuiPaste_Click"
+                              InputGestureText="Ctrl+V" />
+                    <MenuItem Header="Duplicate"
+                              x:Name="mnuiDuplicate"
+                              Click="mnuiDuplicate_Click"
+                              InputGestureText="Ctrl+D" />
+                    <MenuItem Header="Delete"
+                              x:Name="mnuiDelete"
+                              Click="mnuiDelete_Click"
+                              InputGestureText="Del" />
+                    <Separator />
+                    <MenuItem Header="Select All"
+                              x:Name="mnuiSelectAll"
+                              Click="mnuiSelectAll_Click"
+                              InputGestureText="Ctrl+A" />
+                </MenuItem>
+                <MenuItem Header="View">
+                    <MenuItem Header="Zoom In"
+                              x:Name="mnuiZoomIn"
+                              Click="mnuiZoomIn_Click"
+                              InputGestureText="Ctrl++" />
+                    <MenuItem Header="Zoom Out"
+                              x:Name="mnuiZoomOut"
+                              Click="mnuiZoomOut_Click"
+                              InputGestureText="Ctrl--" />
+                    <MenuItem Header="Zoom to Fit"
+                              x:Name="mnuiZoomToFit"
+                              Click="mnuiZoomToFit_Click"
+                              InputGestureText="Ctrl+*" />
+                    <MenuItem Header="Zoom 100%"
+                              x:Name="mnuiZoom100"
+                              Click="mnuiZoom100_Click"
+                              InputGestureText="Ctrl+1" />
+                    <Separator />
+                    <MenuItem Header="Full Screen"
+                              x:Name="mnuiFullScreen"
+                              Click="mnuiFullScreen_Click"
+                              InputGestureText="F11" />
+                    <Separator />
+                    <MenuItem Header="Windows Console"
+                              x:Name="mnuiWindowsConsole"
+                              Click="mnuiWindowsConsole_Click"
+                              InputGestureText="" />
+                    <MenuItem Header="Open File Location"
+                              x:Name="mnuiOpenFileLocation"
+                              Click="mnuiOpenFileLocation_Click"
+                              InputGestureText="" />
+                </MenuItem>
+                <MenuItem Header="Run">
+                    <MenuItem Header="Auto Run"
+                              x:Name="mnuiAutoRun"
+                              Click="mnuiAutoRun_Click" />
+                </MenuItem>
+                <MenuItem Header="Tools">
+                    <MenuItem Header="Debug"
+                              x:Name="mnuiDebug"
+                              Click="mnuiDebug_Click"
+                              InputGestureText="F5" />
+                    <MenuItem Header="Theme">
+                        <MenuItem Header="Dark"
+                                  x:Name="mnuiDarkTheme"
+                                  Click="mnuiDarkTheme_Click"
+                                  IsChecked="True" />
+                        <MenuItem Header="Light"
+                                  x:Name="mnuiLightTheme"
+                                  Click="mnuiLightTheme_Click" />
+                    </MenuItem>
+                    <MenuItem Header="Customize..."
+                              x:Name="mnuiCustomize"
+                              Click="mnuiCustomize_Click" />
+                    <MenuItem Header="Options..."
+                              x:Name="mnuiOptions"
+                              Click="mnuiOptions_Click" />
+                </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="View Help"
+                              x:Name="mnuiViewHelp"
+                              Click="mnuiViewHelp_Click"
+                              InputGestureText="Ctrl+F1" />
+                    <MenuItem Header="Language">
+                        <MenuItem Header="English"
+                                  x:Name="mnuiEnglishLanguage"
+                                  Click="mnuiEnglishLanguage_Click"
+                                  IsChecked="True" />
+                        <MenuItem Header="Vietnamese"
+                                  x:Name="mnuiVietnameseLanguage"
+                                  Click="mnuiVietnameseLanguage_Click" />
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Check for Updates"
+                              x:Name="mnuiCheckForUpdates"
+                              Click="mnuiCheckForUpdates_Click" />
+                    <Separator />
+                    <MenuItem Header="Technical Support"
+                              x:Name="mnuiTechnicalSupport"
+                              Click="mnuiTechnicalSupport_Click" />
+                    <Separator />
+                    <MenuItem Header="About"
+                              x:Name="mnuiAbout"
+                              Click="mnuiAbout_Click" />
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"
+                                  MaxWidth="280"
+                                  MinWidth="250" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition MaxWidth="280"
+                                  MinWidth="200" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0"
+                  x:Name="LibraryDesignerSpace"
+                  Margin="2,0,2,1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0"
+                        Background="{DynamicResource BackgroundBrush}"
+                        CornerRadius="4">
+                    <Label Grid.Row="0"
+                           Content="Library Designer"
+                           Height="20"
+                           Margin="4,0,0,0" />
+                </Border>
+                <Border Grid.Row="1"
+                        BorderBrush="{DynamicResource PaletteBrush}"
+                        CornerRadius="4"
+                        Margin="0,0,0,2">
+                    <Expander Header="Component List"
+                              IsExpanded="False"
+                              BorderThickness="0">
+                    </Expander>
+                </Border>
+                <Border Grid.Row="2"
+                        BorderBrush="{DynamicResource PaletteBrush}"
+                        CornerRadius="4"
+                        Margin="0,0,0,2">
+                    <Expander Header="Inspection Window Tree"
+                              IsExpanded="False"
+                              BorderThickness="0">
+                    </Expander>
+                </Border>
+                <Border Grid.Row="3"
+                        BorderBrush="{DynamicResource PaletteBrush}"
+                        CornerRadius="4">
+                    <Expander Header="Properties"
+                              IsExpanded="True"
+                              BorderThickness="0">
+                        <DockPanel x:Name="dpnProperties2" />
+                    </Expander>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1"
+                  Margin="0,0,0,1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="2*"
+                                   MaxHeight="200" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0"
+                      x:Name="ImageViewerSpace"
+                      Margin="0,0,0,2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0"
+                            Background="{DynamicResource BackgroundBrush}"
+                            CornerRadius="4">
+                        <Label Grid.Row="0"
+                               Content="Image"
+                               Height="20"
+                               Margin="4,0,0,0" />
+                    </Border>
+                    <Controls:ImageBox Grid.Row="1"
+                                       x:Name="imageBox"
+                                       PreviewMouseMove="imageBox_PreviewMouseMove"
+                                       PreviewMouseWheel="imageBox_PreviewMouseWheel" />
+                    <Controls:FocusableBorder Grid.Row="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    CornerRadius="4"
+                                    Background="{DynamicResource PaletteBrush}"
+                                    Padding="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0"
+                                            Margin="4,0,0,0"
+                                            Foreground="{StaticResource LightingIconBrush}"
+                                            Focusable="false"
+                                            ToolTip="iHL">
+                                        <FrameworkElement.Style>
+                                            <Style TargetType="{x:Type Button}"
+                                                   BasedOn="{StaticResource IconButtonStyle2}">
+                                                <Setter Property="Controls:IconControl.MouseOverBrush"
+                                                        Value="{StaticResource RedIconColorBrush}" />
+                                                <Setter Property="Controls:IconControl.Fill"
+                                                        Value="{StaticResource WhiteIconColorBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=ActiveWindow}"
+                                                                 Value="{x:Null}">
+                                                        <Setter Property="Controls:IconControl.MouseOverBrush"
+                                                                Value="{StaticResource WhiteIconColorBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </FrameworkElement.Style>
+                                    </Button>
+                                    <Grid Grid.Column="1"
+                                          Margin="2,0,0,0">
+                                        <ComboBox SelectedIndex="0"
+                                                  x:Name="ImageSourceSelector"
+                                                  VerticalAlignment="Center"
+                                                  IsEditable="false"
+                                                  Width="100"
+                                                  Focusable="false"
+                                                  TextElement.FontFamily="#Lucida Console"
+                                                  ToolTip="Image Source">
+                                            <FrameworkElement.Style>
+                                                <Style TargetType="{x:Type ComboBox}"
+                                                       BasedOn="{StaticResource {x:Type ComboBox}}">
+                                                </Style>
+                                            </FrameworkElement.Style>
+                                            <ComboBoxItem Content="side" />
+                                        </ComboBox>
+                                        <ContentPresenter Margin="6,0,16,0"
+                                                          VerticalAlignment="Center"
+                                                          Width="78"
+                                                          TextElement.FontFamily="#Lucida Console"
+                                                          Content=""
+                                                          Visibility="Visible" />
+                                    </Grid>
+                                    <UniformGrid Grid.Column="2"
+                                                 Rows="1"
+                                                 Margin="2,0,2,0">
+                                        <Button x:Name="FirstButtoon"
+                                                Style="{StaticResource IconButtonStyle2}"
+                                                Foreground="{StaticResource NavigateFirstIconBrush}"
+                                                ToolTip="First" />
+                                        <Button x:Name="PreviousButton"
+                                                Style="{StaticResource IconButtonStyle2}"
+                                                Foreground="{StaticResource NavigatePrevIconBrush}"
+                                                ToolTip="Previous" />
+                                        <Button x:Name="NextButtoon"
+                                                Style="{StaticResource IconButtonStyle2}"
+                                                Foreground="{StaticResource NavigateNextIconBrush}"
+                                                ToolTip="Next" />
+                                        <Button x:Name="LastButtoon"
+                                                Style="{StaticResource IconButtonStyle2}"
+                                                Foreground="{StaticResource NavigateLastIconBrush}"
+                                                ToolTip="Last" />
+                                    </UniformGrid>
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="1"
+                                    CornerRadius="4"
+                                    Background="{DynamicResource PaletteBrush}"
+                                    Width="40"
+                                    Margin="2,0,0,0"
+                                    Padding="1">
+                                <DockPanel HorizontalAlignment="Center">
+                                    <TextBlock Text="{Binding ElementName=imageBox, Path=ZoomScale, Converter={StaticResource ZoomScaleToPercentConverter}}"
+                                               Foreground="{StaticResource Text1Brush}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Normal"
+                                               ToolTip="Zoom Scale" />
+                                    <TextBlock Text="%"
+                                               Foreground="{StaticResource Text1Brush}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Normal" />
+                                </DockPanel>
+                            </Border>
+                            <Border Grid.Column="2"
+                                    CornerRadius="4"
+                                    Background="{DynamicResource PaletteBrush}"
+                                    Margin="2,0,0,0"
+                                    Padding="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0"
+                                            x:Name="btnGrabFrame"
+                                            Click="btnGrabFrame_Click"
+                                            Width="20"
+                                            Height="20"
+                                            MinWidth="0"
+                                            MinHeight="0"
+                                            BorderThickness="0"
+                                            Margin="4,0,0,0"
+                                            ToolTip="Capture">
+                                        <Image Source="/Resources/Icons/screenshot_32px.png" />
+                                    </Button>
+                                    <Button Grid.Column="1"
+                                            x:Name="btnStreaming"
+                                            Click="btnStreaming_Click"
+                                            Width="20"
+                                            Height="20"
+                                            MinWidth="0"
+                                            MinHeight="0"
+                                            BorderThickness="0"
+                                            Margin="4,0,0,0"
+                                            ToolTip="Streaming">
+                                        <Image x:Name="imgStreaming"
+                                               Source="/Resources/Icons/video_call_32px_off.png" />
+                                    </Button>
+                                    <Button Grid.Column="2"
+                                            x:Name="btnUpdateImageBlock"
+                                            Click="btnUpdateImageBlock_Click"
+                                            Width="20"
+                                            Height="20"
+                                            MinWidth="0"
+                                            MinHeight="0"
+                                            BorderThickness="0"
+                                            Margin="4,0,0,0"
+                                            ToolTip="Update Image Block">
+                                        <Image Source="/Resources/Icons/image_32px.png" />
+                                    </Button>
+                                    <Button Grid.Column="3"
+                                            x:Name="btnSaveRect"
+                                            Click="btnSaveRect_Click"
+                                            Width="20"
+                                            Height="20"
+                                            MinWidth="0"
+                                            MinHeight="0"
+                                            BorderThickness="0"
+                                            Margin="4,0,4,0"
+                                            ToolTip="Save Rectangle">
+                                        <Image Source="/Resources/Icons/full_image_32px.png" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="5"
+                                    CornerRadius="4"
+                                    Background="{DynamicResource PaletteBrush}"
+                                    Margin="2,0,0,0" />
+                            <Border Grid.Column="6"
+                                    CornerRadius="4"
+                                    Background="{DynamicResource PaletteBrush}"
+                                    Margin="2,0,0,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Control Grid.Column="0"
+                                             Width="16"
+                                             Height="16"
+                                             Margin="4,0,2,0"
+                                             Foreground="{StaticResource PositionIconBrush}"
+                                             Style="{StaticResource ShadowIconStyle}"
+                                             VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                Margin="2,0,4,0">
+                                        <TextBlock Text="{Binding ElementName=imageBox, Path=PixelPoint.X}"
+                                                   Foreground="{StaticResource Text1Brush}"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center" />
+                                        <TextBlock Text=", "
+                                                   Foreground="Gray"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center" />
+                                        <TextBlock Text="{Binding ElementName=imageBox, Path=PixelPoint.Y}"
+                                                   Foreground="{StaticResource Text1Brush}"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="7"
+                                    CornerRadius="4"
+                                    Background="{DynamicResource PaletteBrush}"
+                                    Margin="2,0,0,0">
+                                <UniformGrid Rows="1"
+                                             Margin="2,0,2,0">
+                                    <FrameworkElement.Resources>
+                                        <ControlTemplate x:Key="PercentIndicatorTemplate"
+                                                         TargetType="{x:Type Control}">
+                                            <Border Background="{TemplateBinding Control.Background}"
+                                                    CornerRadius="1"
+                                                    Padding="1">
+                                                <Rectangle>
+                                                    <Shape.Fill>
+                                                        <LinearGradientBrush StartPoint="0,1"
+                                                                             EndPoint="0,0">
+                                                            <GradientBrush.GradientStops>
+                                                                <GradientStop Color="#7FFFFFFF"
+                                                                              Offset="0" />
+                                                                <GradientStop Color="#FFFFFFFF"
+                                                                              Offset="{Binding}" />
+                                                                <GradientStop Color="#00000000"
+                                                                              Offset="{Binding}" />
+                                                                <GradientStop Color="#00000000"
+                                                                              Offset="1" />
+                                                            </GradientBrush.GradientStops>
+                                                        </LinearGradientBrush>
+                                                    </Shape.Fill>
+                                                </Rectangle>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </FrameworkElement.Resources>
+                                    <Border CornerRadius="4"
+                                            Margin="2">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{Binding}" />
+                                        </Border.Background>
+                                        <UniformGrid Rows="1">
+                                            <Control Template="{StaticResource PercentIndicatorTemplate}"
+                                                     Background="#FF7F7F7F"
+                                                     DataContext="{Binding Path=DataContext, ElementName=LumIndicator}" />
+                                            <Control Template="{StaticResource PercentIndicatorTemplate}"
+                                                     Background="#FFFF0000"
+                                                     DataContext="{Binding Path=DataContext, ElementName=RIndicator}" />
+                                            <Control Template="{StaticResource PercentIndicatorTemplate}"
+                                                     Background="#FF00FF00"
+                                                     DataContext="{Binding Path=DataContext, ElementName=GIndicator}" />
+                                            <Control Template="{StaticResource PercentIndicatorTemplate}"
+                                                     Background="#FF0000FF"
+                                                     DataContext="{Binding Path=DataContext, ElementName=BIndicator}" />
+                                        </UniformGrid>
+                                    </Border>
+                                    <Border x:Name="LumIndicator"
+                                            CornerRadius="4"
+                                            Margin="2">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   Margin="1,0,1,0"
+                                                   Text="{Binding ElementName=imageBox, Path=PixelColor.A, Converter={StaticResource ByteToStringConverter}}" />
+                                    </Border>
+                                    <Border x:Name="RIndicator"
+                                            CornerRadius="4"
+                                            Margin="2">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   Margin="1,0,1,0"
+                                                   Foreground="#FFFF0000"
+                                                   Text="{Binding ElementName=imageBox, Path=PixelColor.R, Converter={StaticResource ByteToStringConverter}}" />
+                                    </Border>
+                                    <Border x:Name="GIndicator"
+                                            CornerRadius="4"
+                                            Margin="2">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   Margin="1,0,1,0"
+                                                   Foreground="#FF00FF00"
+                                                   Text="{Binding ElementName=imageBox, Path=PixelColor.G, Converter={StaticResource ByteToStringConverter}}" />
+                                    </Border>
+                                    <Border x:Name="BIndicator"
+                                            CornerRadius="4"
+                                            Margin="2">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   Margin="1,0,1,0"
+                                                   Foreground="#FF0000FF"
+                                                   Text="{Binding ElementName=imageBox, Path=PixelColor.B, Converter={StaticResource ByteToStringConverter}}" />
+                                    </Border>
+                                    <Border x:Name="ColorIndicator"
+                                            CornerRadius="4"
+                                            BorderThickness="1"
+                                            BorderBrush="Black"
+                                            Width="30"
+                                            Margin="2">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{Binding ElementName=imageBox, Path=PixelColor}" />
+                                        </Border.Background>
+                                    </Border>
+                                </UniformGrid>
+                            </Border>
+                        </Grid>
+                    </Controls:FocusableBorder>
+                </Grid>
+                <Grid Grid.Row="1"
+                      x:Name="HelperViewSpace">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0"
+                            Background="{DynamicResource BackgroundBrush}"
+                            CornerRadius="4">
+                        <Label Grid.Row="0"
+                               Content="Helper View"
+                               Height="20"
+                               Margin="4,0,0,0" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            CornerRadius="4"
+                            Background="{DynamicResource PaletteBrush}" />
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="2"
+                  x:Name="NavigationSpace"
+                  Margin="2,0,2,1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0"
+                        Background="{DynamicResource BackgroundBrush}"
+                        CornerRadius="4">
+                    <Label Grid.Row="0"
+                           Content="Navigation"
+                           Height="20"
+                           Margin="4,0,0,0" />
+                </Border>
+                <Border Grid.Row="1"
+                        Background="{DynamicResource PaletteBrush}"
+                        CornerRadius="4"
+                        Margin="0,0,0,2">
+                    <Controls:SearchControl x:Name="searchControl" />
+                </Border>
+                <Border Grid.Row="2"
+                        BorderBrush="{DynamicResource PaletteBrush}"
+                        BorderThickness="4"
+                        CornerRadius="4"
+                        Margin="0,0,0,2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid x:Name="gridLayer1"
+                                  Margin="30" />
+                            <Grid x:Name="gridLayer2"
+                                  Margin="30" />
+                            <Grid x:Name="gridLayer3"
+                                  Margin="37" />
+                            <TreeView x:Name="trvNavigation"
+                                      Width="Auto"
+                                      SelectedItemChanged="trvNavigation_SelectedItemChanged"
+                                      MouseDoubleClick="trvNavigation_MouseDoubleClick">
+                                <TreeView.Resources>
+                                    <HierarchicalDataTemplate DataType="{x:Type Configuration:Board}"
+                                                              ItemsSource="{Binding FOVs}">
+                                        <Grid Width="{Binding ElementName=gridLayer1, Path=ActualWidth}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="0" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0"
+                                                  Margin="5,2,0,2">
+                                                <DockPanel>
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontSize="12"
+                                                               FontFamily="Segoe UI"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center" />
+                                                </DockPanel>
+                                            </Grid>
+                                        </Grid>
+                                    </HierarchicalDataTemplate>
+                                    <HierarchicalDataTemplate DataType="{x:Type Configuration:FOV}"
+                                                              ItemsSource="{Binding SMDs}">
+                                        <Grid Width="{Binding ElementName=gridLayer2, Path=ActualWidth}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem x:Name="mnuiEnableFOV"
+                                                              Click="mnuiEnableFOV_Click"
+                                                              Header="Enable" />
+                                                    <MenuItem x:Name="mnuiDisableFOV"
+                                                              Click="mnuiDisableFOV_Click"
+                                                              Header="Disable" />
+                                                </ContextMenu>
+                                            </Grid.ContextMenu>
+                                            <Grid Grid.Column="0"
+                                                  Margin="0,2,0,2">
+                                                <DockPanel>
+                                                    <Image Width="16"
+                                                           Height="16"
+                                                           Opacity="0.75"
+                                                           Margin="0,0,5,0"
+                                                           Source="/Resources/Icons/hospital_folder_32px.png" />
+                                                    <TextBlock Text="{Binding Name}"
+                                                               Foreground="{Binding IsEnabled, Converter={StaticResource BoolToTextColorConverter}}"
+                                                               FontSize="12"
+                                                               VerticalAlignment="Center" />
+                                                </DockPanel>
+                                            </Grid>
+                                            <Border Grid.Column="1"
+                                                    ClipToBounds="True">
+                                                <Ellipse Fill="{Binding IsEnabled, Converter={StaticResource BoolToShapeColorConverter}}"
+                                                         Width="10"
+                                                         Height="10"
+                                                         StrokeThickness="1"
+                                                         Stroke="Gray" />
+                                            </Border>
+                                            <Border Grid.Column="2" />
+                                            <Border Grid.Column="3"
+                                                    Width="14"
+                                                    Height="14"
+                                                    Visibility="Hidden">
+                                                <Border.ToolTip>
+                                                    <Border BorderBrush="Gray"
+                                                            BorderThickness="1"
+                                                            Width="120"
+                                                            Height="80">
+                                                        <Image Source="/Resources/Icons/image_32px.png" />
+                                                    </Border>
+                                                </Border.ToolTip>
+                                                <Image Source="/Resources/Icons/image_32px.png"
+                                                       Opacity="0.8" />
+                                            </Border>
+                                        </Grid>
+                                    </HierarchicalDataTemplate>
+                                    <DataTemplate DataType="{x:Type Configuration:SMD}">
+                                        <Grid Width="{Binding ElementName=gridLayer3, Path=ActualWidth}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem x:Name="mnuiEnableSMD"
+                                                              Click="mnuiEnableSMD_Click"
+                                                              Header="Enable" />
+                                                    <MenuItem x:Name="mnuiDisableSMD"
+                                                              Click="mnuiDisableSMD_Click"
+                                                              Header="Disable" />
+                                                </ContextMenu>
+                                            </Grid.ContextMenu>
+                                            <Grid Grid.Column="0"
+                                                  Margin="0,2,0,2">
+                                                <DockPanel>
+                                                    <Image Width="16"
+                                                           Height="16"
+                                                           Opacity="0.75"
+                                                           Margin="0,0,10,0"
+                                                           Source="{StaticResource ChipIconImage}" />
+                                                    <TextBlock Text="{Binding Name}"
+                                                               Foreground="{Binding IsEnabled, Converter={StaticResource BoolToTextColorConverter}}"
+                                                               FontSize="12"
+                                                               VerticalAlignment="Center" />
+                                                    <TextBlock Text=" @"
+                                                               Foreground="{Binding IsEnabled, Converter={StaticResource BoolToTextColorConverter}}"
+                                                               FontWeight="Bold"
+                                                               VerticalAlignment="Center" />
+                                                    <TextBlock Text="{Binding ID}"
+                                                               Foreground="{Binding IsEnabled, Converter={StaticResource BoolToTextColorConverter}}"
+                                                               FontSize="12"
+                                                               VerticalAlignment="Center" />
+                                                </DockPanel>
+                                            </Grid>
+                                            <Grid Grid.Column="1">
+                                                <Border ClipToBounds="True">
+                                                    <Ellipse Fill="{Binding IsEnabled, Converter={StaticResource BoolToShapeColorConverter}}"
+                                                             Width="10"
+                                                             Height="10"
+                                                             StrokeThickness="1"
+                                                             Stroke="Gray" />
+                                                </Border>
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </TreeView.Resources>
+                            </TreeView>
+                        </Grid>
+                        <Grid Grid.Row="1"
+                              Background="{DynamicResource PaletteBrush}">
+                            <Border Background="{DynamicResource PaletteBrush}"
+                                    Margin="0,4,0,0">
+                                <DockPanel>
+                                    <Button x:Name="btnAddFOV"
+                                            Click="btnAddFOV_Click"
+                                            Style="{StaticResource IconButtonStyle2}"
+                                            Foreground="{StaticResource CatalogIconBrush}"
+                                            ToolTip="Add FOV"
+                                            Margin="0,0,4,0" />
+                                    <Button x:Name="btnAddSMD"
+                                            Click="btnAddSMD_Click"
+                                            Style="{StaticResource IconButtonStyle2}"
+                                            Foreground="{StaticResource ICIconBrush}"
+                                            ToolTip="Add SMD"
+                                            Margin="0,0,4,0" />
+                                    <Button x:Name="btnRemoveItem"
+                                            Click="btnRemoveItem_Click"
+                                            Style="{StaticResource IconButtonStyle2}"
+                                            Foreground="{StaticResource DeleteIconBrush}"
+                                            ToolTip="Remove Item"
+                                            Margin="0,0,4,0" />
+                                    <DockPanel HorizontalAlignment="Right">
+                                        <Button x:Name="btnRefreshNavigation"
+                                                Click="btnRefreshNavigation_Click"
+                                                Style="{StaticResource IconButtonStyle2}"
+                                                Foreground="{StaticResource SyncIconBrush}"
+                                                ToolTip="Refresh"
+                                                Margin="0,0,0,0" />
+                                    </DockPanel>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="3"
+                        BorderBrush="{DynamicResource PaletteBrush}"
+                        CornerRadius="4"
+                        Margin="0,0,0,1">
+                    <Expander Header="Properties"
+                              IsExpanded="True"
+                              BorderThickness="0">
+                        <DockPanel x:Name="dpnProperties1" />
+                    </Expander>
+                </Border>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2"
+              Margin="2,0,2,0">
+            <Border Background="{DynamicResource PaletteBrush}"
+                    CornerRadius="4"
+                    Height="22">
+                <Controls:StatusBarControl x:Name="statusBar" />
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

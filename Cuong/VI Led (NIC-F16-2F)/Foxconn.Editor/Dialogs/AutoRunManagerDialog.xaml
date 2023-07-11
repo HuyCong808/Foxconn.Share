@@ -1,0 +1,247 @@
+﻿<Window x:Class="Foxconn.Editor.Dialogs.AutoRunManagerDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:Foxconn.Editor.Controls"
+        xmlns:local="clr-namespace:Foxconn.Editor.Dialogs"
+        mc:Ignorable="d"
+        Title="AutoRunManager"
+        Width="1280"
+        Height="720"
+        MinWidth="800"
+        MinHeight="450"
+        Background="{DynamicResource BackgroundBrush}"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"
+                           MinHeight="16" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Menu x:Name="MainMenu">
+                <MenuItem Header="File">
+                    <MenuItem Header="Exit"
+                              x:Name="mnuiExit"
+                              Click="mnuiExit_Click"
+                              InputGestureText="Alt+F4" />
+                </MenuItem>
+                <MenuItem Header="View">
+                    <MenuItem Header="Windows Console"
+                              x:Name="mnuiWindowsConsole"
+                              Click="mnuiWindowsConsole_Click"
+                              InputGestureText="" />
+                    <MenuItem Header="Open File Location"
+                              x:Name="mnuiOpenFileLocation"
+                              Click="mnuiOpenFileLocation_Click"
+                              InputGestureText="" />
+                </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="View Help"
+                              x:Name="mnuiViewHelp"
+                              Click="mnuiViewHelp_Click"
+                              InputGestureText="Ctrl+F1" />
+                    <MenuItem Header="About"
+                              x:Name="mnuiAbout"
+                              Click="mnuiAbout_Click" />
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition MaxWidth="280"
+                                  MinWidth="200" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0"
+                  x:Name="ImageViewerSpace"
+                  Margin="2,0,1,1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0"
+                        Background="{DynamicResource BackgroundBrush}"
+                        CornerRadius="4">
+                    <Label Grid.Row="0"
+                           Content="Image"
+                           Height="20"
+                           Margin="4,0,0,0" />
+                </Border>
+                <Controls:ImageBox Grid.Row="1"
+                                   x:Name="imageBox"
+                                   PreviewMouseWheel="imageBox_PreviewMouseWheel" />
+            </Grid>
+            <Grid Grid.Column="1"
+                  x:Name="AutoRunSpace"
+                  Margin="1,0,2,1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0"
+                        Background="{DynamicResource BackgroundBrush}"
+                        CornerRadius="4">
+                    <Label Grid.Row="0"
+                           Content="Auto Run"
+                           Height="20"
+                           Margin="4,0,0,0" />
+                </Border>
+                <Border Grid.Row="1"
+                        BorderBrush="{DynamicResource PaletteBrush}"
+                        CornerRadius="4"
+                        Margin="0,0,0,2">
+                    <Expander Header="Machine Monitor"
+                              IsExpanded="False"
+                              BorderThickness="0" />
+                </Border>
+                <Border Grid.Row="2"
+                        BorderBrush="{DynamicResource PaletteBrush}"
+                        CornerRadius="4"
+                        Margin="0,0,0,2">
+                    <Expander Header="Component Alram List"
+                              IsExpanded="False"
+                              BorderThickness="0">
+                    </Expander>
+                </Border>
+                <Border Grid.Row="3"
+                        BorderBrush="{DynamicResource PaletteBrush}"
+                        CornerRadius="4">
+                    <Expander Header="Verification"
+                              IsExpanded="True"
+                              BorderThickness="0">
+                        <Grid Margin="2,0,2,2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <StackPanel Orientation="Vertical">
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Name"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBlock Text="{Binding BoardName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Barcode"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBlock Text="{Binding Barcode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       TextWrapping="Wrap"
+                                                       Width="161" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Cycle Time"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBlock Text="{Binding CycleTime, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Total Pass"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBlock Text="{Binding TotalPass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       Foreground="#FF32D74B"
+                                                       TextWrapping="Wrap"
+                                                       Width="161" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Total Fail"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBlock Text="{Binding TotalFail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       Foreground="#FFFF453A"
+                                                       TextWrapping="Wrap"
+                                                       Width="161" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Yeild Rate"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBlock Text="{Binding YeildRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       Foreground="#FFFFD60A"
+                                                       TextWrapping="Wrap" />
+                                            <TextBlock Text=" %"
+                                                       Foreground="#FFFFD60A" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Break Flow"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <Button x:Name="btnBreakFlow"
+                                                    Click="btnBreakFlow_Click"
+                                                    Content="Activate"
+                                                    Width="75" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Error Message"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBlock Text="{Binding ErrorMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       Foreground="Red"
+                                                       TextWrapping="Wrap"
+                                                       Width="161" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,2,0,2"
+                                               Visibility="Hidden">
+                                        <DockPanel HorizontalAlignment="Left">
+                                            <TextBlock Text="Scanner Data"
+                                                       Foreground="{StaticResource Text1Brush}"
+                                                       Margin="4,0,4,0"
+                                                       Width="100" />
+                                            <TextBox Text="{Binding ScannerData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Width="161"
+                                                     IsReadOnly="True" />
+                                        </DockPanel>
+                                    </DockPanel>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                            </Grid>
+                        </Grid>
+                    </Expander>
+                </Border>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2"
+              Margin="2,0,2,0">
+            <Border Background="{DynamicResource PaletteBrush}"
+                    CornerRadius="4"
+                    Height="22">
+                <Controls:StatusBarControl x:Name="statusBar" />
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

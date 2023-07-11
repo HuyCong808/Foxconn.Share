@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Foxconn.Editor.Controls.BoardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Foxconn.Editor.Controls"
+             mc:Ignorable="d">
+    <Grid Margin="2">
+        <StackPanel Orientation="Vertical">
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Board Name"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding BoardName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="160" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Length"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding BoardLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="160" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Width"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding BoardWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="160" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Thickness"
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <TextBox Text="{Binding BoardThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Width="160" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text=""
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <Button x:Name="PLCButton"
+                            Content="Backup/Restore PLC"
+                            Width="160" />
+                </DockPanel>
+            </DockPanel>
+            <DockPanel Margin="0,2,0,2">
+                <DockPanel HorizontalAlignment="Right">
+                    <TextBlock Text=""
+                               Foreground="{StaticResource Text1Brush}"
+                               Margin="0,0,4,0" />
+                    <Button x:Name="ServerButton"
+                            Content="Setup Servers"
+                            Width="160" />
+                </DockPanel>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

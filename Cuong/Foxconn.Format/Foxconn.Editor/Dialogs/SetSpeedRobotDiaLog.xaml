@@ -1,0 +1,55 @@
+﻿<Window x:Class="Foxconn.Editor.Dialogs.SetSpeedRobotDiaLog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Foxconn.Editor.Dialogs"
+        mc:Ignorable="d"
+        ShowActivated="True"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        SizeToContent="WidthAndHeight"
+        Background="{DynamicResource BackgroundBrush}" >
+
+    <Border Background="{DynamicResource MainWindowBackgroundBrush}" 
+            CornerRadius="3">
+        <Grid >
+            <StackPanel Orientation="Vertical">
+                <DockPanel HorizontalAlignment="Center" Margin=" 0 0 0 5">
+                    <TextBlock Text="SET SPEED"
+                               Foreground="White"
+                               FontWeight="DemiBold"
+                               FontSize="18"
+                               ></TextBlock>
+                </DockPanel>
+
+
+                <DockPanel HorizontalAlignment="Center" Margin="0 0 0 5">
+                    <TextBlock Text="Speed Robot"
+                           Foreground="White"
+                           Margin="5 2 5 0"></TextBlock>
+                    <TextBox x:Name="txtSetSpeedRobot" 
+                         Width="150" 
+                         Margin="5 0 5 0" 
+                             TextChanged="txtSetSpeedRobot_TextChanged"></TextBox>
+
+                </DockPanel>
+
+                <DockPanel HorizontalAlignment="Center" Margin="0 0 0 5">
+                    <Button x:Name="btnSetSpeedRobot" 
+                        Content="Set" 
+                        IsDefault="True" 
+                        Click="btnSetSpeedRobot_Click"
+                            Margin=" 0 0 5 0"></Button>
+
+                    <Button x:Name="btnCancelSpeedRobot" 
+                        Content="Cancel" 
+                        IsCancel="True" Click="btnCancelSpeedRobot_Click" 
+                        ></Button>
+                </DockPanel>
+            </StackPanel>
+
+
+        </Grid>
+    </Border>
+</Window>
