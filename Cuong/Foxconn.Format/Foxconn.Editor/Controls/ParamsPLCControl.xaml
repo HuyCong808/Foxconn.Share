@@ -30,7 +30,8 @@
                             <Label Content="Host" 
                                    Margin="0 0 5 0"/>
                             <TextBox x:Name="txtHostPLC1"
-                                     Width="150">
+                                     Width="150"
+                                     Text="{Binding HostPLC1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             </TextBox>
                         </DockPanel>
                     </DockPanel>
@@ -42,7 +43,7 @@
                                    Margin="0 0 5 0"></Label>
                             <TextBox x:Name="txtPortPLC1"
                                       Width="150"
-                                      >
+                                      Text="{Binding PortPLC1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
                             </TextBox>
                         </DockPanel>
@@ -59,7 +60,7 @@
                             <TextBlock Text="IsEnabled" 
                                        Margin="0 0 5 0"/>
                             <CheckBox x:Name="ckbIsEnablePLC2"
-                                      IsChecked="{Binding IsEnabled1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                                      IsChecked="{Binding IsEnabled2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
 
                             </CheckBox>
                         </DockPanel>
@@ -70,7 +71,8 @@
                             <Label Content="Host" 
                                    Margin="0 0 5 0"/>
                             <TextBox x:Name="txtHostPLC2"
-                                     Width="150">
+                                     Width="150"
+                                     Text="{Binding HostPLC2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             </TextBox>
                         </DockPanel>
                     </DockPanel>
@@ -81,7 +83,7 @@
                                    Margin="0 0 5 0"></Label>
                             <TextBox x:Name="txtPortPLC2"
                                      Width="150"
-                                     >
+                                     Text="{Binding PortPLC2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             </TextBox>
                         </DockPanel>
                     </DockPanel>

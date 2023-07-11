@@ -169,7 +169,8 @@ namespace Foxconn.Editor
             private bool _isEnabled = false;
             private string _portName = string.Empty;
             private int _dataLength = 0;
-
+            private bool _isSubstring = false;
+            private int _startIndex = 0;
             public bool IsEnabled
             {
                 get => _isEnabled;
@@ -186,6 +187,18 @@ namespace Foxconn.Editor
             {
                 get => _dataLength;
                 set => _dataLength = value;
+            }
+
+            public bool IsSubstring
+            {
+                get => _isSubstring;
+                set => _isSubstring = value;
+            }
+
+            public int StartIndex
+            {
+                get => _startIndex;
+                set => _startIndex = value;
             }
         }
 

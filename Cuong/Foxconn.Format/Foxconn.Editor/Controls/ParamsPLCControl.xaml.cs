@@ -69,7 +69,7 @@ namespace Foxconn.Editor.Controls
             DataContext = this;
         }
 
-        public void SetParameters(ParamsPLCControl param)
+        public void SetParameters(SocketParams param)
         {
             string[] paths = new string[] { "IsEnable1", "HostPLC1", "PortPLC1", "IsEnable2", "HostPLC2", "PortPLC2" };
             DependencyProperty[] properties = new DependencyProperty[] { IsEnable1Property, HostPLC1Property, PortPLC1Property, IsEnable2Property, HostPLC2Property, PortPLC2Property };
