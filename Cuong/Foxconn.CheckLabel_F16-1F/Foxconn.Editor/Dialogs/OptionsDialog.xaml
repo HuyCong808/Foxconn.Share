@@ -1,0 +1,55 @@
+﻿<Window x:Class="Foxconn.Editor.Dialogs.OptionsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Foxconn.Editor.Dialogs"
+        mc:Ignorable="d"
+        Height="450" 
+        Width="650"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource BackgroundBrush}"
+        Title="OptionsDialog" >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0"
+                Margin="0,0,3,0"
+                Background="{DynamicResource PaletteBrush}"
+                CornerRadius="3">
+            <Grid>
+                <StackPanel Orientation="Vertical">
+                    <TreeView Margin="3 3 3 3">
+                        <TreeViewItem Header="Params Setting">
+                            <TreeViewItem Header="Camera"/>
+                            <TreeViewItem Header="Light"/>
+                            <TreeViewItem Header="PLC"/>
+                            <TreeViewItem Header="Robot"/>
+                            <TreeViewItem Header="Scanner"/>
+                            <TreeViewItem Header="Terminal"/>
+                            <TreeViewItem Header="Others"/>
+                        </TreeViewItem>
+                    </TreeView>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="1"
+                CornerRadius="3">
+            <Grid>
+                <Expander  Background="{DynamicResource BackgroundBrush}"
+                           IsExpanded="True"
+                           Header="Properties">
+                    <DockPanel x:Name="dpnPropertiesParams"/>
+                </Expander>
+            </Grid>
+            
+        </Border>
+        
+        
+    </Grid>
+</Window>

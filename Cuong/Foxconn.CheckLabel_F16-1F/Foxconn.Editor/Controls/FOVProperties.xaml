@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="Foxconn.Editor.Controls.FOVProperties"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Foxconn.Editor.Controls"
+             mc:Ignorable="d" 
+            >
+    <Grid Margin="3">
+        <StackPanel Orientation="Vertical">
+            <DockPanel Margin="0 2 0 3">
+                <DockPanel HorizontalAlignment="Right" >
+                    <Label Content="ID"
+                           Margin="0 0 5 0" />
+                    <TextBox x:Name="txtIDFOV"
+                             Width="50"
+                             Text="{Binding Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             IsReadOnly="True" />
+                    <Label Content="Name"
+                           Margin="5 0 5 0" />
+                    <TextBox x:Name="txtNameFOV"
+                             Width="58"
+                             Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             IsReadOnly="True" />
+                </DockPanel>
+            </DockPanel>
+
+            <DockPanel  Margin="0 2 0 3">
+                <DockPanel  HorizontalAlignment="Right" >
+                    <Label Content="Exposure Time"
+                       Margin="0 0 5 0" />
+                    <TextBox x:Name="txtExposureTime"
+                         Width="150"
+                         Text="{Binding ExposureTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+            </DockPanel>
+
+
+            
+            <DockPanel Margin="0 2 0 3">
+                <DockPanel  HorizontalAlignment="Right"  >
+                    <Label Content="Is Enabled"
+                           Margin=" 0 0 5 0" />
+                    <CheckBox x:Name="ckbIsEnableFOV"
+                              IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Width="150"
+                              Content=""
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center" 
+                          />
+                </DockPanel>
+            </DockPanel>
+            
+            <DockPanel Margin="0 2 0 3">
+                <DockPanel HorizontalAlignment="Right">
+                    <Label Content="Description" Margin="0 0 5 0"/>
+                    <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="Wrap"
+                             HorizontalContentAlignment="Left"
+                             VerticalContentAlignment="Top"
+                             Width="150"
+                             Height="40" />
+                </DockPanel>
+            </DockPanel>
+            
+            <DockPanel Margin="0 2 0 3">
+                <DockPanel HorizontalAlignment="Right" >
+                    <Label Content="Type"
+                           Margin="0 0 5 0" />
+                    <ComboBox x:Name="cmbFOVType"
+                              Width="150"
+                              SelectedItem="{Binding FOVType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+            </DockPanel>
+
+            <DockPanel Margin="0 2 0 3">
+                <DockPanel   HorizontalAlignment="Right"
+                            >
+                    <Label Content="Camera Mode"
+                           Margin="0 0 5 0" />
+                    <ComboBox x:Name="cmbCameraMode"
+                              SelectedItem="{Binding CameraMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Width="150" />
+                </DockPanel>
+            </DockPanel>
+            
+
+        </StackPanel>
+
+
+
+    </Grid>
+</UserControl>

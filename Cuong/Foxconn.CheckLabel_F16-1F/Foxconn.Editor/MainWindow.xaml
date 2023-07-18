@@ -1,0 +1,595 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Foxconn.Editor"
+        xmlns:CV="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.Platform.NetCore"
+        xmlns:Forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:Converter="clr-namespace:Foxconn.Editor.Converters"
+        xmlns:Controls="clr-namespace:Foxconn.Editor.Controls"
+        xmlns:Configuration="clr-namespace:Foxconn.Editor.Configuration"
+        x:Class="Foxconn.Editor.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        WindowStartupLocation="CenterScreen"
+        Width="1280"
+        Height="720"
+        MinWidth="800"
+        MinHeight="450"
+        WindowState="Maximized"
+        Background="{DynamicResource BackgroundBrush}"
+        Closed="Window_Closed"
+        Closing="Window_Closing"
+        Loaded="Window_Loaded"
+        KeyDown="Window_KeyDown">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Menu>
+                <MenuItem Header="File">
+                    <MenuItem Header="New..."
+                              x:Name="mnuiNewProgram"
+                              Click="mnuiNewProgram_Click" />
+                    <MenuItem Header="Open"
+                              x:Name="mnuiOpenProgram"
+                              Click="mnuiOpenProgram_Click" />
+                    <Separator />
+                    <MenuItem Header="Save Program"
+                              x:Name="mnuiSaveProgram"
+                              Click="mnuiSaveProgram_Click" />
+                    <MenuItem Header="SaveAs this Image"
+                              x:Name="mnuiSavethisImage"
+                              Click="mnuiSaveAsThisImage_Click"
+                              />
+                    <MenuItem Header="Save Params"
+                              x:Name="mnuiSaveParams"
+                              Click="mnuiSaveParams_Click"/>
+                    <MenuItem Header="Close"
+                              x:Name="muniCloseProgram" 
+                              Click="muniCloseProgram_Click" />
+                </MenuItem>
+
+                <MenuItem Header="View">
+                    <MenuItem Header="Zoom In"
+                              x:Name="mnuiZoomIn"
+                             
+                              InputGestureText="Ctrl++" />
+                    <MenuItem Header="Zoom Out"
+                              x:Name="mnuiZoomOut"
+                              InputGestureText="Ctrl+-" />
+                    
+                    <MenuItem Header="Fit to Window"
+                              x:Name="mnuiFitToWindow"
+                              InputGestureText="Alt+F"/>
+                    <Separator />
+                    
+                    <MenuItem Header="View ConsoleApp"
+                              x:Name="mnuiConsoleApp" Click="mnuiConsoleApp_Click"  />
+                    <MenuItem Header="Open file Location"
+                              x:Name="mnuiFileLocation" Click="mnuiFileLocation_Click" 
+                              />
+
+                </MenuItem>
+                <MenuItem Header="Run">
+                    <MenuItem Header="AutoRun"
+                              x:Name="mnuiAutoRun"
+                              Click="mnuiAutoRun_Click" />
+                    <MenuItem Header="Test"
+                              x:Name="mnuiTest"
+                              InputGestureText="F5"
+                              Click="mnuiTest_Click" />
+                </MenuItem>
+                <MenuItem Header="Tools">
+                    <MenuItem Header="Options" 
+                              x:Name="mnuiOptions" Click="mnuiOptions_Click"
+                               >
+                        
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="Check for Updates"
+                              x:Name="mnuiCheckforUpdate" 
+                              Click="mnuiCheckforUpdate_Click"/>
+                    <MenuItem Header="About"
+                              x:Name="mnuiAbout" Click="mnuiAbout_Click" />
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="250" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="120"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" 
+                      Margin="0 0 0 2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="250"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Label Content="Image"
+                                   Margin="5 0 0 0" />
+                        </Grid>
+
+                        <Border Grid.Row="1"
+                                BorderThickness="1"
+                                AllowDrop="true"
+                                Margin="3 0 2 2"
+                                CornerRadius="3" 
+                                BorderBrush="LightGray">
+
+                            <Grid>
+                                <Controls:ImageBox Grid.Row="1"
+                                                   x:Name="imageBox"
+                                                   
+                                                   PreviewMouseWheel="imageBox_PreviewMouseWheel" 
+                                                   MouseMove="imageBox_MouseMove" />
+
+                            </Grid>
+                        </Border>
+
+                        <Grid Grid.Row="2"
+                              Height="22">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0"
+                                        CornerRadius="3"
+                                        Background="{DynamicResource PaletteBrush}"
+                                        Margin="3,0,0,0"
+                                        >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Grid.Column="0"
+                                                x:Name="btnGrabFrame"
+                                                Width="20"
+                                                Height="20"
+                                                MinWidth="0"
+                                                MinHeight="0"
+                                                BorderThickness="0"
+                                                Margin="0,0,0,0"
+                                                ToolTip="Capture"
+                                                Click="btnGrabFrame_Click">
+                                            <Image Source="Resources\Icons\screenshot_32px.png" />
+                                        </Button>
+                                        <Button Grid.Column="1"
+                                                x:Name="btnStreaming"
+                                                ToolTip="Streaming"
+                                                Height="20"
+                                                Width="20"
+                                                MinWidth="0"
+                                                MinHeight="0"
+                                                BorderThickness="0"
+                                                Click="btnStreaming_Click">
+                                            <Image x:Name="imgStreaming"
+                                                   Source="Resources\Icons\video_call_32px_off.png" />
+                                        </Button>
+
+                                        <Button Grid.Column="2"
+                                                x:Name="btnUapdateImageBlock"
+                                                ToolTip="Update Image Block"
+                                                Height="20"
+                                                Width="20"
+                                                MinHeight="0"
+                                                MinWidth="0"
+                                                BorderThickness="0"
+                                                Click="btnUpdateImageBlock_Click">
+                                            <Image Source="Resources\Icons\image_32px.png" />
+                                        </Button>
+
+                                        <Button Grid.Column="3"
+                                                x:Name="btnAddROI"
+                                                ToolTip="Add ROI"
+                                                Height="20"
+                                                Width="20"
+                                                MinWidth="0"
+                                                MinHeight="0"
+                                                BorderThickness="0"
+                                                Click="btnAddROI_Click">
+                                            <Image Source="Resources\Icons\edit_image_32px.png" />
+                                        </Button>
+
+                                        <Button Grid.Column="4"
+                                                x:Name="btnDeleteROI"
+                                                ToolTip="Delete ROI"
+                                                Height="20"
+                                                Width="20"
+                                                MinWidth="0"
+                                                MinHeight="0"
+                                                BorderThickness="0"
+                                                Click="btnDeleteROI_Click">
+                                            <Image Source="Resources\Icons\remove_roi_32px.png" />
+                                        </Button>
+
+                                        <Button Grid.Column="5"
+                                                x:Name="btnSaveROI"
+                                                ToolTip="Save ROI"
+                                                Height="20"
+                                                Width="20"
+                                                MinWidth="0"
+                                                MinHeight="0"
+                                                BorderThickness="0"
+                                                Margin="0,0,0,1"
+                                                Click="btnSaveROI_Click">
+                                            <Image Source="Resources\Icons\full_image_32px.png" />
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                                <Border Grid.Column="1"
+                                        CornerRadius="3"
+                                        Background="{DynamicResource PaletteBrush}"
+                                        Margin="2,0,0,0"
+                                        MinWidth="100">
+                                </Border>
+                                
+                                <Border Grid.Column="2"
+                                        CornerRadius="3"
+                                        Background="{DynamicResource PaletteBrush}"
+                                        Margin="2,0,2,0"
+                                        MinWidth="50"
+                                        HorizontalAlignment="Right">
+                                    
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="Resources\Icons\position_30px.png"></Image>
+                                        <Border   CornerRadius="3"
+                                                  Background="{DynamicResource PaletteBrush}"
+                                                  Margin="5,0,0,0"
+                                                  Width="auto"
+                                                  HorizontalAlignment="Left">
+                                            <Label x:Name="lblPosition"
+                                                   Background="{DynamicResource PaletteBrush}"
+                                                   Foreground="{StaticResource Text1Brush}" Margin="0 0 5 0"></Label>
+                                        </Border>
+
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Grid.Column="1"
+                          Margin="0 0 2 0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0">
+                                <Label Content="Configuration" 
+                                       Margin="5 0 0 0"></Label>
+                            </Border>
+
+                            <Border Grid.Row="1"
+                                    CornerRadius="3"
+                                    Background="{DynamicResource PaletteBrush}"
+                                    BorderBrush="{DynamicResource PaletteBrush}"
+                                    BorderThickness="2">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="20"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <Grid x:Name="gridLayer1"
+                                              Margin="30" />
+                                        <Grid x:Name="gridLayer2"
+                                              Margin="30" />
+                                        <Grid x:Name="gridLayer3"
+                                              Margin="37" />
+                                        <TreeView x:Name="trvNavigation"
+                                                  Width="Auto"
+                                                  SelectedItemChanged="trvNavigation_SelectedItemChanged"
+                                                  MouseDoubleClick="trvNavigation_MouseDoubleClick">
+                                            <TreeView.Resources>
+                                                <HierarchicalDataTemplate DataType="{x:Type Configuration:Board}"
+                                                              ItemsSource="{Binding FOVs}">
+                                                    <Grid Width="{Binding ElementName=gridLayer1, Path=ActualWidth}">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="0" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="0"
+                                                              Margin="5,2,0,2">
+                                                            <DockPanel>
+                                                                <TextBlock Text="{Binding Name }"
+                                                               FontSize="12"
+                                                               FontFamily="Segoe UI"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center" />
+                                                            </DockPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </HierarchicalDataTemplate>
+
+                                                <HierarchicalDataTemplate DataType="{x:Type Configuration:FOV}"
+                                                              ItemsSource="{Binding SMDs}">
+                                                    <Grid Width="{Binding ElementName=gridLayer2, Path=ActualWidth}">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.ContextMenu>
+                                                            <ContextMenu>
+                                                                <MenuItem x:Name="mnuiEnableFOV"
+                                                                          Click="mnuiEnableFOV_Click"
+                                                                          Header="Enable" />
+                                                                <MenuItem x:Name="mnuiDisableFOV"
+                                                                          Click="mnuiDisableFOV_Click"
+                                                                          Header="Disable" />
+                                                            </ContextMenu>
+                                                        </Grid.ContextMenu>
+                                                        <Grid Grid.Column="0"
+                                                              Margin="0,2,0,2">
+                                                            <DockPanel>
+                                                                <!--<Image Width="14"
+                                                           Height="14"
+                                                           Opacity="0.75"
+                                                           Margin="0,0,5,0"
+                                                           Source="/Resources/Icons/hospital_folder_32px.png" />-->
+                                                                <Image Width="16"
+                                                                       Height="16"
+                                                                       Opacity="0.75"
+                                                                       Margin="0,0,10,0"
+                                                                       Source="{StaticResource ChipIconImage}" />
+                                                                <TextBlock Text="{Binding Name}"
+                                                                           Foreground="{Binding IsEnabled}"
+                                                                           FontSize="12"
+                                                                           VerticalAlignment="Center" />
+                                                            </DockPanel>
+                                                        </Grid>
+                                                        <Border Grid.Column="1"
+                                                                ClipToBounds="True">
+                                                            <Ellipse Fill="{Binding IsEnabled}"
+                                                                     Width="10"
+                                                                     Height="10"
+                                                                     StrokeThickness="1"
+                                                                     Stroke="Gray" />
+                                                        </Border>
+                                                        
+                                                        <Border Grid.Column="2" />
+                                                        <Border Grid.Column="3"
+                                                                Width="14"
+                                                                Height="14"
+                                                                Visibility="Hidden">
+                                                            <Border.ToolTip>
+                                                                <Border BorderBrush="Gray"
+                                                                        BorderThickness="1"
+                                                                        Width="120"
+                                                                        Height="80">
+                                                                    <Image Source="/Resources/Icons/image_32px.png" />
+                                                                </Border>
+                                                            </Border.ToolTip>
+                                                            
+                                                            <Image Source="/Resources/Icons/image_32px.png"
+                                                                   Opacity="0.8" />
+                                                        </Border>
+                                                    </Grid>
+                                                </HierarchicalDataTemplate>
+                                                <DataTemplate DataType="{x:Type Configuration:SMD}">
+                                                    <Grid Width="{Binding ElementName=gridLayer3, Path=ActualWidth}">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.ContextMenu>
+                                                            <ContextMenu>
+                                                                <MenuItem x:Name="mnuiEnableSMD"
+                                                                          Click="mnuiEnableSMD_Click"
+                                                                          Header="Enable" />
+                                                                <MenuItem x:Name="mnuiDisableSMD"
+                                                                          Click="mnuiDisableSMD_Click"
+                                                                          Header="Disable" />
+                                                            </ContextMenu>
+                                                        </Grid.ContextMenu>
+                                                        <Grid Grid.Column="0"
+                                                              Margin="0,2,0,2">
+                                                            <DockPanel>
+                                                                <!--<Image Width="12"
+                                                           Height="12"
+                                                           Opacity="0.75"
+                                                           Margin="0,0,10,0"
+                                                           Source="/Resources/Icons/shipping_container_32px.png" />-->
+                                                                <Image Width="16"
+                                                                       Height="16"
+                                                                       Opacity="0.75"
+                                                                       Margin="0,0,10,0"
+                                                                       Source="{StaticResource ChipIconImage}" />
+                                                                <TextBlock Text="{Binding Name}"
+                                                                           Foreground="{Binding IsEnabled}"
+                                                                           FontSize="12"
+                                                                           VerticalAlignment="Center" />
+                                                                <!--<TextBlock Text=" @"
+                                                                           Foreground="{Binding IsEnabled}"
+                                                                           FontWeight="Bold"
+                                                                           VerticalAlignment="Center" />-->
+                                                                <TextBlock Text="{Binding ID}"
+                                                                           Foreground="{Binding IsEnabled}"
+                                                                           FontSize="12"
+                                                                           VerticalAlignment="Center" />
+                                                            </DockPanel>
+                                                        </Grid>
+                                                        <Grid Grid.Column="1">
+                                                            <Border ClipToBounds="True">
+                                                                <Ellipse Fill="{Binding IsEnabled}"
+                                                                         Width="10"
+                                                                         Height="10"
+                                                                         StrokeThickness="1"
+                                                                         Stroke="Gray" />
+                                                            </Border>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </TreeView.Resources>
+                                        </TreeView>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <Border  Background="{DynamicResource PaletteBrush}"
+                                                 Margin="0,0,0,0">
+                                            <DockPanel >
+                                                <Button x:Name="btnAddFOV"
+                                                        ToolTip="Add FOV"
+                                                        Margin="3 0 0 0"
+                                                        Width="20"
+                                                        Height="20"
+                                                        BorderThickness="0"
+                                                        MinHeight="0"
+                                                        MinWidth="0" Click="btnAddFOV_Click" 
+                                                        >
+                                                    <Image Source="Resources\Icons\add_camera_32px.png" />
+                                                </Button>
+
+                                                <Button x:Name="btnAddSMD"
+                                                        Margin="5 0 0 0"
+                                                        ToolTip="Add SMD"
+                                                        Width="20"
+                                                        Height="20"
+                                                        MinHeight="0"
+                                                        MinWidth="0"
+                                                        BorderThickness="0" Click="btnAddSMD_Click"  
+                                                        >
+                                                    <Image Source="Resources\Icons\add_SMD.png"/>
+                                                </Button>
+                                                <Button x:Name="btnRemoveItem"
+                                                ToolTip="Remove Item"
+                                                BorderThickness="0"
+                                                Margin="5 0 0 0"
+                                                Width="20"
+                                                Height="20"
+                                                MinHeight="0"
+                                                MinWidth="0" Click="btnRemoveItem_Click"
+                                                        >
+                                                    <Image Source="Resources\Icons\delete_32px.png"/>
+                                                </Button>
+
+                                                <DockPanel HorizontalAlignment="Right">
+                                                    <Button x:Name="btnRefresh"
+                                                    Margin="0 0 3 0"
+                                                    ToolTip="Refesh"
+                                                    MinHeight="0"
+                                                    MinWidth="0"
+                                                    Height="20"
+                                                    Width="20"
+                                                    BorderThickness="0" Click="btnRefresh_Click"
+                                                    >
+                                                        <Image Source="Resources\Icons\refresh_26px.png"/>
+                                                    </Button>
+                                                </DockPanel>
+                                            </DockPanel>
+                                        </Border>
+                                    </Grid>
+
+                                </Grid>
+
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+
+
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0"
+                        Content="Help View"
+                           Height="20"
+                           Margin="4,0,0,0"
+                           Grid.ColumnSpan="3" />
+
+                    <Grid Grid.Row="1">
+                        <Border Margin=" 3 0 2 0"
+                            CornerRadius="3"
+                            Background="{DynamicResource PaletteBrush}">
+                        </Border>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+
+            <Border Grid.Column="2"
+                    Margin="0,0,3,0"
+                    Background="{DynamicResource PaletteBrush}"
+                    CornerRadius="3">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0">
+                        <Label Content="Navigation" Margin="5 0 0 0"></Label>
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <StackPanel Orientation="Vertical">
+                            <Expander Header="Properties" 
+                                      IsExpanded="True" Margin="0 0 0 5">
+                                <DockPanel 
+                                    x:Name="dpnProperties"></DockPanel>
+                            </Expander>
+
+                            <Expander Header="Algortihm" 
+                                      IsExpanded="True">
+                                <DockPanel 
+                                    x:Name="dpnAlgorithm">
+                                </DockPanel>
+                            </Expander>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+
+        <Grid Grid.Row="3"
+              Margin="0,2,0,0">
+            <Border Background="{DynamicResource PaletteBrush}"
+                    CornerRadius="3">
+                <StatusBar Margin="0 0 0 0">
+                    <Label x:Name="ssStatus"
+                       Content="Status..."
+                       Width="100" />
+                </StatusBar>
+            </Border>
+        </Grid>
+
+    </Grid>
+</Window>

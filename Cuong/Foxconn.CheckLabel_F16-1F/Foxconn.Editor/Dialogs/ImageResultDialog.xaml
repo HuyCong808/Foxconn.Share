@@ -1,0 +1,101 @@
+﻿<Window x:Class="Foxconn.Editor.Dialogs.ImageResultDialogs"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:CV="clr-namespace:Emgu.CV.UI;assembly=Emgu.CV.Platform.NetCore"
+        xmlns:local="clr-namespace:Foxconn.Editor.Dialogs"
+        mc:Ignorable="d"
+        Title="ImageResultDialogs" 
+        Height="600" 
+        Width="900"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource BackgroundBrush}" 
+        Loaded="Window_Loaded" 
+        Closed="Window_Closed" 
+        >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <GroupBox Header="Image" 
+                      BorderBrush="White"
+                      Margin="3 0 0 3">
+                <Grid>
+                    <Border Grid.Row="0">
+                        <WindowsFormsHost>
+                            <CV:ImageBox x:Name="imbImageResult"
+                                         SizeMode="Zoom"
+                                         FunctionalMode="Minimum" 
+                                         MouseWheel="imbImageResult_MouseWheel"
+                                         >
+                            </CV:ImageBox>
+                        </WindowsFormsHost>
+                    </Border>
+                </Grid>
+
+            </GroupBox>
+        </Grid>
+        <Grid Grid.Column="1">
+            <GroupBox Header="Infomation" 
+                      BorderBrush="White" Margin="3 0 3 3">
+                <Grid>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                        <DockPanel HorizontalAlignment="Left" Margin=" 3 3 0 3">
+                            <Label Content="FOVType: "></Label>
+                            <TextBlock x:Name="txbFOVType" Margin="3 3 0 3"/>
+                        </DockPanel>
+
+                        <DockPanel HorizontalAlignment="Left" Margin="3 0 0 5">
+                            <Label Content="FOVResult: "></Label>
+                            <TextBlock x:Name="txbFOVResult" Margin="0 3 0 3"/>
+                        </DockPanel>
+
+
+                        <DataGrid x:Name="dgLogRecords" 
+                                  IsReadOnly="True" 
+                                  BorderBrush="#FFE5E5E5"
+                                  HorizontalGridLinesBrush="#FFE5E5E5" 
+                                  VerticalGridLinesBrush="#FFE5E5E5">
+                            <DataGrid.Columns >
+                                <DataGridTextColumn x:Name="dgColumnName" 
+                                                    Header="Name" 
+                                                    Width="*"  
+                                                    Binding="{Binding Name}" 
+                                                    ClipboardContentBinding="{x:Null}" 
+                                                    />
+                                <DataGridTextColumn x:Name="dgColumnScore" 
+                                                    Header="Score" 
+                                                    Width="*" 
+                                                    Binding="{Binding Score}" 
+                                                    ClipboardContentBinding="{x:Null}" />
+
+                                <DataGridTextColumn x:Name="dgColumnResult"
+                                                    Header="Result"
+                                                    Width="*"
+                                                    Binding="{Binding Result}"
+                                                    ClipboardContentBinding="{x:Null}"
+                                                    />
+                            </DataGrid.Columns>
+
+                            <DataGrid.RowStyle>
+                                <Style TargetType="{x:Type DataGridRow}">
+                                    <Setter Property="Background" 
+                                            Value="{Binding BrushForBackGroundColor}"/>
+                                </Style>
+                            </DataGrid.RowStyle>
+
+                        </DataGrid>
+
+                        <Label x:Name="lblInfomation" 
+                             VerticalAlignment="Top">
+                        </Label>
+                    </StackPanel>
+
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>
