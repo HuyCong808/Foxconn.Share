@@ -8,7 +8,7 @@ namespace Foxconn.Editor.Dialogs
         {
             InitializeComponent();
             CheckInput();
-
+            txtSetSpeedRobot.Focus();
         }
 
         private void btnSetSpeedRobot_Click(object sender, RoutedEventArgs e)
@@ -23,7 +23,7 @@ namespace Foxconn.Editor.Dialogs
                     if (value > 0 && value <= 100)
                     {
                         string data = $"Set Speed: {value}".Trim();
-                       // _device.TCPClient.SocketWriteData(data);
+                        // _device.TCPClient.SocketWriteData(data);
                         MessageShow.Info(data, "Set Speed");
                         LogInfo(data);
                     }
@@ -45,7 +45,7 @@ namespace Foxconn.Editor.Dialogs
         }
 
         private void btnCancelSpeedRobot_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             Close();
         }
 
@@ -73,6 +73,12 @@ namespace Foxconn.Editor.Dialogs
         private void txtSetSpeedRobot_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             CheckInput();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            AutoRunDialog autoRun = AutoRunDialog.Current;
+            autoRun.IsSetSpeedRobot = false;
         }
     }
 }

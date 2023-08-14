@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Foxconn.Editor.Controls.ParamsOtherControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Foxconn.Editor.Controls"
+             mc:Ignorable="d" 
+             >
+    <Grid>
+        <StackPanel>
+            <GroupBox Header="Others"
+                      BorderBrush="White"
+                      BorderThickness="1"
+                      Width="300"
+                      Height="auto">
+                <StackPanel Orientation="Vertical">
+                    <DockPanel>
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="36 5 0 0">
+                            <TextBlock Text="WorkType"
+                                       Margin="0 0 5 0" />
+                            <ComboBox x:Name="cmbWorkType" 
+                                      Width="150"
+                                      SelectedItem="{Binding WorkType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                        </DockPanel>
+                    </DockPanel>
+
+                    <DockPanel>
+                        <DockPanel HorizontalAlignment="Left" Margin="10 5 0 0">
+                            <TextBlock Text="Woker Confirm" Margin="0 0 5 0"/>
+                            <CheckBox IsChecked="{Binding WorkerConfirm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+                    </DockPanel>
+
+                    <DockPanel>
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="15 5 0 0">
+                            <Label Content="Delay Capture"
+                                       Margin="0 0 5 0" />
+                            <TextBox x:Name="txtDelayCaptures"
+                                     Width="150"
+                                     Text="{Binding DelayCaptures, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            </TextBox>
+                        </DockPanel>
+                    </DockPanel>
+
+                    <DockPanel>
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="20 5 0 0">
+                            <TextBlock Text="Debug Mode"
+                                       Margin="0 0 5 0" />
+                            <CheckBox IsChecked="{Binding DebugMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+                    </DockPanel>
+                </StackPanel>
+                
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

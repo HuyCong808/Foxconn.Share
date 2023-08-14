@@ -22,8 +22,8 @@ namespace Foxconn.Editor
         private AxisLimitParams _axislimit = new AxisLimitParams();
         private FTPParams _ftp = new FTPParams();
         private FTPLogParams _ftpLogs = new FTPLogParams();
+        private WorkType _workType = WorkType.ByDay;
         private int _delayCaptures = 0;
-        private bool _workerCofirm1 = false;
         private bool _workerConfirm = false;
         private bool _debugMode = false;
 
@@ -40,15 +40,17 @@ namespace Foxconn.Editor
         public AxisLimitParams AxisLimit => _axislimit;
         public FTPParams FTP => _ftp;
         public FTPLogParams FTPLogs => _ftpLogs;
+
+        public WorkType WorkType
+        {
+            get => _workType;
+            set => _workType = value;
+        }
+
         public int DelayCaptures
         {
             get => _delayCaptures;
             set => _delayCaptures = value;
-        }
-        public bool WorkerConfirm1
-        {
-            get => _workerCofirm1;
-            set => _workerCofirm1 = value;
         }
         public bool WorkerConfirm
         {
@@ -168,7 +170,7 @@ namespace Foxconn.Editor
         {
             private bool _isEnabled = false;
             private string _portName = string.Empty;
-            private int _dataLength = 0;
+            private int _Length = 0;
             private bool _isSubstring = false;
             private int _startIndex = 0;
             public bool IsEnabled
@@ -183,10 +185,10 @@ namespace Foxconn.Editor
                 set => _portName = value;
             }
 
-            public int DataLength
+            public int Length
             {
-                get => _dataLength;
-                set => _dataLength = value;
+                get => _Length;
+                set => _Length = value;
             }
 
             public bool IsSubstring

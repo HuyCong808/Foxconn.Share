@@ -7,9 +7,10 @@
         mc:Ignorable="d"
         ShowActivated="True"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         SizeToContent="WidthAndHeight"
-        Background="{DynamicResource BackgroundBrush}" >
+        Background="{DynamicResource BackgroundBrush}"
+        Closed="Window_Closed">
 
     <Border Background="{DynamicResource MainWindowBackgroundBrush}" 
             CornerRadius="3">

@@ -67,7 +67,8 @@
                            PreviewMouseMove="imageBox_PreviewMouseMove"
                            PreviewMouseUp="imageBox_PreviewMouseUp"
                            Source="{Binding Source}"
-                           Stretch="Fill">
+                           Stretch="Fill"
+                           PreviewMouseWheel="imageBox_PreviewMouseWheel">
                     </Image>
                     
                     <Rectangle x:Name="rectangle"
@@ -78,7 +79,8 @@
                                StrokeThickness="1"
                                Width="0"
                                Height="0"
-                               Visibility="Hidden">
+                               Visibility="Hidden"
+                             >
                     </Rectangle>
                     
                     <Rectangle Visibility="{Binding IsShowLine}"

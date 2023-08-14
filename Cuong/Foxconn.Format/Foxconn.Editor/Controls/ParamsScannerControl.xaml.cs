@@ -1,46 +1,34 @@
 ﻿using System.ComponentModel;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using static Foxconn.Editor.MachineParams;
 
 namespace Foxconn.Editor.Controls
 {
-
-
     public partial class ParamsScannerControl : UserControl, INotifyPropertyChanged
     {
-
-        public static new readonly DependencyProperty IsEnabledProperty = DependencyProperty.Register("IsEnabled", typeof(bool), typeof(ParamsScannerControl));
-        public static readonly DependencyProperty PortNameProperty = DependencyProperty.Register("PortName", typeof(string), typeof(ParamsScannerControl));
-        public static readonly DependencyProperty LengthProperty = DependencyProperty.Register("Length", typeof(int), typeof(ParamsScannerControl));
-        public static readonly DependencyProperty IsSubstringProperty = DependencyProperty.Register("IsSubstring", typeof(bool), typeof(ParamsScannerControl));
-        public static readonly DependencyProperty StartIndexProperty = DependencyProperty.Register("StartIndex", typeof(int), typeof(ParamsScannerControl));
-
-        public new bool IsEnabled
+        public bool IsEnable
         {
-            get => (bool)GetValue(IsEnabledProperty);
-            set => SetValue(IsEnabledProperty, value);
+            get => MachineParams.Current.Scanner.IsEnabled;
+            set => MachineParams.Current.Scanner.IsEnabled = value;
         }
         public string PortName
         {
-            get => (string)GetValue(PortNameProperty);
-            set => SetValue(PortNameProperty, value);
+            get => MachineParams.Current.Scanner.PortName;
+            set => MachineParams.Current.Scanner.PortName = value;
         }
         public int Length
         {
-            get => (int)GetValue(LengthProperty);
-            set => SetValue(LengthProperty, value);
+            get => MachineParams.Current.Scanner.Length;
+            set => MachineParams.Current.Scanner.Length = value;
         }
         public bool IsSubstring
         {
-            get => (bool)GetValue(IsSubstringProperty);
-            set => SetValue(IsSubstringProperty, value);
+            get => MachineParams.Current.Scanner.IsSubstring;
+            set => MachineParams.Current.Scanner.IsSubstring = value;
         }
-        public string StartIndex
+        public int StartIndex
         {
-            get => (string)GetValue(StartIndexProperty);
-            set => SetValue(StartIndexProperty, value);
+            get => MachineParams.Current.Scanner.StartIndex;
+            set => MachineParams.Current.Scanner.StartIndex = value;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -54,23 +42,6 @@ namespace Foxconn.Editor.Controls
         {
             InitializeComponent();
             DataContext = this;
-        }
-
-        public void SetParameters(ScannerParams param)
-        {
-            string[] paths = new string[] { "IsEnabled", "PortName", "Length", "IsSubstring", "StartIndex" };
-            DependencyProperty[] properties = new DependencyProperty[] { IsEnabledProperty, PortNameProperty, LengthProperty, IsSubstringProperty, StartIndexProperty };
-            for (int i = 0; i < paths.Length; i++)
-            {
-                Binding binding = new Binding(paths[i])
-                {
-                    Source = param,
-                    Mode = BindingMode.TwoWay,
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                };
-                SetBinding(properties[i], binding);
-            }
-            NotifyPropertyChanged();
         }
     }
 }

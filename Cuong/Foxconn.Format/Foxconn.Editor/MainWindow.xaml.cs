@@ -11,14 +11,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Foxconn.Editor
@@ -40,7 +37,6 @@ namespace Foxconn.Editor
         private Worker _loopWorker;
         private ICamera _camera = null;
         private bool _isStreaming = false;
-
         private FOVProperties _fovProperties = new FOVProperties();
         private SMDProperties _smdProperties = new SMDProperties();
         private Board _selectedBoard = null;
@@ -51,10 +47,12 @@ namespace Foxconn.Editor
         private CvCodeRecognitionControl _codeRecognitionControl = new CvCodeRecognitionControl();
         private CvTemplateMatchingControl _templateMatchingControl = new CvTemplateMatchingControl();
         private CvHSVExtractionControl _hsvExtractionControl = new CvHSVExtractionControl();
+        private CvHSVExtractionQtyControl _hsvExtractionQtyControl = new CvHSVExtractionQtyControl();
         private CvLuminanceExtractionControl _luminanceExtractionControl = new CvLuminanceExtractionControl();
         private CvLuminanceExtractionQtyControl _luminanceExtractionQtyControl = new CvLuminanceExtractionQtyControl();
         public CvHSVExtraction HSVExtraction = new CvHSVExtraction();
-        DeviceManager device = DeviceManager.Current;
+        public CvHSVExtractionQty HSVExtractionQty = new CvHSVExtractionQty();
+
 
         #region Binding Property
         // Declare event
@@ -68,7 +66,7 @@ namespace Foxconn.Editor
         public MainWindow()
         {
             InitializeComponent();
-            Logger.Current.Create();
+            
             DataContext = this;
             Current = this;
 
@@ -76,15 +74,17 @@ namespace Foxconn.Editor
             _hsvExtractionControl.GetHSVColorButton.Click += btnGetHSVColorButton_Click;
             _hsvExtractionControl.btnCopyHSV.Click += btnCopyHSV_Click;
             _hsvExtractionControl.btnPasteHSV.Click += btnPasteHSV_Click;
+            _hsvExtractionQtyControl.GetHSVQtyColorButton.Click += btnGetHSVQtyColorButton_Click;
+            _hsvExtractionQtyControl.btnCopyHSVQty.Click += btnCopyHSVQty_Click;
+            _hsvExtractionQtyControl.btnPasteHSVQty.Click += btnPasteHSVQty_Click;
+
             _smdProperties.txtROIX.MouseWheel += txtROIX_MouseWheel;
             _smdProperties.txtROIY.MouseWheel += txtROIY_MouseWheel;
             _smdProperties.txtROIWidth.MouseWheel += txtROIWidth_MouseWheel;
             _smdProperties.txtROIHeight.MouseWheel += txtROIHeight_MouseWheel;
             _smdProperties.cmbAlgorithm.SelectionChanged += cmbAlgorithm_SelectionChanged;
-
         }
 
-       
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             StartUp();
@@ -93,10 +93,9 @@ namespace Foxconn.Editor
         private void Window_Closed(object sender, EventArgs e)
         {
             DeviceManager.Current.Close();
-            LogInfo("Shutdown Application");
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             if (MessageShow.Question("Exit application?", "Exit") == false)
             {
@@ -104,13 +103,10 @@ namespace Foxconn.Editor
             }
         }
 
-
         public void StartUp()
         {
             try
             {
-                LogInfo("StartUp Application");
-
                 ProgramManager.Current.OpenProgram();
                 MachineParams.Reload();
 
@@ -139,13 +135,17 @@ namespace Foxconn.Editor
             {
                 mnuiTest_Click(null, null);
             }
-            else if(Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.F)
+            else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.F)
             {
                 imageBox.FullScreen();
             }
             else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S)
             {
                 mnuiSaveProgram_Click(null, null);
+            }
+            else if (e.Key == Key.Delete)
+            {
+                btnRemoveItem_Click(null, null);
             }
         }
 
@@ -165,16 +165,15 @@ namespace Foxconn.Editor
             {
                 case 1:
                     ProgramManager.Current.SaveProgram();
-                    MessageBox.Show("Saved Program!", "Save Program", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageShow.Info("Saved Program!", "Save Program");
                     break;
                 case 0:
                     break;
                 case -1:
-                    if (MessageBox.Show("Wrong Username or Password! \n\rTry again?", "Save Program", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly) == MessageBoxResult.OK)
+                    if (MessageShow.Question("Wrong Username or Password! \n\rTry again?", "Save Program"))
                         mnuiSaveProgram_Click(null, null);
                     break;
             }
-
         }
 
         private void mnuiSaveAsThisImage_Click(object sender, RoutedEventArgs e)
@@ -191,8 +190,6 @@ namespace Foxconn.Editor
                     try
                     {
                         var image = (BitmapSource)imageBox.Source.Clone();
-
-                        // ImageFormat imageFormat = ImageFormat.Png;
                         BitmapEncoder encoder = null;
                         string fileExtension = Path.GetExtension(dialog.FileName).ToLower();
 
@@ -218,8 +215,6 @@ namespace Foxconn.Editor
                         {
                             encoder.Frames.Add(BitmapFrame.Create(image));
                             encoder.Save(fileStream);
-
-                            // image.Save(fileStream, imageFormat);
                         }
                     }
                     catch (Exception ex)
@@ -232,7 +227,7 @@ namespace Foxconn.Editor
 
         private void muniCloseProgram_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+           Current.Close();
         }
 
         private void mnuiConsoleApp_Click(object sender, RoutedEventArgs e)
@@ -251,7 +246,7 @@ namespace Foxconn.Editor
             {
                 if (!_isStreaming)
                 {
-                    AutoRun autoRun = new AutoRun();
+                    AutoRunDialog autoRun = new AutoRunDialog();
                     if (autoRun.StartUp())
                     {
                         _loopWorker.Stop();
@@ -261,20 +256,27 @@ namespace Foxconn.Editor
                     else
                     {
                         LogError("Can not AutoRun");
-                        MessageBox.Show("Can not AutoRun", "AutoRun", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageShow.Error("Can not AutoRun", "AutoRun");
                     }
                 }
             }
             catch (Exception ex)
             {
-
                 LogError(ex.Message);
             }
         }
 
         private void mnuiOptions_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                OptionsDialog optionsDialog = new OptionsDialog();
+                optionsDialog.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                LogError(ex.Message);
+            }
 
         }
 
@@ -286,16 +288,18 @@ namespace Foxconn.Editor
 
         private void mnuiAbout_Click(object sender, RoutedEventArgs e)
         {
+            AboutDialog aboutDialog = new AboutDialog();
+            aboutDialog.ShowDialog();
 
         }
 
 
         private void mnuiEnableFOV_Click(object sender, RoutedEventArgs e)
         {
-            if(_selectedNavigation is FOV)
+            if (_selectedNavigation is FOV)
             {
                 FOV fov = _selectedNavigation as FOV;
-                if(fov != null)
+                if (fov != null)
                 {
                     fov.IsEnabled = true;
                 }
@@ -310,16 +314,17 @@ namespace Foxconn.Editor
                 if (fov != null)
                 {
                     fov.IsEnabled = false;
+
                 }
             }
         }
 
         private void mnuiEnableSMD_Click(object sender, RoutedEventArgs e)
         {
-            if(_selectedNavigation is SMD)
+            if (_selectedNavigation is SMD)
             {
                 SMD smd = _selectedNavigation as SMD;
-                if(smd !=null)
+                if (smd != null)
                 {
                     smd.IsEnabled = true;
                 }
@@ -338,14 +343,11 @@ namespace Foxconn.Editor
             }
         }
 
-
         private void mnuiTest_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 if (_selectedNavigation is SMD)
-
-
                 {
                     SMD smd = _selectedNavigation as SMD;
 
@@ -381,17 +383,50 @@ namespace Foxconn.Editor
                                 }
                             case SMDAlgorithm.HSVExtraction:
                                 {
-                                    CvResult cvRet = smd.HSVExtraction.Preview(src.Copy(), dst, smd.ROI.Rectangle);
-                                    _hsvExtractionControl.Score = cvRet.Score;
-                                    string message = $"{smd.Algorithm}: {cvRet.Result}\r\nScore: {cvRet.Score}\r\nQty: {cvRet.Qty}";
-                                    MessageShow.Info(message, "Result");
+                                    if (smd.ROI.Width > 0 && smd.ROI.Height > 0)
+                                    {
+                                        CvResult cvRet = smd.HSVExtraction.Preview(src.Copy(), dst, smd.ROI.Rectangle);
+                                        _hsvExtractionControl.Score = cvRet.Score;
+                                        string message = $"{smd.Algorithm}: {cvRet.Result}\r\nScore: {cvRet.Score}\r\nQty: {cvRet.Qty}";
+                                        MessageShow.Info(message, "Result");
+                                    }
+                                    else
+                                    {
+                                        MessageShow.Warning("ROI is not set", "Result");
+                                    }
                                     break;
                                 }
+                            case SMDAlgorithm.HSVExtrsctionQty:
+                                {
+                                    if (smd.ROI.Width > 0 && smd.ROI.Height > 0)
+                                    {
+                                        CvResult cvRet = smd.HSVExtractionQty.Preview(src.Copy(), dst, smd.ROI.Rectangle);
+                                        _hsvExtractionQtyControl.Qty = cvRet.Qty;
+                                        string message = $"{smd.Algorithm}: {cvRet.Result}\r\nQty: {cvRet.Qty}";
+                                        MessageShow.Info(message, "Result");
+                                    }
+                                    else
+                                    {
+                                        MessageShow.Warning("ROI is not set", "Result");
+                                    }
+                                    break;
+                                }
+
                             case SMDAlgorithm.LuminanceExtraction:
                                 {
+
                                     CvResult cvRet = smd.LuminanceExtraction.Preview(src.Copy(), dst, smd.ROI.Rectangle);
                                     _luminanceExtractionControl.Score = cvRet.Score;
                                     string message = $"{smd.Algorithm}: {cvRet.Result}\r\nScore: {cvRet.Score}\r\nQty: {cvRet.Qty}";
+                                    MessageShow.Info(message, "Result");
+
+                                    break;
+                                }
+                            case SMDAlgorithm.LuminanceExtractionQty:
+                                {
+                                    CvResult cvRet = smd.LuminanceExtractionQty.Preview(src.Copy(), dst, smd.ROI.Rectangle);
+                                    _luminanceExtractionQtyControl.Qty = cvRet.Qty;
+                                    string message = $"{smd.Algorithm}: {cvRet.Result} \r\nQty: {cvRet.Qty}";
                                     MessageShow.Info(message, "Result");
                                     break;
                                 }
@@ -405,7 +440,6 @@ namespace Foxconn.Editor
                         {
                             imageBox.SourceFromBitmap = dst.ToBitmap();
                         });
-
                     }
                 }
             }
@@ -414,8 +448,6 @@ namespace Foxconn.Editor
                 LogError(ex.Message);
             }
         }
-
-
 
         #region Logs
         public void LogInfo(string message)
@@ -483,19 +515,19 @@ namespace Foxconn.Editor
                 if (_selectedNavigation is Board)
                 {
                     Board itemBoard = _selectedNavigation as Board;
-                    if (MessageShow.Question($"Are you sure want to remove{itemBoard.Name}?", "Remove Board"))
+                    if (MessageShow.Question($"Are you sure want to remove {itemBoard.Name}?", "Remove Board"))
                         return;
                 }
                 else if (_selectedNavigation is FOV)
                 {
                     FOV itemFOV = _selectedNavigation as FOV;
-                    if (MessageShow.Question($"Are you sure want to remove{itemFOV.Name}?", "Remove FOV"))
+                    if (MessageShow.Question($"Are you sure want to remove {itemFOV.Name}?", "Remove FOV"))
                         program.RemoveFOV(itemFOV);
                 }
                 else if (_selectedNavigation is SMD)
                 {
                     SMD itemSMD = _selectedNavigation as SMD;
-                    if (MessageShow.Question($"Are you sure want to remove{itemSMD.Name}?", "Remove SMD"))
+                    if (MessageShow.Question($"Are you sure want to remove {itemSMD.Name}?", "Remove SMD"))
                         program.RemoveSMD(itemSMD);
                 }
                 RefreshNavigation(_selectedNavigation);
@@ -666,27 +698,29 @@ namespace Foxconn.Editor
             }
         }
 
-        private void imageBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
+        //private void imageBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        //{
 
-            double zoomScale = imageBox.ZoomScale;
-            if (e.Delta > 0)
-            {
-                zoomScale *= 1.1;
-                if (zoomScale < imageBox.MaxScale)
-                {
-                    imageBox.ZoomScale = zoomScale;
-                }
-            }
-            else
-            {
-                zoomScale *= 0.9;
-                if (zoomScale > imageBox.MinScale)
-                {
-                    imageBox.ZoomScale = zoomScale;
-                }
-            }
-        }
+        //    double zoomScale = imageBox.ZoomScale;
+        //    if (e.Delta > 0)
+        //    {
+        //        zoomScale *= 1.1;
+        //        if (zoomScale < imageBox.MaxScale)
+        //        {
+        //            imageBox.ZoomScale = zoomScale;
+        //        }
+               
+        //    }
+        //    else
+        //    {
+        //        zoomScale *= 0.9;
+        //        if (zoomScale > imageBox.MinScale)
+        //        {
+        //            imageBox.ZoomScale = zoomScale;
+        //        }
+        //    }
+        //}
+
 
         private void imageBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -709,7 +743,6 @@ namespace Foxconn.Editor
             if (_selectedNavigation is SMD)
             {
                 SMD smd = _selectedNavigation as SMD;
-
                 ShowSMDAlgorithm(smd);
             }
         }
@@ -888,7 +921,6 @@ namespace Foxconn.Editor
         {
             try
             {
-
                 switch (smd.Algorithm)
                 {
                     case SMDAlgorithm.Unknow:
@@ -912,6 +944,13 @@ namespace Foxconn.Editor
                             dpnAlgorithm.Children.Clear();
                             _hsvExtractionControl.SetParameters(smd.HSVExtraction);
                             dpnAlgorithm.Children.Add(_hsvExtractionControl);
+                            break;
+                        }
+                    case SMDAlgorithm.HSVExtrsctionQty:
+                        {
+                            dpnAlgorithm.Children.Clear();
+                            _hsvExtractionQtyControl.SetParameters(smd.HSVExtractionQty);
+                            dpnAlgorithm.Children.Add(_hsvExtractionQtyControl);
                             break;
                         }
                     case SMDAlgorithm.LuminanceExtraction:
@@ -955,7 +994,7 @@ namespace Foxconn.Editor
                     else if (obj is FOV)
                     {
                         selectedFOV = obj as FOV;
-                        //selectedFOV.SortByName();
+                        selectedFOV.SortByName();
                     }
                     else if (obj is SMD)
                     {
@@ -1090,6 +1129,29 @@ namespace Foxconn.Editor
             }
         }
 
+        private void btnGetHSVQtyColorButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedNavigation is SMD)
+            {
+                SMD item = _selectedNavigation as SMD;
+                using (Image<Bgr, byte> image = _program.GetImageBlock(item)?.Clone())
+                {
+                    if (image != null)
+                    {
+                        image.ROI = item.ROI.Rectangle;
+                        if (!image.ROI.IsEmpty)
+                        {
+                            (ValueRange H, ValueRange S, ValueRange V) = item.HSVExtractionQty.HSVRange(image.Copy());
+                            item.HSVExtractionQty.Hue = H;
+                            item.HSVExtractionQty.Saturation = S;
+                            item.HSVExtractionQty.Value = V;
+                        }
+                        image.ROI = new System.Drawing.Rectangle();
+                    }
+                }
+            }
+        }
+
         private void btnCopyHSV_Click(object sender, RoutedEventArgs e)
         {
             if (_selectedNavigation is SMD)
@@ -1097,10 +1159,23 @@ namespace Foxconn.Editor
                 try
                 {
                     SMD smd = _selectedNavigation as SMD;
-                    HSVExtraction.Hue = smd.HSVExtraction.Hue;
-                    HSVExtraction.Saturation = smd.HSVExtraction.Saturation;
-                    HSVExtraction.Value = smd.HSVExtraction.Value;
-                    HSVExtraction.OKRange = smd.HSVExtraction.OKRange;
+                    HSVExtraction = smd.HSVExtraction;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+
+        private void btnCopyHSVQty_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedNavigation is SMD)
+            {
+                try
+                {
+                    SMD smd = _selectedNavigation as SMD;
+                    HSVExtractionQty = smd.HSVExtractionQty;
                 }
                 catch (Exception ex)
                 {
@@ -1116,10 +1191,11 @@ namespace Foxconn.Editor
                 try
                 {
                     SMD smd = _selectedNavigation as SMD;
-                    smd.HSVExtraction.Hue = HSVExtraction.Hue;
-                    smd.HSVExtraction.Saturation = HSVExtraction.Saturation;
-                    smd.HSVExtraction.Value = HSVExtraction.Value;
-                    smd.HSVExtraction.OKRange = HSVExtraction.OKRange;
+                    var hsv = HSVExtraction.Clone();
+                    smd.HSVExtraction.Hue = hsv.Hue;
+                    smd.HSVExtraction.Saturation = hsv.Saturation;
+                    smd.HSVExtraction.Value = hsv.Value;
+                    smd.HSVExtraction.OKRange = hsv.OKRange;
                 }
                 catch (Exception ex)
                 {
@@ -1128,7 +1204,25 @@ namespace Foxconn.Editor
             }
         }
 
+        private void btnPasteHSVQty_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedNavigation is SMD)
+            {
+                try
+                {
+                    SMD smd = _selectedNavigation as SMD;
+                    var hsvQty = HSVExtractionQty.Clone();
+                    smd.HSVExtractionQty.Hue = hsvQty.Hue;
+                    smd.HSVExtractionQty.Saturation = hsvQty.Saturation;
+                    smd.HSVExtractionQty.Value = hsvQty.Value;
+                    smd.HSVExtractionQty.OKRange = hsvQty.OKRange;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
     }
-
 }
 

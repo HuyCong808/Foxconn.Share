@@ -9,7 +9,7 @@
         ShowActivated="True"
         ResizeMode="NoResize"
         WindowStyle="None"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         SizeToContent="WidthAndHeight"
         Background="{DynamicResource BackgroundBrush}" >
 
@@ -41,7 +41,8 @@
                             Margin="5 0 5 5"
                             Width="210">
                     <Label Content="Username" Margin="0 0 5 0"/>
-                    <TextBox x:Name="txtUsername" Width="150"></TextBox>
+                    <TextBox x:Name="txtUsername" Width="150"
+                             TextChanged="txtUsername_TextChanged"></TextBox>
                 </StackPanel>
             </Grid>
 

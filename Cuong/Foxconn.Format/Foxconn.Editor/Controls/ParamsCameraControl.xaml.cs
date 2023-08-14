@@ -1,11 +1,7 @@
 ﻿using Foxconn.Editor.Enums;
 using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using static Foxconn.Editor.MachineParams;
 
 namespace Foxconn.Editor.Controls
 {
@@ -14,47 +10,40 @@ namespace Foxconn.Editor.Controls
     /// </summary>
     public partial class ParamsCameraControl : UserControl, INotifyPropertyChanged
     {
-        public static readonly DependencyProperty IsEnable1Property = DependencyProperty.Register("IsEnable1", typeof(bool), typeof(ParamsCameraControl));
-        public static readonly DependencyProperty CameraName1Property = DependencyProperty.Register("CameraName1", typeof(CameraName), typeof(ParamsCameraControl));
-        public static readonly DependencyProperty CameraType1Property = DependencyProperty.Register("CameraType1", typeof(CameraType), typeof(ParamsCameraControl));
-        public static readonly DependencyProperty IsEnable2Property = DependencyProperty.Register("IsEnable2", typeof(bool), typeof(ParamsCameraControl));
-        public static readonly DependencyProperty CameraName2Property = DependencyProperty.Register("CameraName2", typeof(CameraName), typeof(ParamsCameraControl));
-        public static readonly DependencyProperty CameraType2Property = DependencyProperty.Register("CameraType2", typeof(CameraType), typeof(ParamsCameraControl));
-
-        public bool IsEnable1
+        public bool IsEnabled1
         {
-            get => (bool)GetValue(IsEnable1Property);
-            set => SetValue(IsEnable1Property, value);
+            get => MachineParams.Current.Camera1.IsEnabled;
+            set => MachineParams.Current.Camera1.IsEnabled = value;
         }
 
-        public CameraName CameraName1
+        public string CameraName1
         {
-            get => (CameraName)GetValue(CameraName1Property);
-            set => SetValue(CameraName1Property, value);
+            get => MachineParams.Current.Camera1.UserDefinedName;
+            set => MachineParams.Current.Camera1.UserDefinedName = value;
         }
 
         public CameraType CameraType1
         {
-            get => (CameraType)GetValue(CameraType1Property);
-            set => SetValue(CameraType1Property, value);
+            get => MachineParams.Current.Camera1.Type;
+            set => MachineParams.Current.Camera1.Type = value;
         }
 
-        public bool IsEnable2
+        public bool IsEnabled2
         {
-            get =>(bool)GetValue(IsEnable2Property);
-            set => SetValue(IsEnable2Property, value);
+            get => MachineParams.Current.Camera2.IsEnabled;
+            set => MachineParams.Current.Camera2.IsEnabled = value;
         }
 
-        public CameraName CameraName2
+        public string CameraName2
         {
-            get => (CameraName)GetValue(CameraName2Property);
-            set => SetValue(CameraName2Property, value);
+            get => MachineParams.Current.Camera2.UserDefinedName;
+            set => MachineParams.Current.Camera2.UserDefinedName = value;
         }
 
         public CameraType CameraType2
         {
-            get => (CameraType)GetValue(CameraType2Property);
-            set => SetValue(CameraType2Property, value);
+            get => MachineParams.Current.Camera2.Type;
+            set => MachineParams.Current.Camera2.Type = value;
         }
 
 
@@ -69,27 +58,9 @@ namespace Foxconn.Editor.Controls
         {
             InitializeComponent();
             DataContext = this;
-            cmbCameraName1.ItemsSource = Enum.GetValues(typeof(CameraName)).Cast<CameraName>();
-            cmbCameraType1.ItemsSource = Enum.GetValues(typeof(CameraType)).Cast<CameraType>();
-            cmbCameraName2.ItemsSource = Enum.GetValues(typeof(CameraName)).Cast<CameraName>();
-            cmbCameraType2.ItemsSource = Enum.GetValues(typeof(CameraType)).Cast<CameraType>();
+            cmbCameraType1.ItemsSource = Enum.GetValues(typeof(CameraType));
+            cmbCameraType2.ItemsSource = Enum.GetValues(typeof(CameraType));
         }
 
-        public void SetParameters(CameraParams param)
-        {
-            string[] paths = new string[] { "IsEnable1", "CameraName1", "CameraType1", "IsEnable2", "CameraName2", "CameraType2" };
-            DependencyProperty[] properties = new DependencyProperty[] { IsEnable1Property, CameraName1Property, CameraType1Property, IsEnable2Property, CameraName2Property, CameraType2Property };
-            for (int i = 0; i < paths.Length; i++)
-            {
-                Binding binding = new Binding(paths[i])
-                {
-                    Source = param,
-                    Mode = BindingMode.TwoWay,
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                };
-                SetBinding(properties[i], binding);
-            }
-            NotifyPropertyChanged();
-        }
     }
 }

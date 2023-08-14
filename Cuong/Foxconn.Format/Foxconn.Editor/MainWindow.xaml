@@ -44,56 +44,58 @@
                               Click="mnuiSaveProgram_Click" />
                     <MenuItem Header="SaveAs this Image"
                               x:Name="mnuiSavethisImage"
-                              Click="mnuiSaveAsThisImage_Click"
-                              ></MenuItem>
+                              Click="mnuiSaveAsThisImage_Click">
+                    </MenuItem>
 
                     <MenuItem Header="Close"
-                              x:Name="muniCloseProgram" Click="muniCloseProgram_Click" />
+                              x:Name="muniCloseProgram"
+                              Click="muniCloseProgram_Click" />
                 </MenuItem>
 
                 <MenuItem Header="View">
                     <MenuItem Header="Zoom In"
                               x:Name="mnuiZoomIn"
-                             
                               InputGestureText="Ctrl++" />
                     <MenuItem Header="Zoom Out"
                               x:Name="mnuiZoomOut"
                               InputGestureText="Ctrl+-" />
-                    
+
                     <MenuItem Header="Fit to Window"
                               x:Name="mnuiFitToWindow"
-                              InputGestureText="Alt+F"/>
+                              InputGestureText="Ctrl+F" />
                     <Separator />
-                    
+
                     <MenuItem Header="View ConsoleApp"
-                              x:Name="mnuiConsoleApp" Click="mnuiConsoleApp_Click"  />
+                              x:Name="mnuiConsoleApp"
+                              Click="mnuiConsoleApp_Click" />
                     <MenuItem Header="Open file Location"
-                              x:Name="mnuiFileLocation" Click="mnuiFileLocation_Click" 
-                              />
+                              x:Name="mnuiFileLocation"
+                              Click="mnuiFileLocation_Click" />
 
                 </MenuItem>
                 <MenuItem Header="Run">
                     <MenuItem Header="AutoRun"
                               x:Name="mnuiAutoRun"
                               Click="mnuiAutoRun_Click" />
-                    <MenuItem Header="Test"
+                    <MenuItem Header="Debug"
                               x:Name="mnuiTest"
                               InputGestureText="F5"
                               Click="mnuiTest_Click" />
                 </MenuItem>
                 <MenuItem Header="Tools">
-                    <MenuItem Header="Options" 
-                              x:Name="mnuiOptions" Click="mnuiOptions_Click"
-                               >
-                        
+                    <MenuItem Header="Options"
+                              x:Name="mnuiOptions"
+                              Click="mnuiOptions_Click">
+
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Help">
                     <MenuItem Header="Check for Updates"
-                              x:Name="mnuiCheckforUpdate" 
-                              Click="mnuiCheckforUpdate_Click"/>
+                              x:Name="mnuiCheckforUpdate"
+                              Click="mnuiCheckforUpdate_Click" />
                     <MenuItem Header="About"
-                              x:Name="mnuiAbout" Click="mnuiAbout_Click" />
+                              x:Name="mnuiAbout"
+                              Click="mnuiAbout_Click" />
                 </MenuItem>
             </Menu>
         </Grid>
@@ -105,22 +107,22 @@
 
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="120" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" 
+                <Grid Grid.Row="0"
                       Margin="0 0 0 2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="250" />
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0">
@@ -132,16 +134,15 @@
                                 BorderThickness="1"
                                 AllowDrop="true"
                                 Margin="3 0 2 2"
-                                CornerRadius="3" 
+                                CornerRadius="3"
                                 BorderBrush="LightGray">
 
                             <Grid>
                                 <Controls:ImageBox Grid.Row="1"
                                                    x:Name="imageBox"
-                                                   
-                                                   PreviewMouseWheel="imageBox_PreviewMouseWheel" 
-                                                   MouseMove="imageBox_MouseMove" />
-
+                                                  
+                                                   MouseMove="imageBox_MouseMove">
+                                </Controls:ImageBox>
                             </Grid>
                         </Border>
 
@@ -157,8 +158,7 @@
                                 <Border Grid.Column="0"
                                         CornerRadius="3"
                                         Background="{DynamicResource PaletteBrush}"
-                                        Margin="3,0,0,0"
-                                        >
+                                        Margin="3,0,0,0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
@@ -247,17 +247,16 @@
                                 <Border Grid.Column="1"
                                         CornerRadius="3"
                                         Background="{DynamicResource PaletteBrush}"
-                                        Margin="2,0,0,0"
-                                        MinWidth="100">
+                                        Margin="2,0,0,0">
                                 </Border>
-                                
+
                                 <Border Grid.Column="2"
                                         CornerRadius="3"
                                         Background="{DynamicResource PaletteBrush}"
                                         Margin="2,0,2,0"
                                         MinWidth="50"
                                         HorizontalAlignment="Right">
-                                    
+
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="Resources\Icons\position_30px.png"></Image>
                                         <Border   CornerRadius="3"
@@ -267,7 +266,8 @@
                                                   HorizontalAlignment="Left">
                                             <Label x:Name="lblPosition"
                                                    Background="{DynamicResource PaletteBrush}"
-                                                   Foreground="{StaticResource Text1Brush}" Margin="0 0 5 0"></Label>
+                                                   Foreground="{StaticResource Text1Brush}"
+                                                   Margin="0 0 5 0" />
                                         </Border>
 
                                     </StackPanel>
@@ -280,11 +280,11 @@
                           Margin="0 0 2 0">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Border Grid.Row="0">
-                                <Label Content="Configuration" 
+                                <Label Content="Configuration"
                                        Margin="5 0 0 0"></Label>
                             </Border>
 
@@ -295,8 +295,8 @@
                                     BorderThickness="2">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="20" />
                                     </Grid.RowDefinitions>
 
                                     <Grid Grid.Row="0">
@@ -312,7 +312,7 @@
                                                   MouseDoubleClick="trvNavigation_MouseDoubleClick">
                                             <TreeView.Resources>
                                                 <HierarchicalDataTemplate DataType="{x:Type Configuration:Board}"
-                                                              ItemsSource="{Binding FOVs}">
+                                                                          ItemsSource="{Binding FOVs}">
                                                     <Grid Width="{Binding ElementName=gridLayer1, Path=ActualWidth}">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*" />
@@ -322,17 +322,17 @@
                                                               Margin="5,2,0,2">
                                                             <DockPanel>
                                                                 <TextBlock Text="{Binding Name }"
-                                                               FontSize="12"
-                                                               FontFamily="Segoe UI"
-                                                               FontWeight="SemiBold"
-                                                               VerticalAlignment="Center" />
+                                                                           FontSize="12"
+                                                                           FontFamily="Segoe UI"
+                                                                           FontWeight="SemiBold"
+                                                                           VerticalAlignment="Center" />
                                                             </DockPanel>
                                                         </Grid>
                                                     </Grid>
                                                 </HierarchicalDataTemplate>
 
                                                 <HierarchicalDataTemplate DataType="{x:Type Configuration:FOV}"
-                                                              ItemsSource="{Binding SMDs}">
+                                                                          ItemsSource="{Binding SMDs}">
                                                     <Grid Width="{Binding ElementName=gridLayer2, Path=ActualWidth}">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*" />
@@ -363,8 +363,8 @@
                                                                        Opacity="0.75"
                                                                        Margin="0,0,10,0"
                                                                        Source="{StaticResource ChipIconImage}" />
-                                                                <TextBlock Text="{Binding Name}"
-                                                                           Foreground="{Binding IsEnabled}"
+                                                                <TextBlock x:Name="txbTrvSMD"
+                                                                           Text="{Binding Name}"
                                                                            FontSize="12"
                                                                            VerticalAlignment="Center" />
                                                             </DockPanel>
@@ -377,7 +377,7 @@
                                                                      StrokeThickness="1"
                                                                      Stroke="Gray" />
                                                         </Border>
-                                                        
+
                                                         <Border Grid.Column="2" />
                                                         <Border Grid.Column="3"
                                                                 Width="14"
@@ -391,7 +391,7 @@
                                                                     <Image Source="/Resources/Icons/image_32px.png" />
                                                                 </Border>
                                                             </Border.ToolTip>
-                                                            
+
                                                             <Image Source="/Resources/Icons/image_32px.png"
                                                                    Opacity="0.8" />
                                                         </Border>
@@ -426,16 +426,15 @@
                                                                        Opacity="0.75"
                                                                        Margin="0,0,10,0"
                                                                        Source="{StaticResource ChipIconImage}" />
-                                                                <TextBlock Text="{Binding Name}"
-                                                                           Foreground="{Binding IsEnabled}"
+                                                                <TextBlock x:Name="txbTrvSMD" 
+                                                                           Text="{Binding Name}"
                                                                            FontSize="12"
                                                                            VerticalAlignment="Center" />
                                                                 <!--<TextBlock Text=" @"
                                                                            Foreground="{Binding IsEnabled}"
                                                                            FontWeight="Bold"
                                                                            VerticalAlignment="Center" />-->
-                                                                <TextBlock Text="{Binding ID}"
-                                                                           Foreground="{Binding IsEnabled}"
+                                                                <TextBlock Text="{Binding ID}"   
                                                                            FontSize="12"
                                                                            VerticalAlignment="Center" />
                                                             </DockPanel>
@@ -458,7 +457,7 @@
                                     <Grid Grid.Row="1">
                                         <Border  Background="{DynamicResource PaletteBrush}"
                                                  Margin="0,0,0,0">
-                                            <DockPanel >
+                                            <DockPanel>
                                                 <Button x:Name="btnAddFOV"
                                                         ToolTip="Add FOV"
                                                         Margin="3 0 0 0"
@@ -466,8 +465,8 @@
                                                         Height="20"
                                                         BorderThickness="0"
                                                         MinHeight="0"
-                                                        MinWidth="0" Click="btnAddFOV_Click" 
-                                                        >
+                                                        MinWidth="0"
+                                                        Click="btnAddFOV_Click">
                                                     <Image Source="Resources\Icons\add_camera_32px.png" />
                                                 </Button>
 
@@ -478,33 +477,33 @@
                                                         Height="20"
                                                         MinHeight="0"
                                                         MinWidth="0"
-                                                        BorderThickness="0" Click="btnAddSMD_Click"  
-                                                        >
-                                                    <Image Source="Resources\Icons\add_SMD.png"/>
+                                                        BorderThickness="0"
+                                                        Click="btnAddSMD_Click">
+                                                    <Image Source="Resources\Icons\add_SMD.png" />
                                                 </Button>
                                                 <Button x:Name="btnRemoveItem"
-                                                ToolTip="Remove Item"
-                                                BorderThickness="0"
-                                                Margin="5 0 0 0"
-                                                Width="20"
-                                                Height="20"
-                                                MinHeight="0"
-                                                MinWidth="0" Click="btnRemoveItem_Click"
-                                                        >
-                                                    <Image Source="Resources\Icons\delete_32px.png"/>
+                                                        ToolTip="Remove Item"
+                                                        BorderThickness="0"
+                                                        Margin="5 0 0 0"
+                                                        Width="20"
+                                                        Height="20"
+                                                        MinHeight="0"
+                                                        MinWidth="0"
+                                                        Click="btnRemoveItem_Click">
+                                                    <Image Source="Resources\Icons\delete_32px.png" />
                                                 </Button>
 
                                                 <DockPanel HorizontalAlignment="Right">
                                                     <Button x:Name="btnRefresh"
-                                                    Margin="0 0 3 0"
-                                                    ToolTip="Refesh"
-                                                    MinHeight="0"
-                                                    MinWidth="0"
-                                                    Height="20"
-                                                    Width="20"
-                                                    BorderThickness="0" Click="btnRefresh_Click"
-                                                    >
-                                                        <Image Source="Resources\Icons\refresh_26px.png"/>
+                                                            Margin="0 0 3 0"
+                                                            ToolTip="Refesh"
+                                                            MinHeight="0"
+                                                            MinWidth="0"
+                                                            Height="20"
+                                                            Width="20"
+                                                            BorderThickness="0"
+                                                            Click="btnRefresh_Click">
+                                                        <Image Source="Resources\Icons\refresh_26px.png" />
                                                     </Button>
                                                 </DockPanel>
                                             </DockPanel>
@@ -523,20 +522,20 @@
 
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <Label Grid.Row="0"
-                        Content="Help View"
+                           Content="Help View"
                            Height="20"
                            Margin="4,0,0,0"
                            Grid.ColumnSpan="3" />
 
                     <Grid Grid.Row="1">
                         <Border Margin=" 3 0 2 0"
-                            CornerRadius="3"
-                            Background="{DynamicResource PaletteBrush}">
+                                CornerRadius="3"
+                                Background="{DynamicResource PaletteBrush}">
                         </Border>
                     </Grid>
 
@@ -549,24 +548,24 @@
                     CornerRadius="3">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Border Grid.Row="0">
-                        <Label Content="Navigation" Margin="5 0 0 0"></Label>
+                        <Label Content="Navigation"
+                               Margin="5 0 0 0"></Label>
                     </Border>
                     <Grid Grid.Row="1">
                         <StackPanel Orientation="Vertical">
-                            <Expander Header="Properties" 
-                                      IsExpanded="True" Margin="0 0 0 5">
-                                <DockPanel 
-                                    x:Name="dpnProperties"></DockPanel>
+                            <Expander Header="Properties"
+                                      IsExpanded="True"
+                                      Margin="0 0 0 5">
+                                <DockPanel x:Name="dpnProperties"></DockPanel>
                             </Expander>
 
-                            <Expander Header="Algortihm" 
+                            <Expander Header="Algortihm"
                                       IsExpanded="True">
-                                <DockPanel 
-                                    x:Name="dpnAlgorithm">
+                                <DockPanel x:Name="dpnAlgorithm">
                                 </DockPanel>
                             </Expander>
                         </StackPanel>
@@ -582,8 +581,8 @@
                     CornerRadius="3">
                 <StatusBar Margin="0 0 0 0">
                     <Label x:Name="ssStatus"
-                       Content="Status..."
-                       Width="100" />
+                           Content="Status..."
+                           Width="100" />
                 </StatusBar>
             </Border>
         </Grid>

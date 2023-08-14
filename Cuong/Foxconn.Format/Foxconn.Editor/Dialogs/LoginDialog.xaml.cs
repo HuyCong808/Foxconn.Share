@@ -10,12 +10,12 @@ namespace Foxconn.Editor.Dialogs
             Owner = Application.Current.MainWindow;
             InitializeComponent();
             txtUsername.Focus();
+            CheckInput();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             Close();
-
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -30,6 +30,22 @@ namespace Foxconn.Editor.Dialogs
                 return true;
             }
             return false;
+        }
+
+        public void CheckInput()
+        {
+            if(txtUsername.Text.Length >0)
+            {
+                btnLogin.IsEnabled = true;
+            }
+            else
+            {
+                btnLogin.IsEnabled = false;
+            }
+        }
+        private void txtUsername_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            CheckInput();
         }
     }
 }

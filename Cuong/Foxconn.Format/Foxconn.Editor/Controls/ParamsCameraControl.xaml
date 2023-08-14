@@ -1,80 +1,83 @@
 ﻿<UserControl x:Class="Foxconn.Editor.Controls.ParamsCameraControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Foxconn.Editor.Controls"
-             mc:Ignorable="d" 
-             
-             >
+             mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Vertical" 
+        <StackPanel Orientation="Vertical"
                     Width="300">
-            <GroupBox Header="Camera 1" 
-                      BorderBrush="{DynamicResource PaletteBrush}" 
-                      BorderThickness="1" >
+            <GroupBox Header="Camera 1"
+                      BorderBrush="White"
+                      BorderThickness="1">
                 <StackPanel Orientation="Vertical">
-                    <DockPanel Margin="30 5 5 0" >
+                    <DockPanel Margin="38 5 5 0">
                         <DockPanel HorizontalAlignment="Left">
-                            <TextBlock Text="IsEnabled " 
-                                       Margin="0 0 5 0"/>
+                            <TextBlock Text="IsEnabled"
+                                       Margin="0 0 5 0" />
                             <CheckBox x:Name="ckbIsEnableCam1"
-                                      IsChecked="{Binding IsEnabled1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
-                                
+                                      IsChecked="{Binding IsEnabled1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
                             </CheckBox>
                         </DockPanel>
                     </DockPanel>
 
-                    <DockPanel Margin="5 5 5 0">
-                        <DockPanel HorizontalAlignment="Left">
-                            <Label Content="Camera Name " 
-                                   Margin="0 0 5 0"/>
-                            <ComboBox Name="cmbCameraName1" 
-                                      Width="150"
-                                      SelectedItem="{Binding CameraName1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                    <DockPanel>
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="13 5 5 0">
+                            <Label Content="Camera Name"
+                                   Margin="0 0 5 0" />
+                            <TextBox Name="cmbCameraName1"
+                                     Width="150"
+                                     Text="{Binding CameraName1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                         </DockPanel>
                     </DockPanel>
 
-                    <DockPanel Margin="12 5 2 0">
-                        <DockPanel HorizontalAlignment="Left">
-                            <Label Content="Camera Type " 
+                    <DockPanel >
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="20 5 2 0">
+                            <Label Content="Camera Type"
                                    Margin="0 0 5 0"></Label>
                             <ComboBox x:Name="cmbCameraType1"
                                       Width="150"
                                       SelectedItem="{Binding CameraType1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                
+
                             </ComboBox>
                         </DockPanel>
                     </DockPanel>
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="Camera 2" 
-                      BorderBrush="{DynamicResource PaletteBrush}" 
-                      BorderThickness="1" 
+            <GroupBox Header="Camera 2"
+                      BorderBrush="White"
+                      BorderThickness="1"
                       Margin="0 10 0 0">
                 <StackPanel Orientation="Vertical">
-                    <DockPanel Margin="30 5 5 0" >
-                        <DockPanel HorizontalAlignment="Left">
-                            <TextBlock Text="IsEnabled " 
-                                       Margin="0 0 5 0"/>
+                    <DockPanel >
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="38 5 5 0">
+                            <TextBlock Text="IsEnabled"
+                                       Margin="0 0 5 0" />
                             <CheckBox IsChecked="{Binding IsEnabled2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
                         </DockPanel>
                     </DockPanel>
 
-                    <DockPanel Margin="5 5 5 0">
-                        <DockPanel HorizontalAlignment="Left">
-                            <Label Content="Camera Name " 
-                                   Margin="0 0 5 0"/>
-                            <ComboBox Name="cmbCameraName2" 
-                                      Width="150"
-                                      SelectedItem="{Binding CameraName2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                    <DockPanel >
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="13 5 5 0">
+                            <Label Content="Camera Name"
+                                   Margin="0 0 5 0" />
+                            <TextBox Name="cmbCameraName2"
+                                     Width="150"
+                                     Text="{Binding CameraName2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                         </DockPanel>
                     </DockPanel>
 
-                    <DockPanel Margin="12 5 2 0">
-                        <DockPanel HorizontalAlignment="Left">
-                            <Label Content="Camera Type "
+                    <DockPanel >
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="20 5 2 0">
+                            <Label Content="Camera Type"
                                    Margin="0 0 5 0"></Label>
                             <ComboBox x:Name="cmbCameraType2"
                                       Width="150"

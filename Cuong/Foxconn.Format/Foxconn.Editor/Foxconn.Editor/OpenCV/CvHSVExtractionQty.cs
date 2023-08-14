@@ -5,13 +5,13 @@ using System;
 using System.Drawing;
 namespace Foxconn.Editor.OpenCV
 {
-    public class CvHSVExtraction : NotifyProperty
+    public class CvHSVExtractionQty : NotifyProperty
     {
         private ValueRange _hue { get; set; }
         private ValueRange _saturation { get; set; }
         private ValueRange _value { get; set; }
         private ValueRange _OKRange { get; set; }
-        private double _score { get; set; }
+        private double _qty { get; set; }
         private bool _isEnabledReverseSearch { get; set; }
 
         public ValueRange Hue
@@ -53,13 +53,13 @@ namespace Foxconn.Editor.OpenCV
             }
         }
 
-        public double Score
+        public double Qty
         {
-            get => _score;
+            get => _qty;
             set
             {
-                _score = value;
-                NotifyPropertyChanged(nameof(Score));
+                _qty = value;
+                NotifyPropertyChanged(nameof(Qty));
             }
         }
 
@@ -73,19 +73,19 @@ namespace Foxconn.Editor.OpenCV
             }
 
         }
-        public CvHSVExtraction()
+        public CvHSVExtractionQty()
         {
             _hue = new ValueRange(0, 150, 0, 255);
             _saturation = new ValueRange(0, 200, 0, 255);
             _value = new ValueRange(50, 255, 0, 255);
-            _OKRange = new ValueRange(80, 100, 0, 100);
-            _score = 0;
+            _OKRange = new ValueRange(80, 100, 0, 2448 * 2048);
+            _qty = 0;
             _isEnabledReverseSearch = false;
         }
 
-        public CvHSVExtraction Clone()
+        public CvHSVExtractionQty Clone()
         {
-            return new CvHSVExtraction
+            return new CvHSVExtractionQty
             {
                 Hue = new ValueRange(Hue.Lower, Hue.Upper, Hue.Minimum, Hue.Maximum),
                 Saturation = new ValueRange(Saturation.Lower, Saturation.Upper, Saturation.Minimum, Saturation.Maximum),
@@ -138,10 +138,10 @@ namespace Foxconn.Editor.OpenCV
             {
                 using (var mask = ThresholdHSV(src))
                 {
-                    int countMask = src.Width * src.Height;
-                    int countHSV = CvInvoke.CountNonZero(mask);
-                    double score = (double)countHSV / countMask;
-                    if (IsMatched(score, _OKRange))
+                    int total = src.Width * src.Height;
+                    int qty = CvInvoke.CountNonZero(mask);
+                    double score = (double)qty / total;
+                    if (IsMatched(qty, _OKRange))
                     {
                         cvRet.Result = _isEnabledReverseSearch ? false : true;
                     }
@@ -150,7 +150,7 @@ namespace Foxconn.Editor.OpenCV
                         cvRet.Result = _isEnabledReverseSearch ? true : false;
                     }
                     cvRet.Score = score;
-                    cvRet.Qty = countHSV;
+                    cvRet.Qty = qty;
                     if (dst != null)
                     {
                         DrawResult(ref dst, cvRet.Result);
@@ -226,7 +226,6 @@ namespace Foxconn.Editor.OpenCV
 
         private bool IsMatched(double s, ValueRange OKrange)
         {
-            s *= 100;
             if (OKrange.Lower < OKrange.Upper)
             {
                 if (s >= OKrange.Lower && s <= OKrange.Upper)

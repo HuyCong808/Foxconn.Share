@@ -24,6 +24,10 @@ namespace Foxconn.Editor
             return MessageBox.Show(content, title, MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly) == MessageBoxResult.OK;
         }
 
-        
+        public static MessageBoxResult YesNoCancel(string content, string title)
+        {
+            return MessageBox.Show(content, title, MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+        }
+
     }
 }

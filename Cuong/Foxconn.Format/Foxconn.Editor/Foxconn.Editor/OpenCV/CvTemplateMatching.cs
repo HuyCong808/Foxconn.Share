@@ -34,14 +34,14 @@ namespace Foxconn.Editor.OpenCV
             }
         }
 
-        public bool IsEnableReverseSearch
+        public bool IsEnabledReverseSearch
         {
             get => _isEnabledReverseSearch;
 
             set
             {
                 _isEnabledReverseSearch = value;
-                NotifyPropertyChanged(nameof(IsEnableReverseSearch));
+                NotifyPropertyChanged(nameof(IsEnabledReverseSearch));
             }
 
         }

@@ -1,6 +1,5 @@
 ﻿using Foxconn.Editor.Enums;
 using Foxconn.Editor.OpenCV;
-using System;
 
 namespace Foxconn.Editor.Configuration
 {
@@ -15,6 +14,7 @@ namespace Foxconn.Editor.Configuration
         private CvCodeRecognition _codeRecognition { get; set; }
         private CvTemplateMatching _templateMatching { get; set; }
         private CvHSVExtraction _hsvExtraction { get; set; }
+        private CvHSVExtractionQty _hsvExtractionQty { get; set; }
         private CvLuminanceExtraction _luminanceExtraction { get; set; }
         private CvLuminanceExtractionQty _luminanceExtractionQty { get; set; }
         private JRect _ROI { get; set; }
@@ -111,6 +111,16 @@ namespace Foxconn.Editor.Configuration
             }
         }
 
+        public CvHSVExtractionQty HSVExtractionQty
+        {
+            get => _hsvExtractionQty;
+            set
+            {
+                _hsvExtractionQty = value;
+                NotifyPropertyChanged(nameof(HSVExtractionQty));
+            }
+        }
+
         public CvLuminanceExtraction LuminanceExtraction
         {
             get => _luminanceExtraction;
@@ -151,11 +161,11 @@ namespace Foxconn.Editor.Configuration
             _codeRecognition = new CvCodeRecognition();
             _templateMatching = new CvTemplateMatching();
             _hsvExtraction = new CvHSVExtraction();
+            _hsvExtractionQty = new CvHSVExtractionQty();
             _luminanceExtraction = new CvLuminanceExtraction();
             _luminanceExtractionQty = new CvLuminanceExtractionQty();
             _ROI = new JRect(0, 0, 0, 0);
         }
-
 
     }
 }

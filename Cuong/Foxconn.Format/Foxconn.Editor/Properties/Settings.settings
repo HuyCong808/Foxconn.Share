@@ -17,5 +17,8 @@
     <Setting Name="DateCreated" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)">2023-06-21</Value>
     </Setting>
+    <Setting Name="TimeUpdateRate" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">07/19/2023 20:22:00</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

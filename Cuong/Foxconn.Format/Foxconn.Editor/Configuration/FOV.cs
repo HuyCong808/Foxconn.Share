@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Foxconn.Editor.Configuration
 {
-    public class FOV :NotifyProperty
+    public class FOV : NotifyProperty
     {
         private int _id { get; set; }
         private string _name { get; set; }
@@ -128,7 +128,7 @@ namespace Foxconn.Editor.Configuration
             _SMDs = new ObservableCollection<SMD>();
 
         }
-       
+
         public void SortByName()
         {
             var sorted = _SMDs.OrderBy(i => i.Name);

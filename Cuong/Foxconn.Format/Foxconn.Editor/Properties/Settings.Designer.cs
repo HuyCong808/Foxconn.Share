@@ -82,5 +82,17 @@ namespace Foxconn.Editor.Properties {
                 this["DateCreated"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("07/19/2023 20:22:00")]
+        public global::System.DateTime TimeUpdateRate {
+            get {
+                return ((global::System.DateTime)(this["TimeUpdateRate"]));
+            }
+            set {
+                this["TimeUpdateRate"] = value;
+            }
+        }
     }
 }

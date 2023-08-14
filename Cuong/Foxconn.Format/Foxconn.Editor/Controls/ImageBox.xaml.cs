@@ -288,9 +288,29 @@ namespace Foxconn.Editor.Controls
             RectangleChanged(this, new SelectRectangleArgs(_ROI));
         }
 
+        private void imageBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            Point mousePos = e.GetPosition(imageBox);
+            double zoomFactor = e.Delta > 0 ? 1.1 : 0.9;
+
+            // Calculate the new scale
+            double newScale = _scale * zoomFactor;
+
+            // Calculate the new offset to keep the mouse position fixed
+            double offsetX = mousePos.X - (mousePos.X - ScrollView.HorizontalOffset) * zoomFactor;
+            double offsetY = mousePos.Y - (mousePos.Y - ScrollView.VerticalOffset) * zoomFactor;
+
+            // Set the new scale and offset
+            SetScale(newScale);
+            ScrollView.ScrollToHorizontalOffset(offsetX);
+            ScrollView.ScrollToVerticalOffset(offsetY);
+
+            e.Handled = true;
+        }
+
         private void SetRectangle(double x, double y, double width, double height)
         {
-            if(!IsValidROIArea(x, y, width, height))
+            if (!IsValidROIArea(x, y, width, height))
             {
                 return;
             }
@@ -639,6 +659,7 @@ namespace Foxconn.Editor.Controls
             _isShowText = visibility;
             NotifyPropertyChanged();
         }
+
 
     }
 

@@ -10,11 +10,12 @@
         <StackPanel Orientation="Vertical"
                      Width="300">
             <GroupBox Header="PLC 1" 
-                      BorderBrush="{DynamicResource PaletteBrush}" 
+                      BorderBrush="White" 
                       BorderThickness="1" >
                 <StackPanel Orientation="Vertical">
-                    <DockPanel Margin="10 5 5 0" >
-                        <DockPanel HorizontalAlignment="Left">
+                    <DockPanel  >
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="38 5 5 0">
                             <TextBlock Text="IsEnabled" 
                                        Margin="0 0 5 0"/>
                             <CheckBox x:Name="ckbIsEnablePLC1"
@@ -26,7 +27,7 @@
 
                     <DockPanel >
                         <DockPanel HorizontalAlignment="Left" 
-                                   Margin="36 5 5 0">
+                                   Margin="64 5 5 0">
                             <Label Content="Host" 
                                    Margin="0 0 5 0"/>
                             <TextBox x:Name="txtHostPLC1"
@@ -38,9 +39,9 @@
 
                     <DockPanel>
                         <DockPanel HorizontalAlignment="Left"  
-                                   Margin="39 5 2 3">
-                            <Label Content="Port" 
-                                   Margin="0 0 5 0"></Label>
+                                   Margin="67 5 2 3">
+                            <Label Content="Port"
+                                   Margin="0 0 5 0" />
                             <TextBox x:Name="txtPortPLC1"
                                       Width="150"
                                       Text="{Binding PortPLC1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -52,11 +53,12 @@
             </GroupBox>
 
             <GroupBox Header="PLC 2" 
-                      BorderBrush="{DynamicResource PaletteBrush}" 
+                      BorderBrush="White" 
                       BorderThickness="1" >
                 <StackPanel Orientation="Vertical">
-                    <DockPanel Margin="10 5 5 0" >
-                        <DockPanel HorizontalAlignment="Left">
+                    <DockPanel  >
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="38 5 5 0">
                             <TextBlock Text="IsEnabled" 
                                        Margin="0 0 5 0"/>
                             <CheckBox x:Name="ckbIsEnablePLC2"
@@ -67,7 +69,7 @@
                     </DockPanel>
 
                     <DockPanel >
-                        <DockPanel HorizontalAlignment="Left" Margin="36 5 5 0">
+                        <DockPanel HorizontalAlignment="Left" Margin="64 5 5 0">
                             <Label Content="Host" 
                                    Margin="0 0 5 0"/>
                             <TextBox x:Name="txtHostPLC2"
@@ -78,7 +80,7 @@
                     </DockPanel>
 
                     <DockPanel>
-                        <DockPanel HorizontalAlignment="Left"  Margin="39 5 2 3">
+                        <DockPanel HorizontalAlignment="Left"  Margin="67 5 2 3">
                             <Label Content="Port" 
                                    Margin="0 0 5 0"></Label>
                             <TextBox x:Name="txtPortPLC2"

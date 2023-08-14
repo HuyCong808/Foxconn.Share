@@ -6,63 +6,69 @@
              xmlns:local="clr-namespace:Foxconn.Editor.Controls"
              mc:Ignorable="d">
     <Grid>
-        <GroupBox Header="Scanner"
-                  BorderBrush="{DynamicResource PaletteBrush}"
-                  BorderThickness="1"
-                  Width="300">
-            <StackPanel Orientation="Vertical">
-                <DockPanel Margin="15 5 0 0">
-                    <DockPanel HorizontalAlignment="Left">
-                        <TextBlock Text="IsEnabled"
+        <StackPanel>
+            <GroupBox Header="Scanner"
+                      BorderBrush="White"
+                      BorderThickness="1"
+                      Width="300"
+                      Height="auto">
+                <StackPanel Orientation="Vertical">
+                    <DockPanel Margin="38 5 5 0">
+                        <DockPanel HorizontalAlignment="Left">
+                            <TextBlock Text="IsEnabled"
+                                       Margin="0 0 5 0" />
+                            <CheckBox x:Name="ckbIsEnabled"
+                                      IsChecked="{Binding IsEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                            </CheckBox>
+                        </DockPanel>
+                    </DockPanel>
+
+                    <DockPanel >
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="32 5 0 0">
+                            <Label Content="Port Name"
                                    Margin="0 0 5 0" />
-                        <CheckBox x:Name="ckbIsEnablePLC1"
-                                  IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                        </CheckBox>
+                            <TextBox x:Name="txtPortName"
+                                     Width="150"
+                                     Text="{Binding PortName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
                     </DockPanel>
-                </DockPanel>
 
-                <DockPanel Margin="9 5 0 0">
-                    <DockPanel HorizontalAlignment="Left">
-                        <Label Content="Port Name"
-                               Margin="0 0 5 0" />
-                        <TextBox x:Name="txtPortName"
-                                 Width="150"
-                                 Text="{Binding PortName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    </DockPanel>
-                </DockPanel>
-
-                <DockPanel Margin="29 5 0 0">
-                    <DockPanel HorizontalAlignment="Left">
-                        <Label Content="Length"
-                               Margin="0 0 5 0" />
-                        <TextBox x:Name="txtLength"
-                                 Width="150"
-                                 Text="{Binding Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                    </DockPanel>
-                </DockPanel>
-
-                <DockPanel Margin="7 5 0 0">
-                    <DockPanel HorizontalAlignment="Left">
-                        <TextBlock Text="IsSubstring"
+                    <DockPanel >
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="52 5 0 0">
+                            <Label Content="Length"
                                    Margin="0 0 5 0" />
-                        <CheckBox x:Name="ckbIsSubstring"
-                                  IsChecked="{Binding IsSubstring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                        </CheckBox>
+                            <TextBox x:Name="txtLength"
+                                     Width="150"
+                                     Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        </DockPanel>
                     </DockPanel>
-                </DockPanel>
 
-                <DockPanel Margin="12 5 0 5">
-                    <DockPanel HorizontalAlignment="Left">
-                        <Label Content="StartIndex"
-                               Margin="0 0 5 0" />
-                        <TextBox x:Name="txtStartIndex"
-                                 Width="150"
-                                 Text="{Binding StartIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <DockPanel >
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="30 5 0 0">
+                            <TextBlock Text="IsSubstring"
+                                       Margin="0 0 5 0" />
+                            <CheckBox x:Name="ckbIsSubstring"
+                                      IsChecked="{Binding IsSubstring, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            </CheckBox>
+                        </DockPanel>
                     </DockPanel>
-                </DockPanel>
-                
-            </StackPanel>
-        </GroupBox>
 
+                    <DockPanel >
+                        <DockPanel HorizontalAlignment="Left"
+                                   Margin="32 5 0 5">
+                            <Label Content="Start Index"
+                                   Margin="0 0 5 0" />
+                            <TextBox x:Name="txtStartIndex"
+                                     Width="150"
+                                     Text="{Binding StartIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
     </Grid>
 </UserControl>

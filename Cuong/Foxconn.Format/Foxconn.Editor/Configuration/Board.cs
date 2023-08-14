@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Foxconn.Editor.Configuration
 {
-    public class Board: NotifyProperty
+    public class Board : NotifyProperty
     {
         private string _name { get; set; }
         private Image _imageBoard { get; set; }
@@ -16,12 +16,12 @@ namespace Foxconn.Editor.Configuration
 
         public string Name
         {
-            get => _name;   
+            get => _name;
             set
             {
                 _name = value;
                 NotifyPropertyChanged(nameof(Name));
-            } 
+            }
         }
 
         public Image ImageBoard
@@ -91,7 +91,7 @@ namespace Foxconn.Editor.Configuration
                     {
                         _imageBoard.Blocks[i].Save($"data\\images\\image_{_imageBoard.Blocks[i].Name}.png");
                         imageArray[i] = _imageBoard.Blocks[i].Image;
-                        _imageBoard.Blocks[i].Image = null;
+                        //_imageBoard.Blocks[i].Image = null;
                     }
                 }
                 else

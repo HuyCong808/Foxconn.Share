@@ -8,7 +8,7 @@ namespace Foxconn.Editor
 {
     public class ProgramManager : NotifyProperty
     {
-       private ObservableCollection<Board> _programs = new ObservableCollection<Board>();
+        private ObservableCollection<Board> _programs = new ObservableCollection<Board>();
         private Board _program = new Board();
         private DataBase _database = new DataBase();
         public string _filePath = @"data\board.json";
@@ -55,9 +55,7 @@ namespace Foxconn.Editor
         {
             try
             {
-                ProjectLayout.Init();
-                ReadDataBase();
-
+               // ReadDataBase();
                 //   _program.LoadProgram();
 
                 if (File.Exists(_filePath))

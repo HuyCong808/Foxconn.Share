@@ -6,6 +6,7 @@
     <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
 	<UseWindowsForms> true</UseWindowsForms>
+	<ApplicationIcon>Resources\Icons\icons8_visual_studio_2019.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,14 +18,24 @@
     <None Remove="Resources\full_image_32px.png" />
     <None Remove="Resources\Icons\delete_32px.png" />
     <None Remove="Resources\Icons\edit_image_32px.png" />
+    <None Remove="Resources\Icons\home_automation_32px.png" />
+    <None Remove="Resources\Icons\iphone_32px.png" />
+    <None Remove="Resources\Icons\male_user_32px.png" />
+    <None Remove="Resources\Icons\person_32px.png" />
+    <None Remove="Resources\Icons\phone_32px.png" />
     <None Remove="Resources\Icons\remove_roi_32px.png" />
     <None Remove="Resources\Icons\screenshot_32px.png" />
+    <None Remove="Resources\Icons\spiral_notepad_128px.png" />
     <None Remove="Resources\image_32px.png" />
     <None Remove="Resources\position_30px.png" />
     <None Remove="Resources\refresh_26px.png" />
     <None Remove="Resources\screenshot_32px.png" />
     <None Remove="Resources\video_call_32px_off.png" />
     <None Remove="Resources\video_call_32px_on.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Icons\icons8_visual_studio_2019.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -74,11 +85,17 @@
     <Resource Include="Resources\Icons\delete_FOV_32px.png" />
     <Resource Include="Resources\Icons\edit_image_32px.png" />
     <Resource Include="Resources\Icons\full_image_32px.png" />
+    <Resource Include="Resources\Icons\home_automation_32px.png" />
     <Resource Include="Resources\Icons\image_32px.png" />
+    <Resource Include="Resources\Icons\iphone_32px.png" />
+    <Resource Include="Resources\Icons\male_user_32px.png" />
+    <Resource Include="Resources\Icons\person_32px.png" />
+    <Resource Include="Resources\Icons\phone_32px.png" />
     <Resource Include="Resources\Icons\position_30px.png" />
     <Resource Include="Resources\Icons\refresh_26px.png" />
     <Resource Include="Resources\Icons\remove_roi_32px.png" />
     <Resource Include="Resources\Icons\screenshot_32px.png" />
+    <Resource Include="Resources\Icons\spiral_notepad_128px.png" />
     <Resource Include="Resources\Icons\video_call_32px_off.png" />
     <Resource Include="Resources\Icons\video_call_32px_on.png" />
   </ItemGroup>

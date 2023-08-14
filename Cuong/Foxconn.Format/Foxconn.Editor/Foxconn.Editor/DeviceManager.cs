@@ -78,7 +78,6 @@ namespace Foxconn.Editor
         public void LogInfoMessage(string message)
         {
             Logger.Current.Info(message);
-            Console.WriteLine(message);
         }
         public void Open()
         {
@@ -220,21 +219,18 @@ namespace Foxconn.Editor
 
                 if (param.Terminal.IsEnabled)
                 {
-                    Console.WriteLine(param.Terminal.PortName);
                     device.Terminal = new SerialPortClient();
                     int nRet = device.Terminal.Open(param.Terminal.PortName);
                     if (nRet == 1)
                     {
-                        Console.WriteLine("DeviceManager.Open: Terminal opened");
+                        LogInfoMessage("DeviceManager.Open: Terminal opened");
                         if (param.Terminal.Undo != "")
                         {
                             nRet = device.Terminal.SerialWriteData(param.Terminal.Undo);
-                            Console.WriteLine(param.Terminal.Undo);
                         }
                         if (param.Terminal.User != "")
                         {
                             nRet = device.Terminal.SerialWriteData(param.Terminal.User);
-                            Console.WriteLine(param.Terminal.User);
                         }
                     }
                     else
@@ -252,12 +248,10 @@ namespace Foxconn.Editor
         {
             try
             {
-
                 _camera1?.Close();
                 _camera2?.Close();
                 _light1?.Close();
                 _light2?.Close();
-
             }
             catch (Exception ex)
             {

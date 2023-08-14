@@ -9,15 +9,15 @@ namespace Foxconn.Editor.Controls
     /// <summary>
     /// Interaction logic for CvHSVExtractionControl.xaml
     /// </summary>
-    public partial class CvHSVExtractionControl : UserControl, INotifyPropertyChanged
+    public partial class CvHSVExtractionQtyControl : UserControl, INotifyPropertyChanged
     {
         #region Binding Property
-        public static readonly DependencyProperty HueProperty = DependencyProperty.Register("Hue", typeof(ValueRange), typeof(CvHSVExtractionControl));
-        public static readonly DependencyProperty SaturationProperty = DependencyProperty.Register("Saturation", typeof(ValueRange), typeof(CvHSVExtractionControl));
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(ValueRange), typeof(CvHSVExtractionControl));
-        public static readonly DependencyProperty OKRangeProperty = DependencyProperty.Register("OKRange", typeof(ValueRange), typeof(CvHSVExtractionControl));
-        public static readonly DependencyProperty IsEnabledReverseSearchProperty = DependencyProperty.Register("IsEnabledReverseSearch", typeof(bool), typeof(CvHSVExtractionControl));
-        public static readonly DependencyProperty ScoreProperty = DependencyProperty.Register("Score", typeof(double), typeof(CvHSVExtractionControl));
+        public static readonly DependencyProperty HueProperty = DependencyProperty.Register("Hue", typeof(ValueRange), typeof(CvHSVExtractionQtyControl));
+        public static readonly DependencyProperty SaturationProperty = DependencyProperty.Register("Saturation", typeof(ValueRange), typeof(CvHSVExtractionQtyControl));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(ValueRange), typeof(CvHSVExtractionQtyControl));
+        public static readonly DependencyProperty OKRangeProperty = DependencyProperty.Register("OKRange", typeof(ValueRange), typeof(CvHSVExtractionQtyControl));
+        public static readonly DependencyProperty IsEnabledReverseSearchProperty = DependencyProperty.Register("IsEnabledReverseSearch", typeof(bool), typeof(CvHSVExtractionQtyControl));
+        public static readonly DependencyProperty QtyProperty = DependencyProperty.Register("Qty", typeof(double), typeof(CvHSVExtractionQtyControl));
 
         public ValueRange Hue
         {
@@ -49,10 +49,10 @@ namespace Foxconn.Editor.Controls
             set => SetValue(IsEnabledReverseSearchProperty, value);
         }
 
-        public double Score
+        public double Qty
         {
-            get => (double)GetValue(ScoreProperty);
-            set => SetValue(ScoreProperty, value);
+            get => (double)GetValue(QtyProperty);
+            set => SetValue(QtyProperty, value);
         }
 
         // Declare event
@@ -64,13 +64,13 @@ namespace Foxconn.Editor.Controls
         }
         #endregion
 
-        public CvHSVExtractionControl()
+        public CvHSVExtractionQtyControl()
         {
             InitializeComponent();
             DataContext = this;
         }
 
-        public void SetParameters(CvHSVExtraction param)
+        public void SetParameters(CvHSVExtractionQty param)
         {
             string[] paths = new string[] { "Hue", "Saturation", "Value", "OKRange", "IsEnabledReserveSearch" };
             DependencyProperty[] properties = new DependencyProperty[] { HueProperty, SaturationProperty, ValueProperty, OKRangeProperty, IsEnabledReverseSearchProperty };

@@ -25,21 +25,21 @@ namespace Foxconn.Editor.Camera
         public abstract ICamera CreateCamera();
     }
 
-    //public class BaslerFactory : ICameraFactory
-    //{
-    //    public override ICamera CreateCamera()
-    //    {
-    //        return new Basler();
-    //    }
-    //}
+    public class BaslerFactory : ICameraFactory
+    {
+        public override ICamera CreateCamera()
+        {
+            return new Basler();
+        }
+    }
 
-    //public class BaumerFactory : ICameraFactory
-    //{
-    //    public override ICamera CreateCamera()
-    //    {
-    //        return new Baumer();
-    //    }
-    //}
+    public class BaumerFactory : ICameraFactory
+    {
+        public override ICamera CreateCamera()
+        {
+            return new Baumer();
+        }
+    }
 
     public class HikvisionFactory : ICameraFactory
     {
@@ -49,13 +49,13 @@ namespace Foxconn.Editor.Camera
         }
     }
 
-    //public class MindvisionFactory : ICameraFactory
-    //{
-    //    public override ICamera CreateCamera()
-    //    {
-    //        return new MindVision();
-    //    }
-    //}
+    public class MindvisionFactory : ICameraFactory
+    {
+        public override ICamera CreateCamera()
+        {
+            return new MindVision();
+        }
+    }
 
     public class WebcamFactory : ICameraFactory
     {
@@ -74,22 +74,22 @@ namespace Foxconn.Editor.Camera
             {
                 case CameraType.Unknow:
                     break;
-                //case CameraType.Basler:
-                //    BaslerFactory baslerFactory = new BaslerFactory();
-                //    factory = baslerFactory.CreateCamera();
-                //    break;
-                //case CameraType.Baumer:
-                //    BaumerFactory baumerFactory = new BaumerFactory();
-                //    factory = baumerFactory.CreateCamera();
-                //    break;
+                case CameraType.Basler:
+                    BaslerFactory baslerFactory = new BaslerFactory();
+                    factory = baslerFactory.CreateCamera();
+                    break;
+                case CameraType.Baumer:
+                    BaumerFactory baumerFactory = new BaumerFactory();
+                    factory = baumerFactory.CreateCamera();
+                    break;
                 case CameraType.Hikvision:
                     HikvisionFactory hikvisionFactory = new HikvisionFactory();
                     factory = hikvisionFactory.CreateCamera();
                     break;
-                //case CameraType.Mindvision:
-                //    MindvisionFactory mindvisionFactory = new MindvisionFactory();
-                //    factory = mindvisionFactory.CreateCamera();
-                //    break;
+                case CameraType.Mindvision:
+                    MindvisionFactory mindvisionFactory = new MindvisionFactory();
+                    factory = mindvisionFactory.CreateCamera();
+                    break;
                 case CameraType.Webcam:
                     WebcamFactory webcamFactory = new WebcamFactory();
                     factory = webcamFactory.CreateCamera();

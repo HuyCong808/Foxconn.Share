@@ -5,51 +5,82 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Foxconn.Editor.Dialogs"
         mc:Ignorable="d"
-        Height="450" 
-        Width="650"
+        Height="350"
+        Width="600"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource BackgroundBrush}"
-        Title="OptionsDialog" >
+        Title="OptionsDialog">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0"
-                Margin="0,0,3,0"
+                Margin="0,1,3,1"
                 Background="{DynamicResource PaletteBrush}"
                 CornerRadius="3">
             <Grid>
-                <StackPanel Orientation="Vertical">
-                    <TreeView Margin="3 3 3 3">
-                        <TreeViewItem Header="Params Setting">
-                            <TreeViewItem Header="Camera"/>
-                            <TreeViewItem Header="Light"/>
-                            <TreeViewItem Header="PLC"/>
-                            <TreeViewItem Header="Robot"/>
-                            <TreeViewItem Header="Scanner"/>
-                            <TreeViewItem Header="Terminal"/>
-                            <TreeViewItem Header="Others"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <TreeView x:Name="trvParamsSetting"
+                              Margin="3 3 3 3"
+                              Height="auto">
+                        <TreeViewItem Header="Params Setting" IsExpanded="True">
+                            <TreeViewItem Header="Camera"
+                                          x:Name="trviCameraParams"
+                                          PreviewMouseDown="trviCameraParams_PreviewMouseDown" />
+                            <TreeViewItem Header="Light"
+                                          x:Name="trviLightParams"
+                                          PreviewMouseDown="trviLightParams_PreviewMouseDown" />
+                            <TreeViewItem Header="PLC"
+                                          x:Name="trviPLCParams"
+                                          PreviewMouseDown="trviPLCParams_PreviewMouseDown" />
+                            <TreeViewItem Header="Robot"
+                                          x:Name="trviRobotParams"
+                                          PreviewMouseDown="trviRobotParams_PreviewMouseDown" />
+                            <TreeViewItem Header="Scanner"
+                                          x:Name="trviScanner"
+                                          PreviewMouseDown="trviScanner_PreviewMouseDown" />
+                            <TreeViewItem Header="Terminal"
+                                          x:Name="trviTerminal"
+                                          PreviewMouseDown="trviTerminal_PreviewMouseDown" />
+                            <TreeViewItem Header="Others"
+                                          x:Name="TrviOthersParams"
+                                          PreviewMouseDown="TrviOthersParams_PreviewMouseDown" />
                         </TreeViewItem>
                     </TreeView>
-                </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <DockPanel Grid.Row="1"
+                               Margin="0 5 0 0">
+                        <DockPanel HorizontalAlignment="Center">
+                            <Button x:Name="btnSaveParams"
+                                    Content="Save"
+                                    Click="btnSaveParams_Click"></Button>
+                        </DockPanel>
+                    </DockPanel>
+                </Grid>
+
             </Grid>
         </Border>
 
         <Border Grid.Column="1"
                 CornerRadius="3">
             <Grid>
-                <Expander  Background="{DynamicResource BackgroundBrush}"
+                <Expander  Background="{DynamicResource PaletteBrush}"
                            IsExpanded="True"
                            Header="Properties">
-                    <DockPanel x:Name="dpnPropertiesParams"/>
+                    <DockPanel x:Name="dpnParamsProperties" />
                 </Expander>
             </Grid>
-            
+
         </Border>
-        
-        
+
+
     </Grid>
 </Window>

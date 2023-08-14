@@ -5,6 +5,7 @@
         Unknow,
         CodeRecognition,
         HSVExtraction,
+        HSVExtrsctionQty,
         TemplateMatching,
         LuminanceExtraction,
         LuminanceExtractionQty

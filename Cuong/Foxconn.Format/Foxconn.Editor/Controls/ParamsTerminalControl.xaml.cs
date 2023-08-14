@@ -1,45 +1,37 @@
 ﻿using System.ComponentModel;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using static Foxconn.Editor.MachineParams;
 
 namespace Foxconn.Editor.Controls
 {
     public partial class ParamsTerminalControl : UserControl, INotifyPropertyChanged
     {
-        public static new readonly DependencyProperty IsEnabledProperty = DependencyProperty.Register("IsEnabled", typeof(bool), typeof(ParamsTerminalControl));
-        public static readonly DependencyProperty PortNameProperty = DependencyProperty.Register("PortName", typeof(string), typeof(ParamsTerminalControl));
-        public static readonly DependencyProperty UndoProperty = DependencyProperty.Register("Undo", typeof(string), typeof(ParamsTerminalControl));
-        public static readonly DependencyProperty UserProperty = DependencyProperty.Register("Users", typeof(string), typeof(ParamsTerminalControl));
-        public static readonly DependencyProperty FormatProperty = DependencyProperty.Register("Format", typeof(string), typeof(ParamsTerminalControl));
 
-        public new bool IsEnabled
+        public bool IsEnable
         {
-            get => (bool)GetValue(IsEnabledProperty);
-            set => SetValue(IsEnabledProperty, value);
+            get => MachineParams.Current.Terminal.IsEnabled;
+            set => MachineParams.Current.Terminal.IsEnabled = value;
         }
         public string PortName
         {
-            get => (string)GetValue(PortNameProperty);
-            set => SetValue(PortNameProperty, value);
+            get => MachineParams.Current.Terminal.PortName;
+            set => MachineParams.Current.Terminal.PortName = value;
         }
         public string Undo
         {
-            get => (string)GetValue(UndoProperty);
-            set => SetValue(UndoProperty, value);
+            get => MachineParams.Current.Terminal.Undo;
+            set => MachineParams.Current.Terminal.Undo = value;
         }
         public string User
         {
-            get => (string)GetValue(UserProperty);
-            set => SetValue(UserProperty, value);
-        }
-        public string Format
-        {
-            get => (string)GetValue(FormatProperty);
-            set=> SetValue(FormatProperty, value);
+            get => MachineParams.Current.Terminal.User;
+            set => MachineParams.Current.Terminal.User = value;
         }
 
+        public string Format
+        {
+            get => MachineParams.Current.Terminal.Format;
+            set => MachineParams.Current.Terminal.Format = value;
+        }
         public ParamsTerminalControl()
         {
             InitializeComponent();
@@ -51,22 +43,6 @@ namespace Foxconn.Editor.Controls
         public void NotifyPropertyChanged(string info = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-        }
-        public void SetParameters(TerminalParams param)
-        {
-            string[] paths = new string[] { "IsEnabled", "PortName", "Undo", "User", "Format" };
-            DependencyProperty[] properties = new DependencyProperty[] { IsEnabledProperty, PortNameProperty, UndoProperty, UserProperty, FormatProperty };
-            for (int i = 0; i < paths.Length; i++)
-            {
-                Binding binding = new Binding(paths[i])
-                {
-                    Source = param,
-                    Mode = BindingMode.TwoWay,
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                };
-                SetBinding(properties[i], binding);
-            }
-            NotifyPropertyChanged();
         }
     }
 }
